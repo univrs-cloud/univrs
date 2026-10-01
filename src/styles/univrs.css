@@ -652,11 +652,6 @@ a {
 
 .hero-shot {
 	margin: 0;
-	padding: clamp(1rem, 2vw, 1.5rem);
-	border: 1px solid var(--line);
-	border-radius: var(--radius);
-	background: #FFFFFF;
-	box-shadow: var(--shadow);
 }
 
 .hero-shot img {
