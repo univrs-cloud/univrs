@@ -2,6 +2,8 @@
 title: What virgoOS is, and what runs on it
 description: A short tour of virgoOS, the open-source operating system that turns a small server into a private cloud.
 pubDate: 2026-10-01
+image: ../../../assets/blog/dashboard.png
+imageAlt: The Dashboard of a virgoOS node, with its status on the left and its apps, folders and time machines on the right.
 tags:
   - virgoOS
   - overview
@@ -23,6 +25,8 @@ Everything lives on a redundant ZFS pool. Depending on how many drives the node 
 
 The pool also keeps its own history. The node takes a snapshot for each of the last 36 hours, 30 days, 60 months and 5 years, and removes older ones by itself. A snapshot is a read-only copy of the data as it was at one moment, and it only takes up space for what has changed since.
 
+![Nextcloud's snapshots on a timeline, with 76 restore points kept by the hourly, daily, monthly and yearly schedules.](../../../assets/blog/app-snapshots.png)
+
 That history is what makes a deleted or encrypted file recoverable. The indexer catalogues the files in the snapshots every hour, so you can search for earlier and deleted versions of a file from an app's snapshots, or from a terminal:
 
 ```sh
@@ -43,11 +47,15 @@ Everything else comes from the App center:
 - **Pi-hole** to block ads and trackers for the whole network.
 - **Gitea**, **Plausible**, **qBittorrent** and **Dockhand** for those who need them.
 
+![The App center, listing the apps that can be installed, each with a description and an Install button.](../../../assets/blog/app-center.png)
+
 Each app keeps its data on the pool and is reached at its own name under the node's domain.
 
 ## Managed from anywhere
 
 Registering a node connects it to your fleet account at [fleet.univrs.cloud](https://fleet.univrs.cloud). The node connects out to the fleet itself, so you can manage it from anywhere, even when it sits behind CGNAT with no public IP address and no forwarded ports.
+
+That covers managing the node. Reaching what runs on it is different: email, sharing files from Nextcloud with other people, the VPN and opening the apps from outside your local network all need an internet connection with a public IP address and [a few ports forwarded](https://docs.univrs.cloud/setup/ports/) on your router. Without them, the apps work only inside your local network.
 
 ## Where to go next
 

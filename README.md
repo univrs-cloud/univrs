@@ -26,13 +26,15 @@ title: What virgoOS is, and what runs on it
 description: One or two sentences, shown in the list, in search results and when the post is shared.
 pubDate: 2026-10-01
 updatedDate: 2026-10-08
+image: ../../../assets/blog/dashboard.png
+imageAlt: What the image shows, for people who cannot see it.
 tags:
   - virgoOS
 draft: false
 ---
 ```
 
-`updatedDate`, `tags` and `draft` are optional. A draft shows up in `npm run dev` and is left out of the published site.
+`updatedDate`, `image`, `imageAlt`, `tags` and `draft` are optional. The image is the post's feature image: it is shown under the title, on the post's card in the lists and when the post is shared. Images live in `src/assets/blog/`. A draft shows up in `npm run dev` and is left out of the published site.
 
 ## Search engines and language models
 
@@ -42,7 +44,7 @@ The build generates these alongside the pages:
 - `rss.xml` and `ro/rss.xml`.
 - `llms.txt` and `llms-full.txt`, with Romanian versions under `/ro/`. They are written from the same copy as the home page and from the posts.
 - A Markdown version of every post, at the post's address with `.md` in place of the trailing slash.
-- A share image for each language and each post, under `/og/`.
+- A share image for each language, and for each post without a feature image, under `/og/`.
 
 Every page carries its canonical address, Open Graph tags and JSON-LD.
 

@@ -21,6 +21,10 @@ export const postMarkdownPath = (post: Post) => localePath(postLocale(post), `bl
 
 export const postImagePath = (post: Post) => `/og${localePath(postLocale(post), `blog/${postSlug(post)}`)}.png`;
 
+export const postMarkdown = (post: Post) => {
+	return (post.body ?? '').replace(/!\[([^\]]*)\]\([^)]*\)/g, '_$1_').trim();
+};
+
 export const allPosts = async () => {
 	const posts = await getCollection('blog', ({ data }) => !(import.meta.env.PROD && data.draft));
 

@@ -70,7 +70,7 @@ export const getStaticPaths = async () => {
 			params: { path: locale },
 			props: { label: home[locale].hero.label, title: `${home[locale].hero.thin} ${home[locale].hero.heavy}` }
 		})),
-		...posts.map((post) => ({
+		...posts.filter((post) => !post.data.image).map((post) => ({
 			params: { path: postImagePath(post).slice('/og/'.length, -'.png'.length) },
 			props: { label: 'Blog', title: post.data.title }
 		}))

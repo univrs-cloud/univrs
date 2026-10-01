@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { formatDate, postLocale, postPath, type Post } from '../data/posts';
 import { ui } from '../data/ui';
 
@@ -12,6 +13,11 @@ const locale = postLocale(post);
 ---
 
 <a class="post-card" href={postPath(post)}>
+	{post.data.image && (
+		<span class="post-card-image">
+			<Image src={post.data.image} alt={post.data.imageAlt} width={760} />
+		</span>
+	)}
 	<time class="label" datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate, locale)}</time>
 	<Heading>{post.data.title}</Heading>
 	<p>{post.data.description}</p>

@@ -1,4 +1,5 @@
 ---
+import { getImage, Image } from 'astro:assets';
 import { render } from 'astro:content';
 import { allPosts, formatDate, postAlternates, postImagePath, postLocale, postMarkdownPath, postPath, postSlug, type Post } from '../../../data/posts';
 import { ui } from '../../../data/ui';
@@ -22,7 +23,8 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const locale = postLocale(post);
 const copy = ui[locale].blog;
-const { title, description, pubDate, updatedDate, tags } = post.data;
+const { title, description, pubDate, updatedDate, image, imageAlt, tags } = post.data;
+const shareImage = (image ? (await getImage({ src: image, width: 1200, height: 630, fit: 'cover', position: 'top', format: 'png' })).src : postImagePath(post));
 const alternates = await postAlternates(post);
 const pageUrl = new URL(postPath(post), Astro.site).href;
 const blogUrl = new URL(localePath(locale, 'blog/'), Astro.site).href;
@@ -37,7 +39,7 @@ const schema = [
 		inLanguage: locale,
 		datePublished: pubDate.toISOString(),
 		dateModified: (updatedDate ?? pubDate).toISOString(),
-		image: new URL(postImagePath(post), Astro.site).href,
+		image: new URL(shareImage, Astro.site).href,
 		keywords: tags,
 		author: { '@id': `${site.url}/#organization` },
 		publisher: { '@id': `${site.url}/#organization` }
@@ -58,7 +60,7 @@ const schema = [
 	title={title}
 	description={description}
 	alternates={alternates}
-	image={postImagePath(post)}
+	image={shareImage}
 	type="article"
 	published={pubDate}
 	modified={updatedDate}
@@ -78,6 +80,11 @@ const schema = [
 			</div>
 		</header>
 		<div class="wrap wrap--reading">
+			{image && (
+				<figure class="post-image">
+					<Image src={image} alt={imageAlt} widths={[720, 1440]} sizes="(max-width: 760px) 100vw, 720px" loading="eager" fetchpriority="high" />
+				</figure>
+			)}
 			<div class="post-content">
 				<Content />
 			</div>

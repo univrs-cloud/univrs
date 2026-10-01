@@ -99,7 +99,7 @@ export const ro: HomeCopy = {
 			},
 			{
 				title: 'Administrat de oriunde',
-				text: 'Înregistrarea leagă nodul de contul dumneavoastră de fleet. Nodul se conectează singur la fleet, deci funcționează și în spatele CGNAT, fără adresă IP publică și fără porturi redirecționate.',
+				text: 'Înregistrarea leagă nodul de contul dumneavoastră de fleet. Nodul se conectează singur la fleet, deci administrarea funcționează și în spatele CGNAT, fără adresă IP publică și fără porturi redirecționate. E-mailul, partajarea fișierelor din Nextcloud, VPN-ul și deschiderea aplicațiilor din afara rețelei locale au nevoie de amândouă.',
 				href: `${site.docs}/setup/fleet/`
 			},
 			{
@@ -152,7 +152,7 @@ export const ro: HomeCopy = {
 			},
 			{
 				question: 'Are nevoie nodul de o adresă IP publică?',
-				answer: 'Nu. Un nod înregistrat într-un cont de fleet se conectează singur la fleet, deci poate fi administrat de oriunde, chiar și în spatele CGNAT. Cu o adresă IP publică, puteți redirecționa câteva porturi din router ca să ajungeți la nod și la aplicațiile lui din afara rețelei.'
+				answer: 'Pentru administrare, nu. Un nod înregistrat într-un cont de fleet se conectează singur la fleet, deci poate fi administrat de oriunde, chiar și în spatele CGNAT. E-mailul, partajarea fișierelor din Nextcloud, VPN-ul și accesul la aplicații din afara rețelei locale au însă nevoie de o adresă IP publică și de câteva porturi redirecționate din router.'
 			},
 			{
 				question: 'Pot folosi propriul domeniu?',

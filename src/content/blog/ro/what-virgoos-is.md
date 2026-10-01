@@ -2,6 +2,8 @@
 title: Ce este virgoOS și ce rulează pe el
 description: O scurtă prezentare a virgoOS, sistemul de operare open source care transformă un server mic într-un cloud privat.
 pubDate: 2026-10-01
+image: ../../../assets/blog/dashboard.png
+imageAlt: Pagina Dashboard a unui nod virgoOS, cu starea lui în stânga și aplicațiile, folderele și time machines în dreapta.
 tags:
   - virgoOS
   - prezentare
@@ -23,6 +25,8 @@ Totul stă pe un pool ZFS redundant. În funcție de câte discuri are nodul, co
 
 Pool-ul își păstrează și propriul istoric. Nodul face câte un snapshot pentru fiecare dintre ultimele 36 de ore, 30 de zile, 60 de luni și 5 ani și le șterge singur pe cele mai vechi. Un snapshot este o copie doar pentru citire a datelor, așa cum erau la un moment dat, și ocupă spațiu doar pentru ce s-a schimbat de atunci.
 
+![Snapshoturile aplicației Nextcloud pe o axă a timpului, cu 76 de puncte de restaurare păstrate orar, zilnic, lunar și anual.](../../../assets/blog/app-snapshots.png)
+
 Datorită acestui istoric, un fișier șters sau criptat poate fi recuperat. Indexerul cataloghează din oră în oră fișierele din snapshoturi, așa că puteți căuta versiuni mai vechi sau șterse ale unui fișier din snapshoturile unei aplicații sau dintr-un terminal:
 
 ```sh
@@ -43,11 +47,15 @@ Restul vin din App center:
 - **Pi-hole** pentru blocarea reclamelor și a trackerelor în toată rețeaua.
 - **Gitea**, **Plausible**, **qBittorrent** și **Dockhand** pentru cine are nevoie de ele.
 
+![App center, cu lista aplicațiilor care pot fi instalate, fiecare cu o descriere și un buton Install.](../../../assets/blog/app-center.png)
+
 Fiecare aplicație își ține datele pe pool și se deschide la propriul nume, sub domeniul nodului.
 
 ## Administrat de oriunde
 
 Înregistrarea leagă nodul de contul dumneavoastră de fleet, la [fleet.univrs.cloud](https://fleet.univrs.cloud). Nodul se conectează singur la fleet, deci îl puteți administra de oriunde, chiar și atunci când se află în spatele CGNAT, fără adresă IP publică și fără porturi redirecționate.
+
+Asta acoperă administrarea nodului. Accesul la ce rulează pe el este altceva: e-mailul, partajarea fișierelor din Nextcloud cu alte persoane, VPN-ul și deschiderea aplicațiilor din afara rețelei locale au nevoie de o conexiune la internet cu adresă IP publică și de [câteva porturi redirecționate](https://docs.univrs.cloud/setup/ports/) din router. Fără ele, aplicațiile funcționează doar în rețeaua locală.
 
 ## Ce urmează
 

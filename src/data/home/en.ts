@@ -99,7 +99,7 @@ export const en: HomeCopy = {
 			},
 			{
 				title: 'Managed from anywhere',
-				text: 'Registering a node connects it to your fleet account. The node connects out to the fleet itself, so this works behind CGNAT, without a public IP address or forwarded ports.',
+				text: 'Registering a node connects it to your fleet account. The node connects out to the fleet itself, so managing it works behind CGNAT, without a public IP address or forwarded ports. Email, sharing files from Nextcloud, the VPN and opening apps from outside your local network do need both.',
 				href: `${site.docs}/setup/fleet/`
 			},
 			{
@@ -152,7 +152,7 @@ export const en: HomeCopy = {
 			},
 			{
 				question: 'Does the node need a public IP address?',
-				answer: 'No. A node registered with a fleet account connects out to the fleet, so it can be managed from anywhere, even behind CGNAT. With a public IP address, you can forward a few ports on your router to reach the node and its apps from outside your network.'
+				answer: 'Not to manage it. A node registered with a fleet account connects out to the fleet, so it can be managed from anywhere, even behind CGNAT. Email, sharing files from Nextcloud, the VPN and reaching the apps from outside your local network do need a public IP address and a few ports forwarded on your router.'
 			},
 			{
 				question: 'Can I use my own domain?',

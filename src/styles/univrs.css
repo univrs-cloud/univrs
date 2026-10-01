@@ -1021,20 +1021,49 @@ a {
 
 .post-feed {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-	gap: 1px;
-	background: var(--line);
-	border: 1px solid var(--line);
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.25rem;
 }
 
 .post-card {
 	background: var(--ground);
+	border: 1px solid var(--line);
 	padding: 1.5rem 1.6rem 1.8rem;
 	display: flex;
 	flex-direction: column;
 	gap: 0.6rem;
 	text-decoration: none;
+	overflow: hidden;
 	transition: background 0.18s ease;
+}
+
+.post-card-image {
+	display: block;
+	margin: -1.5rem -1.6rem 0.6rem;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-bottom: 1px solid var(--line);
+}
+
+.post-card-image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: top;
+}
+
+.post-image {
+	margin: clamp(2rem, 4vw, 3rem) 0 0;
+}
+
+.post-image img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
 }
 
 .post-card:hover {
@@ -1146,6 +1175,9 @@ a {
 	max-width: 100%;
 	height: auto;
 	display: block;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
 }
 
 .post-content hr {

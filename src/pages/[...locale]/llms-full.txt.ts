@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { homeMarkdown } from '../../data/home';
-import { localePosts, postPath } from '../../data/posts';
+import { localePosts, postMarkdown, postPath } from '../../data/posts';
 import { ui } from '../../data/ui';
 import { localeParams, localePath, type Locale } from '../../site';
 
@@ -18,7 +18,7 @@ export const GET: APIRoute<{ locale: Locale }> = async ({ props, site: origin })
 			`# ${ui[locale].blog.title}: ${post.data.title}`,
 			`> ${post.data.description}`,
 			`${ui[locale].blog.published}: ${post.data.pubDate.toISOString().slice(0, 10)} · ${absolute(postPath(post))}`,
-			(post.body ?? '').trim()
+			postMarkdown(post)
 		].join('\n\n'))
 	].join('\n\n');
 
