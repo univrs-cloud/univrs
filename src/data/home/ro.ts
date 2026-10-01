@@ -37,7 +37,7 @@ export const ro: HomeCopy = {
 			{ icon: 'clock', title: 'Backup pentru Mac', text: 'Time machines sunt destinații de backup pentru aplicația Time Machine de pe Mac, fiecare cu propria capacitate.' },
 			{ icon: 'code', title: 'Unelte pentru dezvoltatori', text: 'Gitea cu runnerul său de CI, analiză web cu Plausible, un panou pentru containere și un terminal în browser.' }
 		],
-		note: 'Nu se instalează nimic din ce nu alegeți. Trei aplicații de bază sunt mereu prezente: Traefik direcționează cererile către aplicații și se ocupă de certificatele lor SSL, Authelia ține conturile, iar Terminal deschide un shell din browser.'
+		note: 'Nu se instalează nimic din ce nu alegeți. Trei aplicații de bază sunt mereu prezente: Traefik direcționează cererile către aplicații și se ocupă de certificatele lor SSL, Authelia ține conturile nodului, iar Terminal deschide un shell din browser.'
 	},
 	safety: {
 		label: 'Siguranța datelor',
@@ -101,11 +101,6 @@ export const ro: HomeCopy = {
 				title: 'Administrat de oriunde',
 				text: 'Înregistrarea leagă nodul de contul dumneavoastră de fleet. Nodul se conectează singur la fleet, deci administrarea funcționează și în spatele CGNAT, fără adresă IP publică și fără porturi redirecționate. E-mailul, partajarea fișierelor din Nextcloud, VPN-ul și deschiderea aplicațiilor din afara rețelei locale au nevoie de amândouă.',
 				href: `${site.docs}/setup/fleet/`
-			},
-			{
-				title: 'O singură autentificare',
-				text: 'Authelia ține conturile cu care se face autentificarea în nod și în aplicațiile lui. După trei încercări greșite în zece minute, autentificarea de la acea adresă este blocată douăsprezece ore.',
-				href: `${site.docs}/management/authentication/`
 			},
 			{
 				title: 'Actualizări dintr-o singură pagină',

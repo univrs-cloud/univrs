@@ -37,7 +37,7 @@ O dată pe lună, pool-ul își citește toate datele, le verifică după sumele
 
 ## Aplicații din App center
 
-Trei aplicații de bază se instalează la configurare: Traefik, care direcționează cererile către aplicații și se ocupă de certificatele lor SSL, Authelia, care ține conturile, și un terminal în browser.
+Trei aplicații de bază se instalează la configurare: Traefik, care direcționează cererile către aplicații și se ocupă de certificatele lor SSL, Authelia, care ține conturile nodului, și un terminal în browser.
 
 Restul vin din App center:
 
