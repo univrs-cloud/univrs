@@ -4,24 +4,38 @@ import { site, type Locale } from '../site';
 
 interface Props {
 	locale: Locale;
+	id?: string;
+	label?: string;
+	title?: string;
+	lede?: string;
+	message?: string;
+	send?: string;
+	note?: string;
 }
 
-const { locale } = Astro.props;
+const { locale, id = 'contact', note } = Astro.props;
 const copy = ui[locale].contact;
+const label = Astro.props.label ?? copy.label;
+const title = Astro.props.title ?? copy.title;
+const lede = Astro.props.lede ?? copy.lede;
+const message = Astro.props.message ?? copy.message;
+const send = Astro.props.send ?? copy.send;
+const messageLimit = 5000 - (note ? note.length + 2 : 0);
 ---
 
-<section class="bay bay--tight" id="contact">
+<section class="bay bay--tight" id={id}>
 	<div class="wrap">
 		<header class="bay-head">
-			<span class="label">{copy.label}</span>
-			<h2>{copy.title}</h2>
-			<p class="lede">{copy.lede}</p>
+			<span class="label">{label}</span>
+			<h2>{title}</h2>
+			<p class="lede">{lede}</p>
 		</header>
 		<form
 			class="contact"
 			action={`${site.fleet}/messages`}
 			method="post"
 			novalidate
+			data-note={note}
 			data-error-name={copy.errors.name}
 			data-error-email={copy.errors.email}
 			data-error-message={copy.errors.message}
@@ -38,8 +52,8 @@ const copy = ui[locale].contact;
 					<input type="email" name="email" autocomplete="email" maxlength="254" required>
 				</label>
 				<label class="contact-field contact-field--wide">
-					<span>{copy.message}</span>
-					<textarea name="message" rows="6" maxlength="5000" required></textarea>
+					<span>{message}</span>
+					<textarea name="message" rows="6" maxlength={messageLimit} required></textarea>
 				</label>
 				<label class="contact-trap" aria-hidden="true">
 					<span>Website</span>
@@ -48,7 +62,7 @@ const copy = ui[locale].contact;
 			</div>
 			<div class="contact-foot">
 				<button class="btn" type="submit">
-					<span class="contact-idle">{copy.send} <span class="arw" aria-hidden="true">→</span></span>
+					<span class="contact-idle">{send} <span class="arw" aria-hidden="true">→</span></span>
 					<span class="contact-busy">{copy.sending}</span>
 				</button>
 				<p class="contact-error" role="alert"></p>
@@ -93,6 +107,7 @@ const copy = ui[locale].contact;
 		}
 
 		const values = Object.fromEntries(new FormData(form).entries());
+		const message = [String(values.message ?? '').trim(), form.dataset.note].filter(Boolean).join('\n\n');
 		const invalid = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]')].find((input) => !input.value.trim() || !input.checkValidity());
 		if (invalid) {
 			fail(errorKey(400, invalid.name), invalid.name);
@@ -105,7 +120,7 @@ const copy = ui[locale].contact;
 			const response = await fetch(form.action, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ topic: 'contact', ...values })
+				body: JSON.stringify({ topic: 'contact', ...values, message })
 			});
 			const result = await response.json().catch(() => ({}));
 			if (response.ok && String(result.status).toLowerCase() === 'succeeded') {

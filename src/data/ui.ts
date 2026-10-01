@@ -2,7 +2,7 @@ import type { Locale } from '../site';
 
 export interface UiCopy {
 	skip: string;
-	nav: { features: string; safety: string; platform: string; blog: string; docs: string; contact: string; menu: string };
+	nav: { features: string; safety: string; platform: string; blog: string; docs: string; support: string; contact: string; menu: string };
 	theme: string;
 	language: string;
 	languageNames: Record<Locale, string>;
@@ -48,6 +48,7 @@ export const ui: Record<Locale, UiCopy> = {
 			platform: 'Platform',
 			blog: 'Blog',
 			docs: 'Docs',
+			support: 'Support',
 			contact: 'Contact',
 			menu: 'Menu'
 		},
@@ -107,6 +108,7 @@ export const ui: Record<Locale, UiCopy> = {
 			platform: 'Platformă',
 			blog: 'Blog',
 			docs: 'Documentație',
+			support: 'Suport',
 			contact: 'Contact',
 			menu: 'Meniu'
 		},

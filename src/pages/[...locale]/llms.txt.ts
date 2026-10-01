@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { home } from '../../data/home';
 import { localePosts, postMarkdownPath } from '../../data/posts';
+import { support } from '../../data/support';
 import { ui } from '../../data/ui';
 import { localeParams, localePath, site, type Locale } from '../../site';
 
@@ -19,6 +20,7 @@ export const GET: APIRoute<{ locale: Locale }> = async ({ props, site: origin })
 		[
 			`- [${copy.meta.title}](${absolute(localePath(locale))}): ${copy.features.title}`,
 			`- [${copy.hero.primary.text}](${copy.hero.primary.href})`,
+			`- [${support[locale].meta.title}](${absolute(localePath(locale, 'support/'))}): ${support[locale].meta.description}`,
 			`- [llms-full.txt](${absolute(localePath(locale, 'llms-full.txt'))}): ${copy.meta.description}`
 		].join('\n'),
 		`## ${ui[locale].nav.docs}`,

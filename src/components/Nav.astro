@@ -14,12 +14,14 @@ const { locale, alternates } = Astro.props;
 const copy = ui[locale];
 const homePath = localePath(locale);
 const blogPath = localePath(locale, 'blog/');
+const supportPath = localePath(locale, 'support/');
 const links = [
 	{ href: `${homePath}#features`, text: copy.nav.features },
 	{ href: `${homePath}#safety`, text: copy.nav.safety },
 	{ href: `${homePath}#platform`, text: copy.nav.platform },
 	{ href: blogPath, text: copy.nav.blog, current: Astro.url.pathname.startsWith(blogPath) },
 	{ href: `${site.docs}/`, text: copy.nav.docs },
+	{ href: supportPath, text: copy.nav.support, current: Astro.url.pathname.startsWith(supportPath) },
 	{ href: `${homePath}#contact`, text: copy.nav.contact }
 ];
 ---

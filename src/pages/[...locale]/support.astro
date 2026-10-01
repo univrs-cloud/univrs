@@ -1,0 +1,76 @@
+---
+import Contact from '../../components/Contact.astro';
+import { support } from '../../data/support';
+import Base from '../../layouts/Base.astro';
+import { localeParams, localePath, locales, site, type Locale } from '../../site';
+
+interface Props {
+	locale: Locale;
+}
+
+export const getStaticPaths = localeParams;
+
+const { locale } = Astro.props;
+const copy = support[locale];
+const alternates = Object.fromEntries(locales.map((other) => [other, localePath(other, 'support/')]));
+const pageUrl = new URL(localePath(locale, 'support/'), Astro.site).href;
+const schema = [
+	{
+		'@type': 'WebPage',
+		'@id': `${pageUrl}#webpage`,
+		url: pageUrl,
+		name: copy.meta.title,
+		description: copy.meta.description,
+		inLanguage: locale,
+		isPartOf: { '@id': `${site.url}/#website` },
+		about: { '@id': `${site.url}/#software` }
+	},
+	{
+		'@type': 'Service',
+		'@id': `${pageUrl}#service`,
+		name: copy.quote.label,
+		description: copy.paid.text,
+		serviceType: copy.paid.label,
+		provider: { '@id': `${site.url}/#organization` },
+		url: pageUrl
+	}
+];
+---
+
+<Base locale={locale} title={copy.meta.title} description={copy.meta.description} alternates={alternates} schema={schema}>
+	<header class="page-intro">
+		<div class="wrap">
+			<span class="label">{copy.label}</span>
+			<h1>{copy.title}</h1>
+			<hr class="spectrum">
+			<p class="lede">{copy.lede}</p>
+		</div>
+	</header>
+	<section class="bay bay--tight">
+		<div class="wrap">
+			<div class="plans">
+				{[copy.community, copy.paid].map((plan, index) => (
+					<article>
+						<span class="label">{plan.label}</span>
+						<h2>{plan.title}</h2>
+						<p>{plan.text}</p>
+						<ul>
+							{plan.items.map((item) => <li>{item}</li>)}
+						</ul>
+						<a class:list={['btn', { 'btn--ghost': index === 0 }]} href={plan.action.href}>{plan.action.text} <span class="arw" aria-hidden="true">→</span></a>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+	<Contact
+		locale={locale}
+		id="quote"
+		label={copy.quote.label}
+		title={copy.quote.title}
+		lede={copy.quote.lede}
+		message={copy.quote.message}
+		send={copy.quote.send}
+		note={copy.quote.note}
+	/>
+</Base>

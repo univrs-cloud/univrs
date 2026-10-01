@@ -966,6 +966,56 @@ a {
 	text-underline-offset: 3px;
 }
 
+.plans {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+}
+
+.plans article {
+	background: var(--ground);
+	padding: clamp(1.7rem, 3vw, 2.3rem);
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+}
+
+.plans h2 {
+	font-size: var(--step-3);
+}
+
+.plans p,
+.plans li {
+	color: var(--ink-2);
+	font-size: 0.97rem;
+}
+
+.plans ul {
+	margin: 0 0 0.6rem;
+	padding-left: 1.2rem;
+	flex: 1;
+}
+
+.plans li + li {
+	margin-top: 0.5rem;
+}
+
+.plans li::marker {
+	color: var(--accent);
+}
+
+.plans .btn {
+	align-self: flex-start;
+}
+
+@media (max-width: 780px) {
+	.plans {
+		grid-template-columns: 1fr;
+	}
+}
+
 .contact {
 	max-width: 46rem;
 }
