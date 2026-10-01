@@ -464,6 +464,12 @@ a {
 	font-size: 0.8rem;
 }
 
+@media (max-width: 1200px) {
+	.nav-in > nav .nav-list {
+		gap: 1.2rem;
+	}
+}
+
 @media (max-width: 1080px) {
 	.nav-in > nav {
 		display: none;

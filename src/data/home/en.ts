@@ -84,8 +84,8 @@ export const en: HomeCopy = {
 	},
 	platform: {
 		label: 'Platform',
-		title: 'Run from a browser, not from a terminal.',
-		lede: 'virgoOS is an appliance system: setup asks a few questions, and from then on the node is run from its web interface, from your fleet account or with the virgo command.',
+		title: 'Managed from a browser, not from a terminal.',
+		lede: 'virgoOS is an appliance system: setup asks a few questions, and from then on the node is managed from its web interface, from your fleet account or with the virgo command.',
 		items: [
 			{
 				title: 'Setup in nine steps',

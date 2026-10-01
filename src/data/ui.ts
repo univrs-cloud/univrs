@@ -7,6 +7,7 @@ export interface UiCopy {
 	language: string;
 	languageNames: Record<Locale, string>;
 	inDocs: string;
+	source: string;
 	blog: {
 		title: string;
 		label: string;
@@ -58,10 +59,11 @@ export const ui: Record<Locale, UiCopy> = {
 		language: 'Language',
 		languageNames: { en: 'English', ro: 'Română' },
 		inDocs: 'In the docs',
+		source: 'Source',
 		blog: {
 			title: 'Blog',
 			label: 'Blog',
-			description: 'News and notes on virgoOS: releases, how the system works and how to run it.',
+			description: 'News and notes on virgoOS: releases, how the system works and how to manage it.',
 			latest: 'From the blog',
 			all: 'All posts',
 			read: 'Read',
@@ -112,7 +114,7 @@ export const ui: Record<Locale, UiCopy> = {
 			platform: 'Platformă',
 			blog: 'Blog',
 			docs: 'Documentație',
-			support: 'Suport',
+			support: 'Asistență',
 			contact: 'Contact',
 			menu: 'Meniu'
 		},
@@ -120,10 +122,11 @@ export const ui: Record<Locale, UiCopy> = {
 		language: 'Limbă',
 		languageNames: { en: 'English', ro: 'Română' },
 		inDocs: 'În documentație',
+		source: 'Sursă',
 		blog: {
 			title: 'Blog',
 			label: 'Blog',
-			description: 'Noutăți și note despre virgoOS: versiuni noi, cum funcționează sistemul și cum se folosește.',
+			description: 'Noutăți și note despre virgoOS: versiuni noi, cum funcționează sistemul și cum se administrează.',
 			latest: 'De pe blog',
 			all: 'Toate articolele',
 			read: 'Citește',
@@ -145,13 +148,13 @@ export const ui: Record<Locale, UiCopy> = {
 			send: 'Trimite mesajul',
 			sending: 'Se trimite…',
 			sentTitle: 'Vă mulțumim, mesajul a fost trimis.',
-			sentText: 'Vă răspundem la adresa de e-mail pe care ați scris-o.',
+			sentText: 'Vă răspundem la adresa de e-mail pe care ați indicat-o.',
 			note: 'Acesta este un mesaj general, trimis din formularul de contact de pe prima pagină.',
 			reply: 'Răspundeți la',
 			errors: {
-				name: 'Scrieți numele dumneavoastră.',
-				email: 'Scrieți o adresă de e-mail validă.',
-				message: 'Scrieți un mesaj de cel mult 5000 de caractere.',
+				name: 'Introduceți numele.',
+				email: 'Introduceți o adresă de e-mail validă.',
+				message: 'Introduceți un mesaj de cel mult 5000 de caractere.',
 				limit: 'De la adresa dumneavoastră au fost trimise prea multe mesaje. Încercați din nou mai târziu.',
 				failed: 'Mesajul nu a putut fi trimis. Încercați din nou mai târziu.'
 			}
@@ -159,7 +162,7 @@ export const ui: Record<Locale, UiCopy> = {
 		notFound: {
 			label: 'Eroare 404',
 			title: 'Această pagină nu există.',
-			text: 'Adresa poate fi scrisă greșit sau pagina a fost mutată.',
+			text: 'Este posibil ca adresa să fie scrisă greșit sau ca pagina să fi fost mutată.',
 			home: 'Înapoi la prima pagină'
 		},
 		footer: {

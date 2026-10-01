@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { allPosts, postLocale, postMarkdown, postPath, postSlug, type Post } from '../../../data/posts';
+import { ui } from '../../../data/ui';
 import { localePath } from '../../../site';
 
 export const getStaticPaths = async () => {
@@ -17,7 +18,7 @@ export const GET: APIRoute<{ post: Post }> = ({ props, site }) => {
 	const body = [
 		`# ${title}`,
 		`> ${description}`,
-		`Published ${pubDate.toISOString().slice(0, 10)} · ${new URL(postPath(post), site).href}`,
+		`${ui[postLocale(post)].blog.published} ${pubDate.toISOString().slice(0, 10)} · ${new URL(postPath(post), site).href}`,
 		postMarkdown(post)
 	].join('\n\n');
 

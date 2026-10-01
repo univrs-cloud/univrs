@@ -12,7 +12,7 @@ export const GET: APIRoute<{ locale: Locale }> = async ({ props, site: origin })
 	const absolute = (path: string) => new URL(path, origin).href;
 	const body = [
 		homeMarkdown(locale),
-		`Source: ${absolute(localePath(locale))}`,
+		`${ui[locale].source}: ${absolute(localePath(locale))}`,
 		...posts.map((post) => [
 			'---',
 			`# ${ui[locale].blog.title}: ${post.data.title}`,

@@ -37,7 +37,7 @@ export const support: Record<Locale, SupportCopy> = {
 		community: {
 			label: 'Community',
 			title: 'Free',
-			text: 'Everything needed to set up and run a node on your own.',
+			text: 'Everything needed to set up and manage a node on your own.',
 			items: [
 				'The documentation: setup step by step, every management page and the virgo command.',
 				'GitHub issues, to report a problem or ask for a feature in the open.',
@@ -68,27 +68,27 @@ export const support: Record<Locale, SupportCopy> = {
 	},
 	ro: {
 		meta: {
-			title: 'Suport',
-			description: 'Două moduri de a primi ajutor pentru virgoOS: resursele gratuite ale comunității și suportul tehnic plătit, de la cei care îl construiesc.'
+			title: 'Asistență',
+			description: 'Două moduri de a primi ajutor pentru virgoOS: resursele gratuite ale comunității și asistența tehnică cu plată, oferită de cei care îl dezvoltă.'
 		},
-		label: 'Suport',
+		label: 'Asistență',
 		title: 'Ajutor pentru virgoOS.',
-		lede: 'virgoOS este gratuit și documentat public. Atunci când preferați ca cineva să se uite împreună cu dumneavoastră la nod, există suport tehnic plătit.',
+		lede: 'virgoOS este gratuit, iar documentația lui este publică. Dacă preferați ca cineva să se uite la nod împreună cu dumneavoastră, există asistență tehnică cu plată.',
 		community: {
 			label: 'Comunitate',
 			title: 'Gratuit',
-			text: 'Tot ce este necesar ca să configurați și să folosiți singur un nod.',
+			text: 'Tot ce este necesar ca să configurați și să administrați singur un nod.',
 			items: [
 				'Documentația, în limba engleză: configurarea pas cu pas, fiecare pagină de administrare și comanda virgo.',
-				'GitHub issues, pentru a raporta public o problemă sau a cere o funcție.',
-				'Blogul, pentru cum funcționează sistemul și ce este nou.'
+				'GitHub issues, pentru a raporta public o problemă sau a cere o funcționalitate.',
+				'Blogul, unde aflați cum funcționează sistemul și ce este nou.'
 			],
 			action: { text: 'Citește documentația', href: `${site.docs}/` }
 		},
 		paid: {
-			label: 'Suport tehnic',
-			title: 'Plătit',
-			text: 'Ajutor privat de la cei care construiesc virgoOS, pentru nodul și configurația dumneavoastră.',
+			label: 'Asistență tehnică',
+			title: 'Cu plată',
+			text: 'Ajutor direct de la cei care dezvoltă virgoOS, pentru nodul și configurația dumneavoastră.',
 			items: [
 				'Ajutor la instalarea virgoOS și la parcurgerea configurării.',
 				'Depanarea unui nod care nu se comportă așa cum spune documentația.',
@@ -98,12 +98,12 @@ export const support: Record<Locale, SupportCopy> = {
 			action: { text: 'Cere o ofertă', href: '#quote' }
 		},
 		quote: {
-			label: 'Suport tehnic plătit',
+			label: 'Asistență tehnică cu plată',
 			title: 'Cereți o ofertă.',
 			lede: 'Spuneți-ne cu ce aveți nevoie de ajutor și cum arată configurația dumneavoastră. Vă răspundem pe e-mail cu o ofertă.',
 			message: 'Cu ce aveți nevoie de ajutor?',
 			send: 'Cere o ofertă',
-			note: 'Aceasta este o cerere de ofertă pentru suport tehnic plătit, trimisă din pagina Suport.'
+			note: 'Aceasta este o cerere de ofertă pentru asistență tehnică cu plată, trimisă din pagina Asistență.'
 		}
 	}
 };
