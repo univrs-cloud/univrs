@@ -96,4 +96,89 @@ const schema = [
 			</footer>
 		</div>
 	</article>
+	<dialog class="zoom" data-label={copy.zoom}>
+		<button class="zoom-close" type="button" aria-label={copy.zoomClose}>
+			<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.71 2.29a1 1 0 0 0-1.42 0l-5.79 5.8V6.5a1 1 0 0 0-2 0v4a1 1 0 0 0 .08.38 1 1 0 0 0 .54.54 1 1 0 0 0 .38.08h4a1 1 0 0 0 0-2h-1.59l5.8-5.79a1 1 0 0 0 0-1.42ZM10.88 12.58a1 1 0 0 0-.38-.08h-4a1 1 0 0 0 0 2h1.59l-5.8 5.79a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.79-5.8v1.59a1 1 0 0 0 2 0v-4a1 1 0 0 0-.08-.38 1 1 0 0 0-.54-.54Z" /></svg>
+		</button>
+		<figure>
+			<img alt="">
+			<figcaption></figcaption>
+		</figure>
+	</dialog>
 </Base>
+
+<script>
+	const DURATION = 300;
+	const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
+	const dialog = document.querySelector<HTMLDialogElement>('.zoom');
+	const enlarged = dialog?.querySelector('img');
+	const caption = dialog?.querySelector('figcaption');
+	let source: HTMLImageElement | null = null;
+	let closing = false;
+
+	const largestSource = (image: HTMLImageElement) => {
+		const candidates = image.srcset.split(',').map((candidate) => candidate.trim().split(/\s+/)).filter(([url]) => url);
+		const widest = candidates.sort((a, b) => parseInt(b[1] ?? '0', 10) - parseInt(a[1] ?? '0', 10))[0];
+
+		return widest?.[0] ?? image.currentSrc ?? image.src;
+	};
+
+	const travel = (from: HTMLImageElement, to: HTMLImageElement) => {
+		const start = from.getBoundingClientRect();
+		const end = to.getBoundingClientRect();
+
+		return `translate(${start.left - end.left}px, ${start.top - end.top}px) scale(${start.width / end.width})`;
+	};
+
+	const close = async () => {
+		if (!dialog || !enlarged || !source || closing) {
+			return;
+		}
+
+		closing = true;
+		dialog.classList.remove('is-open');
+		await enlarged.animate([{ transform: 'none' }, { transform: travel(source, enlarged) }], { duration: DURATION, easing: EASING }).finished;
+		dialog.close();
+		source.style.visibility = '';
+		source.focus({ preventScroll: true });
+		source = null;
+		closing = false;
+	};
+
+	const open = async (image: HTMLImageElement) => {
+		if (!dialog || !enlarged || !caption || source) {
+			return;
+		}
+
+		source = image;
+		enlarged.src = largestSource(image);
+		enlarged.alt = image.alt;
+		caption.textContent = image.alt;
+		await enlarged.decode().catch(() => {});
+		dialog.showModal();
+		enlarged.animate([{ transform: travel(image, enlarged) }, { transform: 'none' }], { duration: DURATION, easing: EASING });
+		image.style.visibility = 'hidden';
+		requestAnimationFrame(() => dialog.classList.add('is-open'));
+		window.addEventListener('wheel', close, { once: true });
+	};
+
+	document.querySelectorAll<HTMLImageElement>('.post-image img, .post-content img').forEach((image) => {
+		image.tabIndex = 0;
+		image.setAttribute('role', 'button');
+		image.setAttribute('aria-label', `${dialog?.dataset.label}: ${image.alt}`);
+		image.addEventListener('click', () => open(image));
+		image.addEventListener('keydown', (event) => {
+			if (['enter', ' '].includes(event.key.toLowerCase())) {
+				event.preventDefault();
+				open(image);
+			}
+		});
+	});
+
+	dialog?.addEventListener('click', close);
+	dialog?.addEventListener('cancel', (event) => {
+		event.preventDefault();
+		close();
+	});
+	window.addEventListener('resize', close);
+</script>

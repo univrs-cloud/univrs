@@ -59,5 +59,6 @@ Asta acoperă administrarea nodului. Accesul la ce rulează pe el este altceva: 
 
 ## Ce urmează
 
+- Imaginile de instalare sunt pe [pagina de versiuni](https://github.com/univrs-cloud/virgo/releases/latest).
 - [Documentația](https://docs.univrs.cloud/), în limba engleză, acoperă configurarea, fiecare pagină de administrare și comanda `virgo`.
 - Codul sursă este la [github.com/univrs-cloud](https://github.com/univrs-cloud), sub licența GNU General Public License, versiunea 2.

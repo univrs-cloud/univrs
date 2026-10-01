@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import diagram from '../assets/micro-data-center.svg';
-import { home } from '../data/home';
+import { home, linkedHtml } from '../data/home';
 import { localePosts } from '../data/posts';
 import { ui } from '../data/ui';
 import Base from '../layouts/Base.astro';
@@ -51,7 +51,7 @@ const schema = [
 		mainEntity: copy.faq.items.map(({ question, answer }) => ({
 			'@type': 'Question',
 			name: question,
-			acceptedAnswer: { '@type': 'Answer', text: answer }
+			acceptedAnswer: { '@type': 'Answer', text: linkedHtml(answer) }
 		}))
 	}
 ];
@@ -179,7 +179,7 @@ const schema = [
 				{copy.faq.items.map(({ question, answer }) => (
 					<details>
 						<summary><h3>{question}</h3></summary>
-						<div class="ans"><p>{answer}</p></div>
+						<div class="ans"><p set:html={linkedHtml(answer)} /></div>
 					</details>
 				))}
 			</div>

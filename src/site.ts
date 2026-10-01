@@ -31,6 +31,7 @@ export const site = {
 	url: 'https://univrs.cloud',
 	docs: 'https://docs.univrs.cloud',
 	github: 'https://github.com/univrs-cloud',
+	download: 'https://github.com/univrs-cloud/virgo/releases/latest',
 	fleet: 'https://fleet.univrs.cloud',
 	x: 'https://x.com/univrs_cloud',
 	xHandle: '@univrs_cloud',

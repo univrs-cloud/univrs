@@ -5,6 +5,14 @@ import type { Card, Fact, HomeCopy } from './types';
 
 export const home: Record<Locale, HomeCopy> = { en, ro };
 
+const LINK = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+export const linkedHtml = (text: string) => {
+	const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+	return escaped.replace(LINK, '<a href="$2">$1</a>');
+};
+
 const facts = (items: Fact[]) => {
 	return items.map(({ term, value }) => `- ${term}: ${value}`).join('\n');
 };

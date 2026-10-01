@@ -11,8 +11,8 @@ export const ro: HomeCopy = {
 		thin: 'Datele dumneavoastră,',
 		heavy: 'pe propriul echipament.',
 		lede: 'virgoOS este un sistem de operare open source care transformă un server într-un cloud privat. Rulează fișierele, e-mailul, documentele și apelurile pe un server care vă aparține, păstrează automat istoricul fiecărei modificări și se administrează din browser.',
-		primary: { text: 'Citește documentația', href: `${site.docs}/` },
-		secondary: { text: 'Codul sursă pe GitHub', href: site.github },
+		primary: { text: 'Descarcă', href: site.download },
+		secondary: { text: 'Citește documentația', href: `${site.docs}/` },
 		imageAlt: 'Două noduri virgoOS care se replică în aceeași locație, conectate prin router la internet, la un laptop, la o tabletă și la un calculator.',
 		facts: [
 			{ term: 'Bază', value: 'Debian' },
@@ -143,28 +143,32 @@ export const ro: HomeCopy = {
 				answer: 'virgoOS este un sistem de operare open source, bazat pe Debian, care transformă un server într-un cloud privat. Păstrează datele pe un pool ZFS redundant, rulează în containere aplicații precum Nextcloud, un server de e-mail și WireGuard și se administrează din browser.'
 			},
 			{
+				question: 'De unde pot descărca virgoOS?',
+				answer: `Imaginile de instalare sunt publicate cu fiecare versiune pe [pagina de versiuni virgo](${site.download}): un ISO pentru amd64 și o imagine pentru arm64. De la prima pornire continuați cu [ghidul de configurare](${site.docs}/setup/).`
+			},
+			{
 				question: 'De ce hardware are nevoie un nod?',
-				answer: 'De cel puțin două discuri de date de aceeași mărime, cu o diferență de cel mult 10% între ele, pe lângă discul de pe care rulează sistemul. De cel puțin 8 GB de RAM, ideal 16 GB sau mai mult, și de o conexiune de rețea prin cablu. Pachetele sunt publicate pentru amd64 și arm64.'
+				answer: `De cel puțin două discuri de date de aceeași mărime, cu o diferență de cel mult 10% între ele, pe lângă discul de pe care rulează sistemul. De cel puțin 8 GB de RAM, ideal 16 GB sau mai mult, și de o conexiune de rețea prin cablu. Pachetele sunt publicate pentru amd64 și arm64. Documentația listează [ce trebuie pregătit înainte de configurare](${site.docs}/setup/).`
 			},
 			{
 				question: 'Este virgoOS open source?',
-				answer: 'Da. Componentele lui sunt publicate sub GNU General Public License, versiunea 2, în depozite publice la github.com/univrs-cloud.'
+				answer: `Da. Componentele lui sunt publicate sub [GNU General Public License, versiunea 2](${site.license}), în depozite publice la [github.com/univrs-cloud](${site.github}).`
 			},
 			{
 				question: 'Are nevoie nodul de o adresă IP publică?',
-				answer: 'Pentru administrare, nu. Un nod înregistrat într-un cont de fleet se conectează singur la fleet, deci poate fi administrat de oriunde, chiar și în spatele CGNAT. E-mailul, partajarea fișierelor din Nextcloud, VPN-ul și accesul la aplicații din afara rețelei locale au însă nevoie de o adresă IP publică și de câteva porturi redirecționate din router.'
+				answer: `Pentru administrare, nu. Un nod înregistrat într-un [cont de fleet](${site.fleet}) se conectează singur la fleet, deci poate fi administrat de oriunde, chiar și în spatele CGNAT. E-mailul, partajarea fișierelor din Nextcloud, VPN-ul și accesul la aplicații din afara rețelei locale au însă nevoie de o adresă IP publică și de [câteva porturi redirecționate](${site.docs}/setup/ports/) din router.`
 			},
 			{
 				question: 'Pot folosi propriul domeniu?',
-				answer: 'Da. Cu un domeniu propriu creați singur înregistrările DNS, iar înregistrarea în fleet este opțională. Cu univrs.cloud, înregistrarea DNS și certificatul wildcard sunt create prin contul dumneavoastră de fleet.'
+				answer: `Da. Cu un domeniu propriu creați singur înregistrările DNS, iar înregistrarea în fleet este opțională. Cu univrs.cloud, înregistrarea DNS și certificatul wildcard sunt create prin contul dumneavoastră de fleet. Documentația descrie [alegerea numelui nodului](${site.docs}/setup/host/).`
 			},
 			{
 				question: 'Cât de departe în timp pot recupera un fișier?',
-				answer: 'Nodul păstrează câte un snapshot pentru fiecare dintre ultimele 36 de ore, 30 de zile, 60 de luni și 5 ani. Snapshoturile mai vechi sunt șterse automat.'
+				answer: `Nodul păstrează câte un snapshot pentru fiecare dintre ultimele 36 de ore, 30 de zile, 60 de luni și 5 ani. Snapshoturile mai vechi sunt șterse automat. Documentația arată [snapshoturile unei aplicații și căutarea în ele](${site.docs}/management/resources/apps/snapshots/).`
 			},
 			{
 				question: 'Ce aplicații se pot instala?',
-				answer: 'App center oferă Nextcloud cu backendul de înaltă performanță și tabla comună, Euro Office, un server de e-mail, WireGuard, Pi-hole, Gitea și runnerul său, Plausible, qBittorrent și Dockhand. Traefik, Authelia și un terminal în browser se instalează la configurare.'
+				answer: `[App center](${site.docs}/management/resources/apps/) oferă Nextcloud cu backendul de înaltă performanță și tabla comună, Euro Office, un server de e-mail, WireGuard, Pi-hole, Gitea și runnerul său, Plausible, qBittorrent și Dockhand. Traefik, Authelia și un terminal în browser se instalează [la configurare](${site.docs}/setup/apps/).`
 			}
 		]
 	},
@@ -172,6 +176,6 @@ export const ro: HomeCopy = {
 		title: 'Vedeți cum se configurează un nod.',
 		text: 'Documentația, în limba engleză, acoperă configurarea pas cu pas, fiecare pagină de administrare și comanda virgo.',
 		primary: { text: 'Citește documentația', href: `${site.docs}/` },
-		secondary: { text: 'Codul sursă pe GitHub', href: site.github }
+		secondary: { text: 'Descarcă', href: site.download }
 	}
 };

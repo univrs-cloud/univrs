@@ -11,8 +11,8 @@ export const en: HomeCopy = {
 		thin: 'Your data,',
 		heavy: 'on hardware you own.',
 		lede: 'virgoOS is an open-source operating system that turns a server into a private cloud. It runs files, email, documents and calls on a server you own, keeps an automatic history of every change, and is managed from a browser.',
-		primary: { text: 'Read the docs', href: `${site.docs}/` },
-		secondary: { text: 'Source on GitHub', href: site.github },
+		primary: { text: 'Download', href: site.download },
+		secondary: { text: 'Read the docs', href: `${site.docs}/` },
 		imageAlt: 'Two virgoOS nodes replicating on site, connected through the router to the internet, a laptop, a tablet and a desktop.',
 		facts: [
 			{ term: 'Base', value: 'Debian' },
@@ -143,28 +143,32 @@ export const en: HomeCopy = {
 				answer: 'virgoOS is an open-source, Debian-based operating system that turns a server into a private cloud. It stores data on a redundant ZFS pool, runs apps such as Nextcloud, a mail server and WireGuard in containers, and is managed from a browser.'
 			},
 			{
+				question: 'Where can I download virgoOS?',
+				answer: `The installer images are published with each release on the [virgo releases page](${site.download}): an ISO for amd64 and an image for arm64. The [setup guide](${site.docs}/setup/) takes over from the first start.`
+			},
+			{
 				question: 'What hardware does a node need?',
-				answer: 'At least two data drives of the same size, within 10% of each other, in addition to the drive the system runs from. At least 8 GB of RAM, with 16 GB or more being ideal, and a wired network connection. Packages are published for amd64 and arm64.'
+				answer: `At least two data drives of the same size, within 10% of each other, in addition to the drive the system runs from. At least 8 GB of RAM, with 16 GB or more being ideal, and a wired network connection. Packages are published for amd64 and arm64. The docs list [what to have ready before setup](${site.docs}/setup/).`
 			},
 			{
 				question: 'Is virgoOS open source?',
-				answer: 'Yes. Its components are released under the GNU General Public License, version 2, in public repositories at github.com/univrs-cloud.'
+				answer: `Yes. Its components are released under the [GNU General Public License, version 2](${site.license}), in public repositories at [github.com/univrs-cloud](${site.github}).`
 			},
 			{
 				question: 'Does the node need a public IP address?',
-				answer: 'Not to manage it. A node registered with a fleet account connects out to the fleet, so it can be managed from anywhere, even behind CGNAT. Email, sharing files from Nextcloud, the VPN and reaching the apps from outside your local network do need a public IP address and a few ports forwarded on your router.'
+				answer: `Not to manage it. A node registered with a [fleet account](${site.fleet}) connects out to the fleet, so it can be managed from anywhere, even behind CGNAT. Email, sharing files from Nextcloud, the VPN and reaching the apps from outside your local network do need a public IP address and [a few ports forwarded](${site.docs}/setup/ports/) on your router.`
 			},
 			{
 				question: 'Can I use my own domain?',
-				answer: 'Yes. With your own domain you create the DNS records yourself, and registering with a fleet is optional. With univrs.cloud, the DNS record and the wildcard certificate are created through your fleet account.'
+				answer: `Yes. With your own domain you create the DNS records yourself, and registering with a fleet is optional. With univrs.cloud, the DNS record and the wildcard certificate are created through your fleet account. The docs cover [choosing the node's name](${site.docs}/setup/host/).`
 			},
 			{
 				question: 'How far back can I recover a file?',
-				answer: 'The node keeps a snapshot for each of the last 36 hours, 30 days, 60 months and 5 years. Older snapshots are removed automatically.'
+				answer: `The node keeps a snapshot for each of the last 36 hours, 30 days, 60 months and 5 years. Older snapshots are removed automatically. The docs show [an app's snapshots and how to search them](${site.docs}/management/resources/apps/snapshots/).`
 			},
 			{
 				question: 'Which apps can be installed?',
-				answer: 'The App center offers Nextcloud with its high-performance backend and whiteboard, Euro Office, a mail server, WireGuard, Pi-hole, Gitea and its runner, Plausible, qBittorrent and Dockhand. Traefik, Authelia and a browser terminal are installed during setup.'
+				answer: `The [App center](${site.docs}/management/resources/apps/) offers Nextcloud with its high-performance backend and whiteboard, Euro Office, a mail server, WireGuard, Pi-hole, Gitea and its runner, Plausible, qBittorrent and Dockhand. Traefik, Authelia and a browser terminal are installed [during setup](${site.docs}/setup/apps/).`
 			}
 		]
 	},
@@ -172,6 +176,6 @@ export const en: HomeCopy = {
 		title: 'See how a node is set up.',
 		text: 'The documentation covers setup step by step, every management page and the virgo command.',
 		primary: { text: 'Read the docs', href: `${site.docs}/` },
-		secondary: { text: 'Source on GitHub', href: site.github }
+		secondary: { text: 'Download', href: site.download }
 	}
 };

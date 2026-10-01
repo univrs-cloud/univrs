@@ -18,6 +18,7 @@ export const GET: APIRoute<{ locale: Locale }> = async ({ props, site: origin })
 		`## ${site.name}`,
 		[
 			`- [${copy.meta.title}](${absolute(localePath(locale))}): ${copy.features.title}`,
+			`- [${copy.hero.primary.text}](${copy.hero.primary.href})`,
 			`- [llms-full.txt](${absolute(localePath(locale, 'llms-full.txt'))}): ${copy.meta.description}`
 		].join('\n'),
 		`## ${ui[locale].nav.docs}`,

@@ -59,5 +59,6 @@ That covers managing the node. Reaching what runs on it is different: email, sha
 
 ## Where to go next
 
+- The installer images are on the [releases page](https://github.com/univrs-cloud/virgo/releases/latest).
 - The [documentation](https://docs.univrs.cloud/) covers setup, every management page and the `virgo` command.
 - The source is at [github.com/univrs-cloud](https://github.com/univrs-cloud), under the GNU General Public License, version 2.

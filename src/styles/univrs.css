@@ -965,6 +965,11 @@ a {
 	max-width: 68ch;
 }
 
+.faq .ans a {
+	color: var(--accent);
+	text-underline-offset: 3px;
+}
+
 .close {
 	border: 1px solid var(--line);
 	background: var(--ground-2);
@@ -1243,6 +1248,106 @@ a {
 	text-align: left;
 	padding: 0.8rem 1rem;
 	border-bottom: 1px solid var(--line);
+}
+
+.post-image img,
+.post-content img {
+	cursor: zoom-in;
+}
+
+.zoom {
+	width: 100vw;
+	max-width: 100vw;
+	height: 100dvh;
+	max-height: 100dvh;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	cursor: zoom-out;
+	overflow: hidden;
+}
+
+.zoom::backdrop {
+	background: var(--ground);
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.zoom.is-open::backdrop {
+	opacity: 1;
+}
+
+.zoom figure {
+	--zoom-pad: clamp(0.75rem, 3vw, 2.5rem);
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: 0.9rem;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: var(--zoom-pad);
+}
+
+.zoom img {
+	display: block;
+	max-width: calc(100vw - 2 * var(--zoom-pad));
+	max-height: calc(100dvh - 2 * var(--zoom-pad) - 3.5rem);
+	width: auto;
+	height: auto;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+	transform-origin: top left;
+}
+
+.zoom figcaption {
+	max-width: 70ch;
+	font-family: var(--f-mono);
+	font-size: 0.72rem;
+	letter-spacing: 0.06em;
+	line-height: 1.5;
+	color: var(--muted);
+	text-align: center;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.zoom.is-open figcaption {
+	opacity: 1;
+}
+
+.zoom-close {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	border: 1px solid var(--line-2);
+	border-radius: var(--radius);
+	background: var(--ground-2);
+	color: var(--ink-2);
+	cursor: zoom-out;
+	opacity: 0;
+	transition: opacity 0.3s, color 0.18s ease, border-color 0.18s ease;
+}
+
+.zoom.is-open .zoom-close {
+	opacity: 1;
+}
+
+.zoom-close:hover {
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+.zoom-close svg {
+	width: 1.1rem;
+	height: 1.1rem;
 }
 
 .post-foot {
