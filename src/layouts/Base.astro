@@ -1,0 +1,123 @@
+---
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+import { ui } from '../data/ui';
+import { defaultLocale, localePath, locales, ogLocales, site, type Locale } from '../site';
+import '../styles/univrs.css';
+
+interface Props {
+	locale: Locale;
+	title: string;
+	description: string;
+	alternates?: Partial<Record<Locale, string>>;
+	image?: string;
+	type?: 'website' | 'article';
+	published?: Date;
+	modified?: Date;
+	markdown?: string;
+	noindex?: boolean;
+	schema?: Record<string, unknown>[];
+}
+
+const {
+	locale,
+	title,
+	description,
+	alternates = {},
+	image = `/og/${locale}.png`,
+	type = 'website',
+	published,
+	modified,
+	markdown,
+	noindex = false,
+	schema = []
+} = Astro.props;
+const copy = ui[locale];
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const canonical = absolute(Astro.url.pathname);
+const fullTitle = (title.toLowerCase().includes(site.name.toLowerCase()) || title.toLowerCase().includes(site.product.toLowerCase()) ? title : `${title} · ${site.name}`);
+const fallback = alternates[defaultLocale];
+const organization = {
+	'@type': 'Organization',
+	'@id': `${site.url}/#organization`,
+	name: site.name,
+	url: `${site.url}/`,
+	logo: absolute('/favicon.svg'),
+	sameAs: [site.github, site.x]
+};
+const website = {
+	'@type': 'WebSite',
+	'@id': `${site.url}/#website`,
+	name: site.name,
+	url: `${site.url}/`,
+	inLanguage: [...locales],
+	publisher: { '@id': organization['@id'] }
+};
+const graph = { '@context': 'https://schema.org', '@graph': [organization, website, ...schema] };
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{fullTitle}</title>
+		<meta name="description" content={description}>
+		{noindex && <meta name="robots" content="noindex">}
+		{!noindex && <link rel="canonical" href={canonical}>}
+		{!noindex && locales.map((other) => alternates[other] && <link rel="alternate" hreflang={other} href={absolute(alternates[other])}>)}
+		{!noindex && fallback && <link rel="alternate" hreflang="x-default" href={absolute(fallback)}>}
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+		<link rel="icon" href="/favicon.ico" sizes="32x32">
+		<link rel="alternate" type="application/rss+xml" title={`${site.name} ${copy.blog.title}`} href={absolute(localePath(locale, 'rss.xml'))}>
+		{markdown && <link rel="alternate" type="text/markdown" href={absolute(markdown)}>}
+		<meta name="theme-color" content="#F6F6FA" media="(prefers-color-scheme: light)">
+		<meta name="theme-color" content="#0D0E24" media="(prefers-color-scheme: dark)">
+		<meta property="og:site_name" content={site.name}>
+		<meta property="og:type" content={type}>
+		<meta property="og:title" content={title}>
+		<meta property="og:description" content={description}>
+		<meta property="og:url" content={canonical}>
+		<meta property="og:locale" content={ogLocales[locale]}>
+		<meta property="og:image" content={absolute(image)}>
+		<meta property="og:image:width" content="1200">
+		<meta property="og:image:height" content="630">
+		{published && <meta property="article:published_time" content={published.toISOString()}>}
+		{modified && <meta property="article:modified_time" content={modified.toISOString()}>}
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content={site.xHandle}>
+		<meta name="twitter:title" content={title}>
+		<meta name="twitter:description" content={description}>
+		<meta name="twitter:image" content={absolute(image)}>
+		<script is:inline>
+			(() => {
+				let stored = null;
+				try {
+					stored = localStorage.getItem('univrs-theme');
+				} catch {}
+				document.documentElement.dataset.theme = stored || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+			})();
+		</script>
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(graph)} />
+	</head>
+	<body>
+		<a class="skip-link" href="#main">{copy.skip}</a>
+		<Nav locale={locale} alternates={alternates} />
+		<main id="main">
+			<slot />
+		</main>
+		<Footer locale={locale} />
+		<script>
+			import { init } from '@plausible-analytics/tracker';
+
+			init({
+				domain: 'univrs.cloud',
+				endpoint: 'https://analytics.univrs.cloud/api/event',
+				autoCapturePageviews: true,
+				outboundLinks: true,
+				fileDownloads: true,
+				captureOnLocalhost: false
+			});
+		</script>
+	</body>
+</html>

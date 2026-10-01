@@ -1,0 +1,158 @@
+---
+import { ui } from '../data/ui';
+import { localePath, locales, site, type Locale } from '../site';
+import Flag from './Flag.astro';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+	locale: Locale;
+	alternates: Partial<Record<Locale, string>>;
+}
+
+const { locale, alternates } = Astro.props;
+const copy = ui[locale];
+const homePath = localePath(locale);
+const blogPath = localePath(locale, 'blog/');
+const links = [
+	{ href: `${homePath}#features`, text: copy.nav.features },
+	{ href: `${homePath}#safety`, text: copy.nav.safety },
+	{ href: `${homePath}#platform`, text: copy.nav.platform },
+	{ href: `${homePath}#source`, text: copy.nav.source },
+	{ href: blogPath, text: copy.nav.blog, current: Astro.url.pathname.startsWith(blogPath) },
+	{ href: `${site.docs}/`, text: copy.nav.docs }
+];
+---
+
+<header class="nav">
+	<div class="wrap nav-in">
+		<a class="brand" href={homePath}>
+			<Logo />
+			<b>{site.name}</b>
+		</a>
+		<nav aria-label={copy.nav.menu}>
+			<ul class="nav-list">
+				{links.map(({ href, text, current }) => (
+					<li><a href={href} aria-current={(current ? 'page' : undefined)}>{text}</a></li>
+				))}
+			</ul>
+		</nav>
+		<div class="nav-tools">
+			<details class="lang">
+				<summary>
+					<span class="sr-only">{copy.language}: {copy.languageNames[locale]}</span>
+					<Flag locale={locale} />
+					<span class="lang-code" aria-hidden="true">{locale}</span>
+					<svg class="lang-caret" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.500 3 3 3-3" /></svg>
+				</summary>
+				<ul class="lang-menu">
+					{locales.map((other) => (
+						<li>
+							<a href={alternates[other] ?? localePath(other)} hreflang={other} lang={other} aria-current={(other.toLowerCase() === locale.toLowerCase() ? 'true' : undefined)}>
+								<Flag locale={other} />
+								{copy.languageNames[other]}
+							</a>
+						</li>
+					))}
+				</ul>
+			</details>
+			<a class="nav-icon" href={site.github} rel="me noopener">
+				<span class="sr-only">GitHub</span>
+				<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
+			</a>
+			<span class="nav-divider"></span>
+			<button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label={copy.theme}>
+				<span class="knob"></span>
+				<span class="icon sun"><Icon name="sun" /></span>
+				<span class="icon moon"><Icon name="moon" /></span>
+			</button>
+			<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-mobile" aria-label={copy.nav.menu}>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+	</div>
+	<nav class="nav-mobile" id="nav-mobile" aria-label={copy.nav.menu} hidden>
+		<div class="wrap">
+			<ul class="nav-list">
+				{links.map(({ href, text, current }) => (
+					<li><a href={href} aria-current={(current ? 'page' : undefined)}>{text}</a></li>
+				))}
+			</ul>
+		</div>
+	</nav>
+</header>
+
+<script>
+	const storageKey = 'univrs-theme';
+	const scheme = matchMedia('(prefers-color-scheme: dark)');
+	const root = document.documentElement;
+	const themeToggle = document.querySelector('.theme-toggle');
+	const navToggle = document.querySelector('.nav-toggle');
+	const navMobile = document.querySelector('.nav-mobile');
+	const lang = document.querySelector('.lang');
+
+	const storedTheme = () => {
+		try {
+			return localStorage.getItem(storageKey);
+		} catch {
+			return null;
+		}
+	};
+
+	const syncTheme = () => {
+		themeToggle?.setAttribute('aria-checked', String(root.dataset.theme === 'dark'));
+	};
+
+	const closeMenu = () => {
+		navToggle?.setAttribute('aria-expanded', 'false');
+		navMobile?.setAttribute('hidden', '');
+	};
+
+	syncTheme();
+
+	scheme.addEventListener('change', () => {
+		if (storedTheme()) {
+			return;
+		}
+
+		root.dataset.theme = (scheme.matches ? 'dark' : 'light');
+		syncTheme();
+	});
+
+	themeToggle?.addEventListener('click', () => {
+		root.dataset.theme = (root.dataset.theme === 'dark' ? 'light' : 'dark');
+		try {
+			localStorage.setItem(storageKey, root.dataset.theme);
+		} catch {}
+		syncTheme();
+	});
+
+	navToggle?.addEventListener('click', () => {
+		if (navMobile?.hasAttribute('hidden')) {
+			navToggle.setAttribute('aria-expanded', 'true');
+			navMobile.removeAttribute('hidden');
+			return;
+		}
+
+		closeMenu();
+	});
+
+	document.addEventListener('click', (event) => {
+		if (event.target instanceof Node && !lang?.contains(event.target)) {
+			lang?.removeAttribute('open');
+		}
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key.toLowerCase() === 'escape') {
+			lang?.removeAttribute('open');
+		}
+	});
+
+	navMobile?.addEventListener('click', (event) => {
+		if (event.target instanceof HTMLAnchorElement) {
+			closeMenu();
+		}
+	});
+</script>

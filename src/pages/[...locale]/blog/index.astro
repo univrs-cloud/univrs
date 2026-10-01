@@ -1,0 +1,58 @@
+---
+import PostCard from '../../../components/PostCard.astro';
+import { localePosts, postPath } from '../../../data/posts';
+import { ui } from '../../../data/ui';
+import Base from '../../../layouts/Base.astro';
+import { localeParams, localePath, locales, site, type Locale } from '../../../site';
+
+interface Props {
+	locale: Locale;
+}
+
+export const getStaticPaths = localeParams;
+
+const { locale } = Astro.props;
+const copy = ui[locale].blog;
+const posts = await localePosts(locale);
+const alternates = Object.fromEntries(locales.map((other) => [other, localePath(other, 'blog/')]));
+const pageUrl = new URL(localePath(locale, 'blog/'), Astro.site).href;
+const schema = [
+	{
+		'@type': 'Blog',
+		'@id': `${pageUrl}#blog`,
+		url: pageUrl,
+		name: `${site.name} ${copy.title}`,
+		description: copy.description,
+		inLanguage: locale,
+		publisher: { '@id': `${site.url}/#organization` },
+		blogPost: posts.map((post) => ({
+			'@type': 'BlogPosting',
+			headline: post.data.title,
+			url: new URL(postPath(post), Astro.site).href,
+			datePublished: post.data.pubDate.toISOString()
+		}))
+	}
+];
+---
+
+<Base locale={locale} title={copy.title} description={copy.description} alternates={alternates} schema={schema}>
+	<header class="page-intro">
+		<div class="wrap">
+			<span class="label">{site.name}</span>
+			<h1>{copy.title}</h1>
+			<hr class="spectrum">
+			<p class="lede">{copy.description}</p>
+		</div>
+	</header>
+	<div class="wrap">
+		{posts.length > 0 && (
+			<div class="post-feed">
+				{posts.map((post) => <PostCard post={post} />)}
+			</div>
+		)}
+		{posts.length === 0 && <p class="lede">{copy.empty}</p>}
+		<div class="feed-foot">
+			<a class="more" href={localePath(locale, 'rss.xml')}>{copy.feed} <span class="arw" aria-hidden="true">→</span></a>
+		</div>
+	</div>
+</Base>

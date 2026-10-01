@@ -1,0 +1,218 @@
+---
+import { Image } from 'astro:assets';
+import diagram from '../assets/micro-data-center.svg';
+import { home } from '../data/home';
+import { localePosts } from '../data/posts';
+import { ui } from '../data/ui';
+import Base from '../layouts/Base.astro';
+import { localePath, locales, site, type Locale } from '../site';
+import Icon from './Icon.astro';
+import PostCard from './PostCard.astro';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = home[locale];
+const strings = ui[locale];
+const posts = (await localePosts(locale)).slice(0, 3);
+const alternates = Object.fromEntries(locales.map((other) => [other, localePath(other)]));
+const pageUrl = new URL(localePath(locale), Astro.site).href;
+const schema = [
+	{
+		'@type': 'SoftwareApplication',
+		'@id': `${site.url}/#software`,
+		name: site.product,
+		description: copy.meta.description,
+		url: pageUrl,
+		applicationCategory: 'OperatingSystem',
+		operatingSystem: 'Debian',
+		license: site.license,
+		isAccessibleForFree: true,
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+		publisher: { '@id': `${site.url}/#organization` },
+		sameAs: [site.github, `${site.docs}/`]
+	},
+	{
+		'@type': 'WebPage',
+		'@id': `${pageUrl}#webpage`,
+		url: pageUrl,
+		name: copy.meta.title,
+		description: copy.meta.description,
+		inLanguage: locale,
+		isPartOf: { '@id': `${site.url}/#website` },
+		about: { '@id': `${site.url}/#software` }
+	},
+	{
+		'@type': 'FAQPage',
+		'@id': `${pageUrl}#faq`,
+		inLanguage: locale,
+		mainEntity: copy.faq.items.map(({ question, answer }) => ({
+			'@type': 'Question',
+			name: question,
+			acceptedAnswer: { '@type': 'Answer', text: answer }
+		}))
+	}
+];
+---
+
+<Base locale={locale} title={copy.meta.title} description={copy.meta.description} alternates={alternates} schema={schema}>
+	<section class="hero">
+		<div class="wrap">
+			<div class="hero-grid">
+				<div>
+					<span class="label">{copy.hero.label}</span>
+					<h1>
+						<span class="thin">{copy.hero.thin}</span>
+						<span class="heavy">{copy.hero.heavy}</span>
+					</h1>
+					<hr class="spectrum hero-line">
+					<p class="lede">{copy.hero.lede}</p>
+					<div class="btn-row">
+						<a class="btn" href={copy.hero.primary.href}>{copy.hero.primary.text} <span class="arw" aria-hidden="true">→</span></a>
+						<a class="btn btn--ghost" href={copy.hero.secondary.href}>{copy.hero.secondary.text}</a>
+					</div>
+				</div>
+				<figure class="hero-shot">
+					<Image src={diagram} alt={copy.hero.imageAlt} loading="eager" fetchpriority="high" />
+				</figure>
+			</div>
+			<dl class="plate">
+				{copy.hero.facts.map(({ term, value }) => (
+					<div>
+						<dt>{term}</dt>
+						<dd>{value}</dd>
+					</div>
+				))}
+			</dl>
+		</div>
+	</section>
+
+	<section class="bay" id="features">
+		<div class="wrap">
+			<header class="bay-head">
+				<span class="label">{copy.features.label}</span>
+				<h2>{copy.features.title}</h2>
+				<p class="lede">{copy.features.lede}</p>
+			</header>
+			<div class="caps">
+				{copy.features.items.map(({ icon, title, text }) => (
+					<article class="cap-card">
+						{icon && <Icon name={icon} />}
+						<h3>{title}</h3>
+						<p>{text}</p>
+					</article>
+				))}
+			</div>
+			<p class="caps-note">{copy.features.note}</p>
+		</div>
+	</section>
+
+	<section class="bay bay--tight" id="safety">
+		<div class="wrap">
+			<header class="bay-head">
+				<span class="label">{copy.safety.label}</span>
+				<h2>{copy.safety.title}</h2>
+				<p class="lede">{copy.safety.lede}</p>
+			</header>
+			<div class="gets">
+				{copy.safety.items.map(({ label, title, text, href }) => (
+					<article>
+						<span class="label">{label}</span>
+						<h3>{title}</h3>
+						<p>{text}</p>
+						{href && <a class="more" href={href}>{strings.inDocs} <span class="arw" aria-hidden="true">→</span><span class="sr-only">: {title}</span></a>}
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="bay bay--tight" id="platform">
+		<div class="wrap">
+			<header class="bay-head">
+				<span class="label">{copy.platform.label}</span>
+				<h2>{copy.platform.title}</h2>
+				<p class="lede">{copy.platform.lede}</p>
+			</header>
+			<div class="why">
+				{copy.platform.items.map(({ title, text, href }) => (
+					<article>
+						<h3>{title}</h3>
+						<p>{text}</p>
+						{href && <a class="more" href={href}>{strings.inDocs} <span class="arw" aria-hidden="true">→</span><span class="sr-only">: {title}</span></a>}
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="bay bay--tight" id="source">
+		<div class="wrap">
+			<header class="bay-head">
+				<span class="label">{copy.source.label}</span>
+				<h2>{copy.source.title}</h2>
+				<p class="lede">{copy.source.lede}</p>
+			</header>
+			<div class="caps">
+				{copy.source.items.map(({ title, text, href }) => (
+					<a class="cap-card" href={href}>
+						<h3 class="mono">{title}</h3>
+						<p>{text}</p>
+					</a>
+				))}
+				<a class="cap-card" href={copy.source.action.href}>
+					<h3>{copy.source.action.text} <span class="arw" aria-hidden="true">→</span></h3>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="bay bay--tight" id="faq">
+		<div class="wrap">
+			<header class="bay-head">
+				<span class="label">{copy.faq.label}</span>
+				<h2>{copy.faq.title}</h2>
+			</header>
+			<div class="faq">
+				{copy.faq.items.map(({ question, answer }) => (
+					<details>
+						<summary><h3>{question}</h3></summary>
+						<div class="ans"><p>{answer}</p></div>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{posts.length > 0 && (
+		<section class="bay bay--tight" id="blog">
+			<div class="wrap">
+				<header class="bay-head">
+					<span class="label">{strings.blog.label}</span>
+					<h2>{strings.blog.latest}</h2>
+				</header>
+				<div class="post-feed">
+					{posts.map((post) => <PostCard post={post} heading="h3" />)}
+				</div>
+				<div class="feed-foot">
+					<a class="more" href={localePath(locale, 'blog/')}>{strings.blog.all} <span class="arw" aria-hidden="true">→</span></a>
+				</div>
+			</div>
+		</section>
+	)}
+
+	<section class="bay--tight">
+		<div class="wrap">
+			<div class="close">
+				<h2>{copy.close.title}</h2>
+				<p>{copy.close.text}</p>
+				<div class="btn-row">
+					<a class="btn" href={copy.close.primary.href}>{copy.close.primary.text} <span class="arw" aria-hidden="true">→</span></a>
+					<a class="btn btn--ghost" href={copy.close.secondary.href}>{copy.close.secondary.text}</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</Base>

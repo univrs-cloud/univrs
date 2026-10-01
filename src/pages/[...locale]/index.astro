@@ -1,0 +1,14 @@
+---
+import Home from '../../components/Home.astro';
+import { localeParams, type Locale } from '../../site';
+
+interface Props {
+	locale: Locale;
+}
+
+export const getStaticPaths = localeParams;
+
+const { locale } = Astro.props;
+---
+
+<Home locale={locale} />

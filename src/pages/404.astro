@@ -1,0 +1,19 @@
+---
+import { ui } from '../data/ui';
+import Base from '../layouts/Base.astro';
+import { defaultLocale, localePath } from '../site';
+
+const copy = ui[defaultLocale].notFound;
+---
+
+<Base locale={defaultLocale} title={copy.title} description={copy.text} noindex>
+	<div class="page-intro page-intro--error">
+		<div class="wrap">
+			<span class="label">{copy.label}</span>
+			<h1>{copy.title}</h1>
+			<hr class="spectrum">
+			<p class="lede">{copy.text}</p>
+			<a class="btn" href={localePath(defaultLocale)}>{copy.home} <span class="arw" aria-hidden="true">→</span></a>
+		</div>
+	</div>
+</Base>

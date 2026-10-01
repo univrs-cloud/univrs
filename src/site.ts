@@ -1,0 +1,38 @@
+export const locales = ['en', 'ro'] as const;
+
+export type Locale = (typeof locales)[number];
+
+export const defaultLocale: Locale = 'en';
+
+const prefixes: Record<Locale, string> = {
+	en: '',
+	ro: '/ro'
+};
+
+export const ogLocales: Record<Locale, string> = {
+	en: 'en_US',
+	ro: 'ro_RO'
+};
+
+export const localePath = (locale: Locale, path = '') => {
+	return `${prefixes[locale]}/${path}`;
+};
+
+export const localeParams = () => {
+	return locales.map((locale) => ({
+		params: { locale: prefixes[locale].slice(1) || undefined },
+		props: { locale }
+	}));
+};
+
+export const site = {
+	name: 'univrs',
+	product: 'virgoOS',
+	url: 'https://univrs.cloud',
+	docs: 'https://docs.univrs.cloud',
+	github: 'https://github.com/univrs-cloud',
+	fleet: 'https://fleet.univrs.cloud',
+	x: 'https://x.com/univrs_cloud',
+	xHandle: '@univrs_cloud',
+	license: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
+};

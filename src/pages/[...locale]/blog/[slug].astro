@@ -1,0 +1,92 @@
+---
+import { render } from 'astro:content';
+import { allPosts, formatDate, postAlternates, postImagePath, postLocale, postMarkdownPath, postPath, postSlug, type Post } from '../../../data/posts';
+import { ui } from '../../../data/ui';
+import Base from '../../../layouts/Base.astro';
+import { localePath, site } from '../../../site';
+
+interface Props {
+	post: Post;
+}
+
+export const getStaticPaths = async () => {
+	const posts = await allPosts();
+
+	return posts.map((post) => ({
+		params: { locale: localePath(postLocale(post)).slice(1, -1) || undefined, slug: postSlug(post) },
+		props: { post }
+	}));
+};
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const locale = postLocale(post);
+const copy = ui[locale].blog;
+const { title, description, pubDate, updatedDate, tags } = post.data;
+const alternates = await postAlternates(post);
+const pageUrl = new URL(postPath(post), Astro.site).href;
+const blogUrl = new URL(localePath(locale, 'blog/'), Astro.site).href;
+const schema = [
+	{
+		'@type': 'BlogPosting',
+		'@id': `${pageUrl}#post`,
+		headline: title,
+		description,
+		url: pageUrl,
+		mainEntityOfPage: pageUrl,
+		inLanguage: locale,
+		datePublished: pubDate.toISOString(),
+		dateModified: (updatedDate ?? pubDate).toISOString(),
+		image: new URL(postImagePath(post), Astro.site).href,
+		keywords: tags,
+		author: { '@id': `${site.url}/#organization` },
+		publisher: { '@id': `${site.url}/#organization` }
+	},
+	{
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: site.name, item: new URL(localePath(locale), Astro.site).href },
+			{ '@type': 'ListItem', position: 2, name: copy.title, item: blogUrl },
+			{ '@type': 'ListItem', position: 3, name: title, item: pageUrl }
+		]
+	}
+];
+---
+
+<Base
+	locale={locale}
+	title={title}
+	description={description}
+	alternates={alternates}
+	image={postImagePath(post)}
+	type="article"
+	published={pubDate}
+	modified={updatedDate}
+	markdown={postMarkdownPath(post)}
+	schema={schema}
+>
+	<article>
+		<header class="post-head">
+			<div class="wrap wrap--reading">
+				<span class="label">
+					<a href={localePath(locale, 'blog/')}>{copy.label}</a> · <time datetime={pubDate.toISOString()}>{formatDate(pubDate, locale)}</time>
+					{updatedDate && <> · {copy.updated} <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate, locale)}</time></>}
+				</span>
+				<h1>{title}</h1>
+				<p class="lede">{description}</p>
+				<hr class="spectrum">
+			</div>
+		</header>
+		<div class="wrap wrap--reading">
+			<div class="post-content">
+				<Content />
+			</div>
+			<footer class="post-foot">
+				<ul class="post-tags">
+					{tags.map((tag) => <li class="chip">{tag}</li>)}
+				</ul>
+				<a class="more" href={localePath(locale, 'blog/')}><span class="arw" aria-hidden="true">←</span> {copy.back}</a>
+			</footer>
+		</div>
+	</article>
+</Base>

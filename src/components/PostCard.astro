@@ -1,0 +1,19 @@
+---
+import { formatDate, postLocale, postPath, type Post } from '../data/posts';
+import { ui } from '../data/ui';
+
+interface Props {
+	post: Post;
+	heading?: 'h2' | 'h3';
+}
+
+const { post, heading: Heading = 'h2' } = Astro.props;
+const locale = postLocale(post);
+---
+
+<a class="post-card" href={postPath(post)}>
+	<time class="label" datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate, locale)}</time>
+	<Heading>{post.data.title}</Heading>
+	<p>{post.data.description}</p>
+	<span class="more">{ui[locale].blog.read} <span class="arw" aria-hidden="true">→</span></span>
+</a>

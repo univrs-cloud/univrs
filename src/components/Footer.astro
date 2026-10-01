@@ -1,0 +1,25 @@
+---
+import { ui } from '../data/ui';
+import { localePath, site, type Locale } from '../site';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = ui[locale];
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+	<div class="wrap foot-in">
+		<small>{site.name} © {year} · {copy.footer.tagline}</small>
+		<div class="foot-right">
+			<a href={`${site.docs}/`}>{copy.nav.docs}</a>
+			<a href={localePath(locale, 'blog/')}>{copy.nav.blog}</a>
+			<a href={localePath(locale, 'rss.xml')}>RSS</a>
+			<a href={site.github} rel="me noopener">GitHub</a>
+			<a href={site.x} rel="me noopener">X</a>
+		</div>
+	</div>
+</footer>
