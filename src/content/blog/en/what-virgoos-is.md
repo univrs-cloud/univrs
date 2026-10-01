@@ -37,7 +37,7 @@ Once a month the pool reads all of its data back, checks it against its checksum
 
 ## Apps from the App center
 
-Three core apps are installed during setup: Traefik, which routes requests to the apps, Authelia, which owns the accounts, and a terminal in the browser.
+Three core apps are installed during setup: Traefik, which routes requests to the apps and handles their SSL certificates, Authelia, which owns the accounts, and a terminal in the browser.
 
 Everything else comes from the App center:
 

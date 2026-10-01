@@ -37,7 +37,7 @@ export const en: HomeCopy = {
 			{ icon: 'clock', title: 'Mac backups', text: 'Time machines are backup destinations for the Time Machine app on a Mac, each with its own capacity.' },
 			{ icon: 'code', title: 'Developer tools', text: 'Gitea with its CI runner, Plausible web analytics, a container dashboard and a terminal in the browser.' }
 		],
-		note: 'Nothing is installed unless you choose it. Three core apps are always present: Traefik routes requests to the apps, Authelia owns the accounts, and Terminal opens a shell from the browser.'
+		note: 'Nothing is installed unless you choose it. Three core apps are always present: Traefik routes requests to the apps and handles their SSL certificates, Authelia owns the accounts, and Terminal opens a shell from the browser.'
 	},
 	safety: {
 		label: 'Data safety',
