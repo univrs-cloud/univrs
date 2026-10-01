@@ -1,0 +1,14 @@
+---
+import { actionIcon } from '../site';
+import BookIcon from './BookIcon.astro';
+import DownloadIcon from './DownloadIcon.astro';
+
+interface Props {
+	href: string;
+}
+
+const icon = actionIcon(Astro.props.href);
+---
+
+{icon?.toLowerCase() === 'book' && <BookIcon size={16} />}
+{icon?.toLowerCase() === 'download' && <DownloadIcon size={16} />}

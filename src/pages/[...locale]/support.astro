@@ -1,8 +1,9 @@
 ---
+import ActionIcon from '../../components/ActionIcon.astro';
 import Contact from '../../components/Contact.astro';
 import { support } from '../../data/support';
 import Base from '../../layouts/Base.astro';
-import { localeParams, localePath, locales, site, type Locale } from '../../site';
+import { actionIcon, localeParams, localePath, locales, site, type Locale } from '../../site';
 
 interface Props {
 	locale: Locale;
@@ -57,7 +58,7 @@ const schema = [
 						<ul>
 							{plan.items.map((item) => <li>{item}</li>)}
 						</ul>
-						<a class:list={['btn', { 'btn--ghost': index === 0 }]} href={plan.action.href}>{plan.action.text} <span class="arw" aria-hidden="true">→</span></a>
+						<a class:list={['btn', { 'btn--ghost': index === 0 }]} href={plan.action.href}><ActionIcon href={plan.action.href} />{plan.action.text}{!actionIcon(plan.action.href) && <span class="arw" aria-hidden="true">→</span>}</a>
 					</article>
 				))}
 			</div>

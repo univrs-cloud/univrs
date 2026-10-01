@@ -33,7 +33,14 @@ export const site = {
 	github: 'https://github.com/univrs-cloud',
 	download: 'https://github.com/univrs-cloud/virgo/releases/latest',
 	fleet: 'https://fleet.univrs.cloud',
-	x: 'https://x.com/univrs_cloud',
-	xHandle: '@univrs_cloud',
 	license: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
+};
+
+export const actionIcon = (href: string) => {
+	const leadsTo = (target: string) => href.toLowerCase().startsWith(target.toLowerCase());
+	if (leadsTo(site.docs)) {
+		return 'book';
+	}
+
+	return (leadsTo(site.download) ? 'download' : null);
 };

@@ -388,6 +388,29 @@ a {
 	.lang-code {
 		display: none;
 	}
+
+	.lang summary {
+		gap: 0.3rem;
+		padding-inline: 0.4rem;
+	}
+
+	.nav-in {
+		gap: 0.8rem;
+	}
+
+	.nav-tools {
+		gap: 0.5rem;
+	}
+
+	.nav-divider {
+		display: none;
+	}
+}
+
+@media (max-width: 340px) {
+	.lang-caret {
+		display: none;
+	}
 }
 
 .nav-icon {

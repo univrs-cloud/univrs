@@ -5,7 +5,8 @@ import { home, linkedHtml } from '../data/home';
 import { localePosts } from '../data/posts';
 import { ui } from '../data/ui';
 import Base from '../layouts/Base.astro';
-import { localePath, locales, site, type Locale } from '../site';
+import { actionIcon, localePath, locales, site, type Locale } from '../site';
+import ActionIcon from './ActionIcon.astro';
 import Contact from './Contact.astro';
 import Icon from './Icon.astro';
 import PostCard from './PostCard.astro';
@@ -71,8 +72,8 @@ const schema = [
 					<hr class="spectrum hero-line">
 					<p class="lede">{copy.hero.lede}</p>
 					<div class="btn-row">
-						<a class="btn" href={copy.hero.primary.href}>{copy.hero.primary.text} <span class="arw" aria-hidden="true">→</span></a>
-						<a class="btn btn--ghost" href={copy.hero.secondary.href}>{copy.hero.secondary.text}</a>
+						<a class="btn" href={copy.hero.primary.href}><ActionIcon href={copy.hero.primary.href} />{copy.hero.primary.text}{!actionIcon(copy.hero.primary.href) && <span class="arw" aria-hidden="true">→</span>}</a>
+						<a class="btn btn--ghost" href={copy.hero.secondary.href}><ActionIcon href={copy.hero.secondary.href} />{copy.hero.secondary.text}</a>
 					</div>
 				</div>
 				<figure class="hero-shot">
@@ -191,8 +192,8 @@ const schema = [
 				<h2>{copy.close.title}</h2>
 				<p>{copy.close.text}</p>
 				<div class="btn-row">
-					<a class="btn" href={copy.close.primary.href}>{copy.close.primary.text} <span class="arw" aria-hidden="true">→</span></a>
-					<a class="btn btn--ghost" href={copy.close.secondary.href}>{copy.close.secondary.text}</a>
+					<a class="btn" href={copy.close.primary.href}><ActionIcon href={copy.close.primary.href} />{copy.close.primary.text}{!actionIcon(copy.close.primary.href) && <span class="arw" aria-hidden="true">→</span>}</a>
+					<a class="btn btn--ghost" href={copy.close.secondary.href}><ActionIcon href={copy.close.secondary.href} />{copy.close.secondary.text}</a>
 				</div>
 			</div>
 		</div>
