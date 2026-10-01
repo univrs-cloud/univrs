@@ -13,14 +13,16 @@ interface Props {
 	note?: string;
 }
 
-const { locale, id = 'contact', note } = Astro.props;
+const { locale, id = 'contact' } = Astro.props;
 const copy = ui[locale].contact;
 const label = Astro.props.label ?? copy.label;
 const title = Astro.props.title ?? copy.title;
 const lede = Astro.props.lede ?? copy.lede;
 const message = Astro.props.message ?? copy.message;
 const send = Astro.props.send ?? copy.send;
-const messageLimit = 5000 - (note ? note.length + 2 : 0);
+const note = Astro.props.note ?? copy.note;
+const closingLimit = note.length + 1 + copy.reply.length + 1 + 254;
+const messageLimit = 5000 - closingLimit - 2;
 ---
 
 <section class="bay bay--tight" id={id}>
@@ -36,6 +38,7 @@ const messageLimit = 5000 - (note ? note.length + 2 : 0);
 			method="post"
 			novalidate
 			data-note={note}
+			data-reply={copy.reply}
 			data-error-name={copy.errors.name}
 			data-error-email={copy.errors.email}
 			data-error-message={copy.errors.message}
@@ -107,7 +110,8 @@ const messageLimit = 5000 - (note ? note.length + 2 : 0);
 		}
 
 		const values = Object.fromEntries(new FormData(form).entries());
-		const message = [String(values.message ?? '').trim(), form.dataset.note].filter(Boolean).join('\n\n');
+		const closing = `${form.dataset.note} ${form.dataset.reply} ${String(values.email ?? '').trim()}`;
+		const message = [String(values.message ?? '').trim(), closing].join('\n\n');
 		const invalid = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]')].find((input) => !input.value.trim() || !input.checkValidity());
 		if (invalid) {
 			fail(errorKey(400, invalid.name), invalid.name);

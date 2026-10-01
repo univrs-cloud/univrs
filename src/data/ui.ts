@@ -33,6 +33,8 @@ export interface UiCopy {
 		sending: string;
 		sentTitle: string;
 		sentText: string;
+		note: string;
+		reply: string;
 		errors: { name: string; email: string; message: string; limit: string; failed: string };
 	};
 	notFound: { label: string; title: string; text: string; home: string };
@@ -82,6 +84,8 @@ export const ui: Record<Locale, UiCopy> = {
 			sending: 'Sending…',
 			sentTitle: 'Thank you, the message was sent.',
 			sentText: 'We will answer at the email address you gave.',
+			note: 'This is a general message, sent from the contact form on the home page.',
+			reply: 'Reply to',
 			errors: {
 				name: 'Enter your name.',
 				email: 'Enter a valid email address.',
@@ -142,6 +146,8 @@ export const ui: Record<Locale, UiCopy> = {
 			sending: 'Se trimite…',
 			sentTitle: 'Vă mulțumim, mesajul a fost trimis.',
 			sentText: 'Vă răspundem la adresa de e-mail pe care ați scris-o.',
+			note: 'Acesta este un mesaj general, trimis din formularul de contact de pe prima pagină.',
+			reply: 'Răspundeți la',
 			errors: {
 				name: 'Scrieți numele dumneavoastră.',
 				email: 'Scrieți o adresă de e-mail validă.',
