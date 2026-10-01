@@ -29,7 +29,7 @@ Pool-ul își păstrează și propriul istoric. Nodul face câte un snapshot pen
 
 Datorită acestui istoric, un fișier șters sau criptat poate fi recuperat. Indexerul cataloghează din oră în oră fișierele din snapshoturi, așa că puteți căuta versiuni mai vechi sau șterse ale unui fișier din snapshoturile unei aplicații.
 
-O dată pe lună, pool-ul își citește toate datele, le verifică după sumele de control și repară tot ce nu corespunde.
+O dată pe lună, pool-ul își citește toate datele, le verifică după sumele de control și repară tot ce nu corespunde. La finalul verificării, nodul trimite și un raport pe email, dacă emailul este configurat.
 
 ## Aplicații din App center
 

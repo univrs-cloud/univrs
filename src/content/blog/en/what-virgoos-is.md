@@ -29,7 +29,7 @@ The pool also keeps its own history. The node takes a snapshot for each of the l
 
 That history is what makes a deleted or encrypted file recoverable. The indexer catalogues the files in the snapshots every hour, so you can search for earlier and deleted versions of a file from an app's snapshots.
 
-Once a month the pool reads all of its data back, checks it against its checksums and repairs anything that does not match.
+Once a month the pool reads all of its data back, checks it against its checksums and repairs anything that does not match. When the check finishes, the node also sends a report by email, if email is configured.
 
 ## Apps from the App center
 
