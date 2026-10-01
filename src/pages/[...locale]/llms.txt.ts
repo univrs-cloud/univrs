@@ -22,7 +22,11 @@ export const GET: APIRoute<{ locale: Locale }> = async ({ props, site: origin })
 			`- [llms-full.txt](${absolute(localePath(locale, 'llms-full.txt'))}): ${copy.meta.description}`
 		].join('\n'),
 		`## ${ui[locale].nav.docs}`,
-		[...copy.safety.items, ...copy.platform.items].map(({ title, text, href }) => `- [${title}](${href}): ${text}`).join('\n'),
+		[
+			`- [llms.txt](${site.docs}/llms.txt)`,
+			`- [llms-full.txt](${site.docs}/llms-full.txt)`,
+			...[...copy.safety.items, ...copy.platform.items].map(({ title, text, href }) => `- [${title}](${href}): ${text}`)
+		].join('\n'),
 		`## ${copy.source.label}`,
 		copy.source.items.map(({ title, text, href }) => `- [${title}](${href}): ${text}`).join('\n'),
 		`## ${ui[locale].blog.title}`,

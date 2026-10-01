@@ -40,7 +40,7 @@ draft: false
 
 The build generates these alongside the pages:
 
-- `sitemap-index.xml` and `robots.txt`.
+- `sitemap-index.xml` and `robots.txt`, which allows every crawler and states that the content may be used for search, as AI input and for AI training.
 - `rss.xml` and `ro/rss.xml`.
 - `llms.txt` and `llms-full.txt`, with Romanian versions under `/ro/`. They are written from the same copy as the home page and from the posts.
 - A Markdown version of every post, at the post's address with `.md` in place of the trailing slash.
