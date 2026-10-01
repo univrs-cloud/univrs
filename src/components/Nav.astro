@@ -19,7 +19,8 @@ const links = [
 	{ href: `${homePath}#safety`, text: copy.nav.safety },
 	{ href: `${homePath}#platform`, text: copy.nav.platform },
 	{ href: blogPath, text: copy.nav.blog, current: Astro.url.pathname.startsWith(blogPath) },
-	{ href: `${site.docs}/`, text: copy.nav.docs }
+	{ href: `${site.docs}/`, text: copy.nav.docs },
+	{ href: `${homePath}#contact`, text: copy.nav.contact }
 ];
 ---
 

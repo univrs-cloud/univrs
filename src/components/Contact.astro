@@ -1,0 +1,124 @@
+---
+import { ui } from '../data/ui';
+import { site, type Locale } from '../site';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = ui[locale].contact;
+---
+
+<section class="bay bay--tight" id="contact">
+	<div class="wrap">
+		<header class="bay-head">
+			<span class="label">{copy.label}</span>
+			<h2>{copy.title}</h2>
+			<p class="lede">{copy.lede}</p>
+		</header>
+		<form
+			class="contact"
+			action={`${site.fleet}/messages`}
+			method="post"
+			novalidate
+			data-error-name={copy.errors.name}
+			data-error-email={copy.errors.email}
+			data-error-message={copy.errors.message}
+			data-error-limit={copy.errors.limit}
+			data-error-failed={copy.errors.failed}
+		>
+			<div class="contact-fields">
+				<label class="contact-field">
+					<span>{copy.name}</span>
+					<input type="text" name="name" autocomplete="name" maxlength="100" required>
+				</label>
+				<label class="contact-field">
+					<span>{copy.email}</span>
+					<input type="email" name="email" autocomplete="email" maxlength="254" required>
+				</label>
+				<label class="contact-field contact-field--wide">
+					<span>{copy.message}</span>
+					<textarea name="message" rows="6" maxlength="5000" required></textarea>
+				</label>
+				<label class="contact-trap" aria-hidden="true">
+					<span>Website</span>
+					<input type="text" name="website" tabindex="-1" autocomplete="off">
+				</label>
+			</div>
+			<div class="contact-foot">
+				<button class="btn" type="submit">
+					<span class="contact-idle">{copy.send} <span class="arw" aria-hidden="true">→</span></span>
+					<span class="contact-busy">{copy.sending}</span>
+				</button>
+				<p class="contact-error" role="alert"></p>
+			</div>
+			<div class="contact-done" role="status">
+				<strong>{copy.sentTitle}</strong>
+				<p>{copy.sentText}</p>
+			</div>
+		</form>
+	</div>
+</section>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>('.contact');
+	const error = form?.querySelector('.contact-error');
+
+	const fail = (key: string, field?: string) => {
+		if (!form || !error) {
+			return;
+		}
+
+		error.textContent = form.dataset[key] ?? form.dataset.errorFailed ?? '';
+		form.querySelectorAll('[aria-invalid]').forEach((input) => input.removeAttribute('aria-invalid'));
+		const input = (field ? form.querySelector<HTMLElement>(`[name="${field}"]`) : null);
+		input?.setAttribute('aria-invalid', 'true');
+		input?.focus();
+	};
+
+	const errorKey = (status: number, field: string) => {
+		const fields: Record<string, string> = { name: 'errorName', email: 'errorEmail', message: 'errorMessage' };
+		if (status === 429) {
+			return 'errorLimit';
+		}
+
+		return fields[field.toLowerCase()] ?? 'errorFailed';
+	};
+
+	form?.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		if (!error || form.classList.contains('is-loading')) {
+			return;
+		}
+
+		const values = Object.fromEntries(new FormData(form).entries());
+		const invalid = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]')].find((input) => !input.value.trim() || !input.checkValidity());
+		if (invalid) {
+			fail(errorKey(400, invalid.name), invalid.name);
+			return;
+		}
+
+		error.textContent = '';
+		form.classList.add('is-loading');
+		try {
+			const response = await fetch(form.action, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ topic: 'contact', ...values })
+			});
+			const result = await response.json().catch(() => ({}));
+			if (response.ok && String(result.status).toLowerCase() === 'succeeded') {
+				form.classList.add('is-sent');
+				form.querySelector<HTMLElement>('.contact-done')?.focus();
+				return;
+			}
+
+			fail(errorKey(response.status, String(result.field ?? '')), result.field);
+		} catch {
+			fail('errorFailed');
+		} finally {
+			form.classList.remove('is-loading');
+		}
+	});
+</script>

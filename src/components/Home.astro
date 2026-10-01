@@ -6,6 +6,7 @@ import { localePosts } from '../data/posts';
 import { ui } from '../data/ui';
 import Base from '../layouts/Base.astro';
 import { localePath, locales, site, type Locale } from '../site';
+import Contact from './Contact.astro';
 import Icon from './Icon.astro';
 import PostCard from './PostCard.astro';
 
@@ -181,6 +182,8 @@ const schema = [
 			</div>
 		</section>
 	)}
+
+	<Contact locale={locale} />
 
 	<section class="bay--tight">
 		<div class="wrap">
