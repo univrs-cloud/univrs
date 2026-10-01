@@ -38,9 +38,6 @@ export const homeMarkdown = (locale: Locale) => {
 		`## ${copy.platform.label}: ${copy.platform.title}`,
 		copy.platform.lede,
 		cards(copy.platform.items),
-		`## ${copy.source.label}: ${copy.source.title}`,
-		copy.source.lede,
-		cards(copy.source.items),
 		`## ${copy.faq.label}`,
 		copy.faq.items.map(({ question, answer }) => `### ${question}\n\n${answer}`).join('\n\n')
 	].join('\n\n');

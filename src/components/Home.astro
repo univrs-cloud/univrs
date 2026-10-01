@@ -148,27 +148,6 @@ const schema = [
 		</div>
 	</section>
 
-	<section class="bay bay--tight" id="source">
-		<div class="wrap">
-			<header class="bay-head">
-				<span class="label">{copy.source.label}</span>
-				<h2>{copy.source.title}</h2>
-				<p class="lede">{copy.source.lede}</p>
-			</header>
-			<div class="caps">
-				{copy.source.items.map(({ title, text, href }) => (
-					<a class="cap-card" href={href}>
-						<h3 class="mono">{title}</h3>
-						<p>{text}</p>
-					</a>
-				))}
-				<a class="cap-card" href={copy.source.action.href}>
-					<h3>{copy.source.action.text} <span class="arw" aria-hidden="true">→</span></h3>
-				</a>
-			</div>
-		</div>
-	</section>
-
 	<section class="bay bay--tight" id="faq">
 		<div class="wrap">
 			<header class="bay-head">

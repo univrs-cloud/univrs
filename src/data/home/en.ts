@@ -119,21 +119,6 @@ export const en: HomeCopy = {
 			}
 		]
 	},
-	source: {
-		label: 'Open source',
-		title: 'Every part is public.',
-		lede: 'virgoOS is released under the GNU General Public License, version 2. The system is split into small repositories, each with one job.',
-		items: [
-			{ title: 'virgo', text: 'Builds the virgoOS installer images.', href: `${site.github}/virgo` },
-			{ title: 'virgo-api', text: 'The service that runs on every node, and the virgo command.', href: `${site.github}/virgo-api` },
-			{ title: 'virgo-ui', text: 'The web interface: setup, the Dashboard and every management page.', href: `${site.github}/virgo-ui` },
-			{ title: 'virgo-fleet', text: 'Fleet management for nodes, wherever they are.', href: `${site.github}/virgo-fleet` },
-			{ title: 'virgo-apps', text: 'The templates behind the App center.', href: `${site.github}/virgo-apps` },
-			{ title: 'virgo-ups', text: 'UPS monitoring and automatic power-off.', href: `${site.github}/virgo-ups` },
-			{ title: 'virgo-packages', text: 'The APT repository with the virgoOS packages.', href: `${site.github}/virgo-packages` }
-		],
-		action: { text: 'univrs-cloud on GitHub', href: site.github }
-	},
 	faq: {
 		label: 'Questions',
 		title: 'What people ask before they install it.',

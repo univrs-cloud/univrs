@@ -37,7 +37,6 @@ export interface HomeCopy {
 	features: Section & { items: Card[]; note: string };
 	safety: Section & { items: Card[] };
 	platform: Section & { items: Card[] };
-	source: Section & { items: Card[]; action: Action };
 	faq: { label: string; title: string; items: { question: string; answer: string }[] };
 	close: { title: string; text: string; primary: Action; secondary: Action };
 }

@@ -119,21 +119,6 @@ export const ro: HomeCopy = {
 			}
 		]
 	},
-	source: {
-		label: 'Open source',
-		title: 'Fiecare componentă este publică.',
-		lede: 'virgoOS este publicat sub licența GNU General Public License, versiunea 2. Sistemul este împărțit în depozite mici, fiecare cu un singur rol.',
-		items: [
-			{ title: 'virgo', text: 'Construiește imaginile de instalare virgoOS.', href: `${site.github}/virgo` },
-			{ title: 'virgo-api', text: 'Serviciul care rulează pe fiecare nod și comanda virgo.', href: `${site.github}/virgo-api` },
-			{ title: 'virgo-ui', text: 'Interfața web: configurarea, pagina Dashboard și toate paginile de administrare.', href: `${site.github}/virgo-ui` },
-			{ title: 'virgo-fleet', text: 'Administrarea nodurilor prin fleet, oriunde s-ar afla.', href: `${site.github}/virgo-fleet` },
-			{ title: 'virgo-apps', text: 'Șabloanele din spatele App center.', href: `${site.github}/virgo-apps` },
-			{ title: 'virgo-ups', text: 'Monitorizarea UPS-ului și oprirea automată.', href: `${site.github}/virgo-ups` },
-			{ title: 'virgo-packages', text: 'Depozitul APT cu pachetele virgoOS.', href: `${site.github}/virgo-packages` }
-		],
-		action: { text: 'univrs-cloud pe GitHub', href: site.github }
-	},
 	faq: {
 		label: 'Întrebări',
 		title: 'Ce se întreabă înainte de instalare.',

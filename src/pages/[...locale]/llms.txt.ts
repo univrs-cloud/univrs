@@ -27,8 +27,6 @@ export const GET: APIRoute<{ locale: Locale }> = async ({ props, site: origin })
 			`- [llms-full.txt](${site.docs}/llms-full.txt)`,
 			...[...copy.safety.items, ...copy.platform.items].map(({ title, text, href }) => `- [${title}](${href}): ${text}`)
 		].join('\n'),
-		`## ${copy.source.label}`,
-		copy.source.items.map(({ title, text, href }) => `- [${title}](${href}): ${text}`).join('\n'),
 		`## ${ui[locale].blog.title}`,
 		posts.map((post) => `- [${post.data.title}](${absolute(postMarkdownPath(post))}): ${post.data.description}`).join('\n')
 	].join('\n\n');

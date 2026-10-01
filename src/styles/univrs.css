@@ -808,13 +808,6 @@ a {
 	line-height: 1.25;
 }
 
-.cap-card h3.mono {
-	font-family: var(--f-mono);
-	font-size: 0.92rem;
-	font-weight: 600;
-	letter-spacing: 0;
-}
-
 .cap-card p {
 	font-size: 0.93rem;
 	color: var(--ink-2);
