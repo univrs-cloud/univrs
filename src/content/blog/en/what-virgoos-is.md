@@ -27,11 +27,7 @@ The pool also keeps its own history. The node takes a snapshot for each of the l
 
 ![Nextcloud's snapshots on a timeline, with 76 restore points kept by the hourly, daily, monthly and yearly schedules.](../../../assets/blog/app-snapshots.png)
 
-That history is what makes a deleted or encrypted file recoverable. The indexer catalogues the files in the snapshots every hour, so you can search for earlier and deleted versions of a file from an app's snapshots, or from a terminal:
-
-```sh
-virgo indexer --help
-```
+That history is what makes a deleted or encrypted file recoverable. The indexer catalogues the files in the snapshots every hour, so you can search for earlier and deleted versions of a file from an app's snapshots.
 
 Once a month the pool reads all of its data back, checks it against its checksums and repairs anything that does not match.
 

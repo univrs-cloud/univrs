@@ -27,11 +27,7 @@ Pool-ul își păstrează și propriul istoric. Nodul face câte un snapshot pen
 
 ![Snapshoturile aplicației Nextcloud pe o axă a timpului, cu 76 de puncte de restaurare păstrate orar, zilnic, lunar și anual.](../../../assets/blog/app-snapshots.png)
 
-Datorită acestui istoric, un fișier șters sau criptat poate fi recuperat. Indexerul cataloghează din oră în oră fișierele din snapshoturi, așa că puteți căuta versiuni mai vechi sau șterse ale unui fișier din snapshoturile unei aplicații sau dintr-un terminal:
-
-```sh
-virgo indexer --help
-```
+Datorită acestui istoric, un fișier șters sau criptat poate fi recuperat. Indexerul cataloghează din oră în oră fișierele din snapshoturi, așa că puteți căuta versiuni mai vechi sau șterse ale unui fișier din snapshoturile unei aplicații.
 
 O dată pe lună, pool-ul își citește toate datele, le verifică după sumele de control și repară tot ce nu corespunde.
 
