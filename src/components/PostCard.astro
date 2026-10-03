@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { formatDate, postLocale, postPath, type Post } from '../data/posts';
+import { formatDate, postLocale, postPath, postSlug, type Post } from '../data/posts';
 import { ui } from '../data/ui';
 
 interface Props {
@@ -10,16 +10,17 @@ interface Props {
 
 const { post, heading: Heading = 'h2' } = Astro.props;
 const locale = postLocale(post);
+const slug = postSlug(post);
 ---
 
 <a class="post-card" href={postPath(post)}>
 	{post.data.image && (
-		<span class="post-card-image">
+		<span class="post-card-image" style={`view-transition-name: post-image-${slug}`}>
 			<Image src={post.data.image} alt={post.data.imageAlt} width={760} />
 		</span>
 	)}
 	<time class="label" datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate, locale)}</time>
-	<Heading>{post.data.title}</Heading>
+	<Heading style={`view-transition-name: post-title-${slug}`}>{post.data.title}</Heading>
 	<p>{post.data.description}</p>
 	<span class="more">{ui[locale].blog.read} <span class="arw" aria-hidden="true">→</span></span>
 </a>

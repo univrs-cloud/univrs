@@ -22,6 +22,7 @@ export const getStaticPaths = async () => {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const locale = postLocale(post);
+const slug = postSlug(post);
 const copy = ui[locale].blog;
 const { title, description, pubDate, updatedDate, image, imageAlt, tags } = post.data;
 const shareImage = (image ? (await getImage({ src: image, width: 1200, height: 630, fit: 'cover', position: 'top', format: 'png' })).src : postImagePath(post));
@@ -74,14 +75,14 @@ const schema = [
 					<a href={localePath(locale, 'blog/')}>{copy.label}</a> · <time datetime={pubDate.toISOString()}>{formatDate(pubDate, locale)}</time>
 					{updatedDate && <> · {copy.updated} <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate, locale)}</time></>}
 				</span>
-				<h1>{title}</h1>
+				<h1 style={`view-transition-name: post-title-${slug}`}>{title}</h1>
 				<p class="lede">{description}</p>
 				<hr class="spectrum">
 			</div>
 		</header>
 		<div class="wrap wrap--reading">
 			{image && (
-				<figure class="post-image">
+				<figure class="post-image" style={`view-transition-name: post-image-${slug}`}>
 					<Image src={image} alt={imageAlt} widths={[720, 1440]} sizes="(max-width: 760px) 100vw, 720px" loading="eager" fetchpriority="high" />
 				</figure>
 			)}
