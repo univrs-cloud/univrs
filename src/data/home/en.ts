@@ -35,7 +35,7 @@ export const en: HomeCopy = {
 			{ icon: 'ban', logos: ['pi-hole'], title: 'Ad blocking', text: 'Pi-hole blocks ads and trackers at DNS level for every device on the network.' },
 			{ icon: 'share', title: 'Shared folders', text: 'Folders for the computers on the local network, open to the users you choose or to everyone as a guest.' },
 			{ icon: 'clock', title: 'Mac backups', text: 'Time machines are backup destinations for the Time Machine app on a Mac, each with its own capacity.' },
-			{ icon: 'code', logos: ['gitea', 'plausible', 'terminal'], title: 'Developer tools', text: 'Gitea with its CI runner, Plausible web analytics, a container dashboard and a terminal in the browser.' }
+			{ icon: 'code', logos: ['terminal', 'gitea', 'plausible'], title: 'Developer tools', text: 'Gitea with its CI runner, Plausible web analytics, a container dashboard and a terminal in the browser.' }
 		],
 		note: 'Nothing is installed unless you choose it. Three core apps are always present: Traefik routes requests to the apps and handles their SSL certificates, Authelia holds the node\'s accounts, and Terminal opens a shell from the browser.'
 	},
