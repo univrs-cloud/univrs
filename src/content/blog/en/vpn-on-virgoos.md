@@ -1,7 +1,7 @@
 ---
 title: 'Away from the office: the VPN on a virgoOS node'
 description: How the WireGuard VPN on a virgoOS node brings your folders and time machines with you, what it needs from your internet connection, and why it is WireGuard.
-pubDate: 2026-10-03
+pubDate: 2026-10-02
 image: ../../../assets/blog/vpn-paths-en.png
 imageAlt: A phone or laptop outside your network reaches the node in two ways, through the fleet to manage it, and through a WireGuard tunnel that enters your network at the router on UDP 51820 and reaches the node's folders, time machines and apps. Both paths are encrypted.
 tags:
