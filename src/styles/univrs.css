@@ -978,7 +978,7 @@ a {
 	color: var(--muted);
 }
 
-.faq details[open] summary::after {
+.faq details[open]:not(.is-closing) summary::after {
 	content: '−';
 }
 

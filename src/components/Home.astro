@@ -199,3 +199,36 @@ const schema = [
 		</div>
 	</section>
 </Base>
+
+<script>
+	const DURATION = 250;
+	const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+	document.querySelectorAll<HTMLDetailsElement>('.faq details').forEach((details) => {
+		const summary = details.querySelector('summary');
+		if (!summary) {
+			return;
+		}
+
+		let expanded = details.open;
+		let animation: Animation | null = null;
+
+		summary.addEventListener('click', (event) => {
+			event.preventDefault();
+			expanded = !expanded;
+			const start = details.offsetHeight;
+			animation?.cancel();
+			details.open = true;
+			details.classList.toggle('is-closing', !expanded);
+			const end = (expanded ? details.offsetHeight : summary.offsetHeight + details.offsetHeight - details.clientHeight);
+			details.style.overflow = 'hidden';
+			animation = details.animate({ height: [`${start}px`, `${end}px`] }, { duration: DURATION, easing: EASING });
+			animation.onfinish = () => {
+				details.open = expanded;
+				details.classList.remove('is-closing');
+				details.style.overflow = '';
+				animation = null;
+			};
+		});
+	});
+</script>
