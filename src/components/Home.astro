@@ -10,6 +10,7 @@ import ActionIcon from './ActionIcon.astro';
 import Contact from './Contact.astro';
 import Icon from './Icon.astro';
 import PostCard from './PostCard.astro';
+import SafetyArt from './SafetyArt.astro';
 
 interface Props {
 	locale: Locale;
@@ -19,6 +20,26 @@ const { locale } = Astro.props;
 const copy = home[locale];
 const strings = ui[locale];
 const posts = (await localePosts(locale)).slice(0, 3);
+const named = (files: Record<string, { default: ImageMetadata }>) => {
+	return Object.fromEntries(Object.entries(files).map(([path, file]) => [path.split('/').pop()!.split('.')[0], file.default]));
+};
+const logoImages = named(import.meta.glob<{ default: ImageMetadata }>('../assets/apps/*.svg', { eager: true }));
+const shotImages = named(import.meta.glob<{ default: ImageMetadata }>('../assets/platform/*.png', { eager: true }));
+const terminal = [
+	'Usage: virgo [options] [command]',
+	'',
+	'virgoOS CLI',
+	'',
+	'Options:',
+	'  -V, --version   output the version number',
+	'  -h, --help      display help for command',
+	'',
+	'Commands:',
+	'  network         Network settings',
+	'  apps            Installable applications',
+	'  indexer         Index and search files in ZFS snapshots',
+	'  help [command]  display help for command'
+];
 const alternates = Object.fromEntries(locales.map((other) => [other, localePath(other)]));
 const pageUrl = new URL(localePath(locale), Astro.site).href;
 const schema = [
@@ -99,9 +120,16 @@ const schema = [
 				<p class="lede">{copy.features.lede}</p>
 			</header>
 			<div class="caps">
-				{copy.features.items.map(({ icon, title, text }) => (
+				{copy.features.items.map(({ icon, logos, title, text }) => (
 					<article class="cap-card">
-						{icon && <Icon name={icon} />}
+						<div class="cap-head">
+							{icon && <Icon name={icon} />}
+							{logos && (
+								<span class="cap-logos">
+									{logos.map((logo) => <Image src={logoImages[logo]} alt="" width={44} height={44} />)}
+								</span>
+							)}
+						</div>
 						<h3>{title}</h3>
 						<p>{text}</p>
 					</article>
@@ -119,8 +147,9 @@ const schema = [
 				<p class="lede">{copy.safety.lede}</p>
 			</header>
 			<div class="gets">
-				{copy.safety.items.map(({ label, title, text, href }) => (
+				{copy.safety.items.map(({ art, label, title, text, href }) => (
 					<article>
+						{art && <SafetyArt name={art} />}
 						<span class="label">{label}</span>
 						<h3>{title}</h3>
 						<p>{text}</p>
@@ -139,11 +168,25 @@ const schema = [
 				<p class="lede">{copy.platform.lede}</p>
 			</header>
 			<div class="why">
-				{copy.platform.items.map(({ title, text, href }) => (
-					<article>
-						<h3>{title}</h3>
-						<p>{text}</p>
-						{href && <a class="more" href={href}>{strings.inDocs} <span class="arw" aria-hidden="true">→</span><span class="sr-only">: {title}</span></a>}
+				{copy.platform.items.map(({ title, text, href, shot, shotAlt }, index) => (
+					<article class:list={{ 'is-active': index === 0 }}>
+						<h3><button class="why-tab" type="button">{title}</button></h3>
+						<div class="why-body">
+							<div>
+								<p>{text}</p>
+								{href && <a class="more" href={href}>{strings.inDocs} <span class="arw" aria-hidden="true">→</span><span class="sr-only">: {title}</span></a>}
+							</div>
+						</div>
+						{shot && (
+							<figure class="why-shot">
+								<span class="why-bar" aria-hidden="true"><i /><i /><i /></span>
+								{shot.toLowerCase() === 'terminal' ? (
+									<pre class="term" role="img" aria-label={shotAlt}><span class="term-line"><span class="term-prompt">voyager@spica:~$ </span><span class="term-typed">virgo --help</span><span class="term-cursor" /></span>{terminal.map((line, i) => <span class="term-line term-out" style={`--i: ${i}`}>{line}</span>)}</pre>
+								) : (
+									<Image src={shotImages[shot]} alt={shotAlt ?? ''} widths={[640, 1280]} sizes="(max-width: 999px) 100vw, 620px" loading="lazy" />
+								)}
+							</figure>
+						)}
 					</article>
 				))}
 			</div>
@@ -203,6 +246,76 @@ const schema = [
 <script>
 	const DURATION = 250;
 	const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
+	const ROTATION = 6000;
+	const why = document.querySelector<HTMLElement>('.why');
+	const term = why?.querySelector<HTMLElement>('.term');
+	const items = [...(why?.querySelectorAll<HTMLElement>(':scope > article') ?? [])];
+	const tabbed = matchMedia('(min-width: 1000px)');
+	let rotation: number | undefined;
+	let rotating = true;
+
+	const type = () => {
+		if (!term) {
+			return;
+		}
+
+		term.classList.remove('is-typing');
+		void term.offsetWidth;
+		term.classList.add('is-typing');
+	};
+
+	const activate = (item: HTMLElement) => {
+		items.forEach((other) => {
+			other.classList.toggle('is-active', other === item);
+			const tab = other.querySelector('.why-tab');
+			if (tabbed.matches) {
+				tab?.setAttribute('aria-expanded', String(other === item));
+			} else {
+				tab?.removeAttribute('aria-expanded');
+			}
+		});
+		if (term && item.contains(term)) {
+			type();
+		}
+	};
+
+	const rotate = (visible: boolean) => {
+		clearInterval(rotation);
+		if (visible && rotating && tabbed.matches) {
+			rotation = window.setInterval(() => {
+				const current = items.findIndex((item) => item.classList.contains('is-active'));
+				activate(items[(current + 1) % items.length]);
+			}, ROTATION);
+		}
+	};
+
+	if (why && items.length > 0) {
+		why.classList.add('is-tabbed');
+		activate(items.find((item) => item.classList.contains('is-active')) ?? items[0]);
+		tabbed.addEventListener('change', () => activate(items.find((item) => item.classList.contains('is-active')) ?? items[0]));
+		items.forEach((item) => {
+			item.addEventListener('click', (event) => {
+				if ((event.target as Element).closest('a')) {
+					return;
+				}
+
+				rotating = false;
+				rotate(false);
+				activate(item);
+			});
+		});
+		new IntersectionObserver(([entry]) => rotate(entry.isIntersecting), { threshold: 0.3 }).observe(why);
+	}
+
+	if (term) {
+		const seen = new IntersectionObserver(([entry]) => {
+			if (entry.isIntersecting) {
+				type();
+				seen.disconnect();
+			}
+		}, { threshold: 0.5 });
+		seen.observe(term);
+	}
 
 	document.querySelectorAll<HTMLDetailsElement>('.faq details').forEach((details) => {
 		const summary = details.querySelector('summary');

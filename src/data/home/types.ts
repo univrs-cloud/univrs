@@ -10,6 +10,10 @@ export interface Action {
 
 export interface Card {
 	icon?: string;
+	logos?: string[];
+	art?: string;
+	shot?: string;
+	shotAlt?: string;
 	label?: string;
 	title: string;
 	text: string;

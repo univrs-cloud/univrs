@@ -27,15 +27,15 @@ export const en: HomeCopy = {
 		title: 'What you use every day, on one server.',
 		lede: 'Apps are installed from the App center with a few settings. Each one runs in containers, keeps its data on the storage pool and is reached over HTTPS at its own name under the node\'s domain.',
 		items: [
-			{ icon: 'folder', title: 'Files', text: 'Nextcloud stores your files and shares them with every device, with folders and access rights per user.' },
-			{ icon: 'document', title: 'Documents', text: 'Euro Office opens documents in the browser, so several people can edit the same file at the same time.' },
-			{ icon: 'mail', title: 'Email', text: 'A full mail server on your own domain: SMTP and IMAP, with spam and virus filtering.' },
-			{ icon: 'video', title: 'Calls and whiteboard', text: 'Video calls with the Nextcloud high-performance backend, and a whiteboard several people draw on at once.' },
-			{ icon: 'shield', title: 'VPN', text: 'WireGuard gives you an encrypted connection to the node and its apps from outside your network.' },
-			{ icon: 'ban', title: 'Ad blocking', text: 'Pi-hole blocks ads and trackers at DNS level for every device on the network.' },
+			{ icon: 'folder', logos: ['nextcloud'], title: 'Files', text: 'Nextcloud stores your files and shares them with every device, with folders and access rights per user.' },
+			{ icon: 'document', logos: ['euro-office'], title: 'Documents', text: 'Euro Office opens documents in the browser, so several people can edit the same file at the same time.' },
+			{ icon: 'mail', logos: ['docker-mailserver'], title: 'Email', text: 'A full mail server on your own domain: SMTP and IMAP, with spam and virus filtering.' },
+			{ icon: 'video', logos: ['nextcloud-hpb', 'nextcloud-whiteboard'], title: 'Calls and whiteboard', text: 'Video calls with the Nextcloud high-performance backend, and a whiteboard several people draw on at once.' },
+			{ icon: 'shield', logos: ['wireguard'], title: 'VPN', text: 'WireGuard gives you an encrypted connection to the node and its apps from outside your network.' },
+			{ icon: 'ban', logos: ['pi-hole'], title: 'Ad blocking', text: 'Pi-hole blocks ads and trackers at DNS level for every device on the network.' },
 			{ icon: 'share', title: 'Shared folders', text: 'Folders for the computers on the local network, open to the users you choose or to everyone as a guest.' },
 			{ icon: 'clock', title: 'Mac backups', text: 'Time machines are backup destinations for the Time Machine app on a Mac, each with its own capacity.' },
-			{ icon: 'code', title: 'Developer tools', text: 'Gitea with its CI runner, Plausible web analytics, a container dashboard and a terminal in the browser.' }
+			{ icon: 'code', logos: ['gitea', 'plausible', 'terminal'], title: 'Developer tools', text: 'Gitea with its CI runner, Plausible web analytics, a container dashboard and a terminal in the browser.' }
 		],
 		note: 'Nothing is installed unless you choose it. Three core apps are always present: Traefik routes requests to the apps and handles their SSL certificates, Authelia holds the node\'s accounts, and Terminal opens a shell from the browser.'
 	},
@@ -45,36 +45,42 @@ export const en: HomeCopy = {
 		lede: 'Everything an app stores lives on a redundant ZFS pool that checks its own data, keeps years of read-only history and can be searched for files that no longer exist.',
 		items: [
 			{
+				art: 'redundancy',
 				label: 'Redundancy',
 				title: 'A drive can fail without losing data',
 				text: 'The pool is built from at least two data drives. Setup offers the layouts the drives support, from a mirror to RAID-Z3, surviving one to three drive failures.',
 				href: `${site.docs}/setup/storage/`
 			},
 			{
+				art: 'history',
 				label: 'History',
 				title: 'Go back by the hour',
 				text: 'The node keeps a snapshot for each of the last 36 hours, 30 days, 60 months and 5 years, and removes older ones by itself. A snapshot only takes space for what changed since it was taken.',
 				href: `${site.docs}/management/system/storage/`
 			},
 			{
+				art: 'ransomware',
 				label: 'Ransomware',
 				title: 'History that cannot be rewritten',
 				text: 'A snapshot is a read-only copy of an app\'s data as it was at one moment. Files encrypted from an infected computer do not change the snapshots taken before the attack.',
 				href: `${site.docs}/management/resources/apps/snapshots/`
 			},
 			{
+				art: 'integrity',
 				label: 'Integrity',
 				title: 'Every block is checked',
 				text: 'The pool keeps a checksum of everything it stores. A monthly scrub reads all of it back and repairs anything that does not match from the pool\'s redundancy.',
 				href: `${site.docs}/management/system/storage/`
 			},
 			{
+				art: 'search',
 				label: 'Search',
 				title: 'Find a file that was deleted',
 				text: 'The indexer catalogues the files in the snapshots every hour. Search it from an app\'s snapshots or with the virgo indexer commands to find earlier and deleted versions of a file.',
 				href: `${site.docs}/cli/indexer/`
 			},
 			{
+				art: 'power',
 				label: 'Power',
 				title: 'A power cut does not corrupt it',
 				text: 'The node monitors its UPS, shows whether it runs on the grid or on battery, and powers off by itself, in order, when an outage lasts too long.',
@@ -88,26 +94,36 @@ export const en: HomeCopy = {
 		lede: 'virgoOS is an appliance system: setup asks a few questions, and from then on the node is managed from its web interface, from your fleet account or with the virgo command.',
 		items: [
 			{
+				shot: 'storage',
+				shotAlt: 'The Storage step of setup, with a mirror pool of two drives selected.',
 				title: 'Setup in nine steps',
 				text: 'Setup runs the first time a node starts. It sets the network, creates the storage pool, registers the node with your fleet, installs the core apps and replaces the factory password.',
 				href: `${site.docs}/setup/`
 			},
 			{
+				shot: 'host',
+				shotAlt: 'The Network step of setup, with the hostname, cluster and domain name of the node.',
 				title: 'A name and a certificate',
 				text: 'A node answers at hostname.cluster.domain. With univrs.cloud, the DNS record and a wildcard Let\'s Encrypt certificate are created for you. A domain you own works too.',
 				href: `${site.docs}/setup/host/`
 			},
 			{
+				shot: 'fleet-registered',
+				shotAlt: 'The Fleet step of setup, showing the node registered and connected.',
 				title: 'Managed from anywhere',
 				text: 'Registering a node connects it to your fleet account. The node connects out to the fleet itself, so managing it works behind CGNAT, without a public IP address or forwarded ports. Email, sharing files from Nextcloud, the VPN and opening apps from outside your local network do need both.',
 				href: `${site.docs}/setup/fleet/`
 			},
 			{
+				shot: 'updates',
+				shotAlt: 'The Updates page, listing four available updates with their versions.',
 				title: 'Updates from one page',
 				text: 'The node checks for updates every day. The Updates page lists each one with its current and new version, and installs them all while showing every step.',
 				href: `${site.docs}/management/system/updates/`
 			},
 			{
+				shot: 'terminal',
+				shotAlt: 'The output of virgo --help in a terminal.',
 				title: 'A command line too',
 				text: 'Every node ships with the virgo command, for network settings, installable apps, and indexing and searching the files in snapshots.',
 				href: `${site.docs}/cli/`
