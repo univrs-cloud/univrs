@@ -86,7 +86,7 @@ const schema = [
 					<Image src={image} alt={imageAlt} widths={[720, 1440]} sizes="(max-width: 760px) 100vw, 720px" loading="eager" fetchpriority="high" />
 				</figure>
 			)}
-			<div class="post-content">
+			<div class="post-content" data-copy={copy.copy} data-copied={copy.copied}>
 				<Content />
 			</div>
 			<footer class="post-foot">
@@ -182,4 +182,42 @@ const schema = [
 		close();
 	});
 	window.addEventListener('resize', close);
+
+	const SHELL_LANGUAGES = ['sh', 'bash', 'shell', 'zsh'];
+	const SESSION_LANGUAGES = ['console', 'shellsession'];
+	const COPIED_MS = 1500;
+	const COPY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M3 19a2 2 0 0 1-1-2V2a2 2 0 0 1 1-1h13a2 2 0 0 1 2 1" /><rect x="6" y="5" width="16" height="18" rx="1.5" ry="1.5" /></svg>';
+	const content = document.querySelector<HTMLElement>('.post-content');
+
+	content?.querySelectorAll<HTMLPreElement>('pre').forEach((block) => {
+		const language = (block.dataset.language ?? '').toLowerCase();
+		const hasPrompt = SHELL_LANGUAGES.includes(language);
+		const isShell = hasPrompt || SESSION_LANGUAGES.includes(language);
+		const frame = document.createElement('figure');
+		const head = document.createElement('div');
+		const label = document.createElement('span');
+		const button = document.createElement('button');
+		let timer: number | undefined;
+
+		frame.className = `code-frame${isShell ? ' is-shell' : ''}${hasPrompt ? ' has-prompt' : ''}`;
+		head.className = 'code-head';
+		label.className = 'code-label';
+		label.textContent = (isShell ? 'Shell' : '');
+		button.className = 'code-copy';
+		button.type = 'button';
+		button.title = content.dataset.copy ?? '';
+		button.setAttribute('aria-label', content.dataset.copy ?? '');
+		button.dataset.copied = content.dataset.copied ?? '';
+		button.innerHTML = COPY_ICON;
+		button.addEventListener('click', async () => {
+			await navigator.clipboard.writeText(block.querySelector('code')?.innerText ?? block.innerText);
+			button.classList.add('is-copied');
+			window.clearTimeout(timer);
+			timer = window.setTimeout(() => button.classList.remove('is-copied'), COPIED_MS);
+		});
+
+		head.append(label, button);
+		block.replaceWith(frame);
+		frame.append(head, block);
+	});
 </script>
