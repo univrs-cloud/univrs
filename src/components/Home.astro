@@ -181,7 +181,7 @@ const schema = [
 							<figure class="why-shot">
 								<span class="why-bar" aria-hidden="true"><i /><i /><i /></span>
 								{shot.toLowerCase() === 'terminal' ? (
-									<pre class="term" role="img" aria-label={shotAlt}><span class="term-line"><span class="term-prompt">voyager@spica:~$ </span><span class="term-typed">virgo --help</span><span class="term-cursor" /></span>{terminal.map((line, i) => <span class="term-line term-out" style={`--i: ${i}`}>{line}</span>)}</pre>
+									<pre class="term" role="img" aria-label={shotAlt}><span class="term-line"><span class="term-prompt">voyager@spica:~$ </span><span class="term-typed">virgo --help</span><span class="term-cursor" /></span>{terminal.map((line, i) => <span class="term-line term-out" style={`--i: ${i}`}>{line}</span>)}<span class="term-line term-out" style={`--i: ${terminal.length}`}><span class="term-prompt">voyager@spica:~$ </span><span class="term-cursor" /></span></pre>
 								) : (
 									<Image src={shotImages[shot]} alt={shotAlt ?? ''} widths={[640, 1280]} sizes="(max-width: 999px) 100vw, 620px" loading="lazy" />
 								)}

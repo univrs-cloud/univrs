@@ -1264,8 +1264,17 @@ a {
 	animation: term-blink 1s steps(1) infinite;
 }
 
+.term-typed + .term-cursor {
+	visibility: hidden;
+	animation: none;
+}
+
 .term.is-typing .term-typed {
 	animation: term-type 1.1s steps(12) 0.5s both;
+}
+
+.term.is-typing .term-typed + .term-cursor {
+	animation: term-enter 1.9s steps(1) both;
 }
 
 .term.is-typing .term-out {
@@ -1279,6 +1288,16 @@ a {
 
 	to {
 		width: 12ch;
+	}
+}
+
+@keyframes term-enter {
+	from {
+		visibility: visible;
+	}
+
+	to {
+		visibility: hidden;
 	}
 }
 
