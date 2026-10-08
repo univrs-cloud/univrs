@@ -9,7 +9,8 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"check": "astro check",
-		"astro": "astro"
+		"astro": "astro",
+		"diagrams": "node scripts/diagrams/index.mjs"
 	},
 	"dependencies": {
 		"@astrojs/rss": "^4.0.19",

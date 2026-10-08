@@ -36,6 +36,18 @@ draft: false
 
 `updatedDate`, `image`, `imageAlt`, `tags` and `draft` are optional. The image is the post's feature image: it is shown under the title, on the post's card in the lists and when the post is shared. Images live in `src/assets/blog/`. A draft shows up in `npm run dev` and is left out of the published site.
 
+## Diagrams
+
+The isometric diagrams in `src/assets/blog/` are drawn by a script, as an SVG and a PNG for every language. Do not edit them by hand.
+
+```sh
+npm run diagrams                # every diagram
+npm run diagrams -- vpn-paths   # one diagram
+```
+
+- `scripts/diagrams/scenes/` has one file per diagram, with its copy in every language. The diagram's name is the file name of its images, followed by the language.
+- `scripts/diagrams/iso.mjs` holds the drawing toolkit: the devices from the home page, slabs, paths and labels.
+
 ## Search engines and language models
 
 The build generates these alongside the pages:
