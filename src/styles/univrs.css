@@ -250,8 +250,8 @@ a {
 }
 
 .brand svg {
-	width: 24px;
-	height: 24px;
+	width: 40px;
+	height: 40px;
 	display: block;
 	flex-shrink: 0;
 }
