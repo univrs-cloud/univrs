@@ -60,7 +60,7 @@ export const support: Record<Locale, SupportCopy> = {
 		quote: {
 			label: 'Paid technical support',
 			title: 'Ask for a quote.',
-			lede: 'Tell us what you need help with and what your setup looks like. We answer by email with a quote.',
+			lede: 'Tell us what you need help with and what your setup looks like.',
 			message: 'What do you need help with?',
 			send: 'Ask for a quote',
 			note: 'This is a request for a quote for paid technical support, sent from the Support page.'
@@ -100,7 +100,7 @@ export const support: Record<Locale, SupportCopy> = {
 		quote: {
 			label: 'Asistență tehnică cu plată',
 			title: 'Cereți o ofertă.',
-			lede: 'Spuneți-ne cu ce aveți nevoie de ajutor și cum arată configurația dumneavoastră. Vă răspundem pe e-mail cu o ofertă.',
+			lede: 'Spuneți-ne cu ce aveți nevoie de ajutor și cum arată configurația dumneavoastră.',
 			message: 'Cu ce aveți nevoie de ajutor?',
 			send: 'Cere o ofertă',
 			note: 'Aceasta este o cerere de ofertă pentru asistență tehnică cu plată, trimisă din pagina Asistență.'
