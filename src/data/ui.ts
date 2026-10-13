@@ -93,9 +93,9 @@ export const ui: Record<Locale, UiCopy> = {
 			note: 'This is a general message, sent from the contact form on the home page.',
 			reply: 'Reply to',
 			errors: {
-				name: 'Enter your name.',
-				email: 'Enter a valid email address.',
-				message: 'Enter a message of at most 5000 characters.',
+				name: 'Enter your name',
+				email: 'Enter a valid email address',
+				message: 'Enter a message of at most 5000 characters',
 				limit: 'Too many messages were sent from your address. Please try again later.',
 				failed: 'The message could not be sent. Please try again later.'
 			}
@@ -158,9 +158,9 @@ export const ui: Record<Locale, UiCopy> = {
 			note: 'Acesta este un mesaj general, trimis din formularul de contact de pe prima pagină.',
 			reply: 'Răspundeți la',
 			errors: {
-				name: 'Introduceți numele.',
-				email: 'Introduceți o adresă de e-mail validă.',
-				message: 'Introduceți un mesaj de cel mult 5000 de caractere.',
+				name: 'Introduceți numele',
+				email: 'Introduceți o adresă de e-mail validă',
+				message: 'Introduceți un mesaj de cel mult 5000 de caractere',
 				limit: 'De la adresa dumneavoastră au fost trimise prea multe mesaje. Încercați din nou mai târziu.',
 				failed: 'Mesajul nu a putut fi trimis. Încercați din nou mai târziu.'
 			}

@@ -46,18 +46,27 @@ const messageLimit = 5000 - closingLimit - 2;
 			data-error-failed={copy.errors.failed}
 		>
 			<div class="contact-fields">
-				<label class="contact-field">
-					<span>{copy.name}</span>
-					<input type="text" name="name" autocomplete="name" maxlength="100" required>
-				</label>
-				<label class="contact-field">
-					<span>{copy.email}</span>
-					<input type="email" name="email" autocomplete="email" maxlength="254" required>
-				</label>
-				<label class="contact-field contact-field--wide">
-					<span>{message}</span>
-					<textarea name="message" rows="6" maxlength={messageLimit} required></textarea>
-				</label>
+				<div class="contact-field">
+					<label>
+						<span>{copy.name}</span>
+						<input type="text" name="name" autocomplete="name" maxlength="100" placeholder=" " aria-describedby={`${id}-name-error`} required>
+					</label>
+					<p class="contact-field-error" id={`${id}-name-error`}></p>
+				</div>
+				<div class="contact-field">
+					<label>
+						<span>{copy.email}</span>
+						<input type="email" name="email" autocomplete="email" maxlength="254" placeholder=" " aria-describedby={`${id}-email-error`} required>
+					</label>
+					<p class="contact-field-error" id={`${id}-email-error`}></p>
+				</div>
+				<div class="contact-field contact-field--wide">
+					<label>
+						<span>{message}</span>
+						<textarea name="message" rows="6" maxlength={messageLimit} placeholder=" " aria-describedby={`${id}-message-error`} required></textarea>
+					</label>
+					<p class="contact-field-error" id={`${id}-message-error`}></p>
+				</div>
 				<label class="contact-trap" aria-hidden="true">
 					<span>Website</span>
 					<input type="text" name="website" tabindex="-1" autocomplete="off">
@@ -81,27 +90,71 @@ const messageLimit = 5000 - closingLimit - 2;
 <script>
 	const form = document.querySelector<HTMLFormElement>('.contact');
 	const error = form?.querySelector('.contact-error');
+	const fields: Record<string, string> = { name: 'errorName', email: 'errorEmail', message: 'errorMessage' };
 
-	const fail = (key: string, field?: string) => {
+	const note = (input: Element) => input.closest('.contact-field')?.querySelector('.contact-field-error');
+
+	const mark = (input: HTMLInputElement | HTMLTextAreaElement) => {
+		const text = note(input);
+		input.setAttribute('aria-invalid', 'true');
+		if (form && text) {
+			text.textContent = form.dataset[fields[input.name.toLowerCase()]] ?? '';
+		}
+	};
+
+	const unmark = (input: Element) => {
+		const text = note(input);
+		input.removeAttribute('aria-invalid');
+		if (text) {
+			text.textContent = '';
+		}
+	};
+
+	const validate = (input: HTMLInputElement | HTMLTextAreaElement) => {
+		if (!input.value.trim() || !input.checkValidity()) {
+			mark(input);
+			return;
+		}
+
+		unmark(input);
+	};
+
+	const fail = (status: number, field: string) => {
 		if (!form || !error) {
 			return;
 		}
 
-		error.textContent = form.dataset[key] ?? form.dataset.errorFailed ?? '';
-		form.querySelectorAll('[aria-invalid]').forEach((input) => input.removeAttribute('aria-invalid'));
-		const input = (field ? form.querySelector<HTMLElement>(`[name="${field}"]`) : null);
-		input?.setAttribute('aria-invalid', 'true');
-		input?.focus();
-	};
-
-	const errorKey = (status: number, field: string) => {
-		const fields: Record<string, string> = { name: 'errorName', email: 'errorEmail', message: 'errorMessage' };
-		if (status === 429) {
-			return 'errorLimit';
+		const input = (status !== 429 && fields[field.toLowerCase()] ? form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${field.toLowerCase()}"]`) : null);
+		if (input) {
+			mark(input);
+			input.focus();
+			return;
 		}
 
-		return fields[field.toLowerCase()] ?? 'errorFailed';
+		error.textContent = (status === 429 ? form.dataset.errorLimit : form.dataset.errorFailed) ?? '';
 	};
+
+	const timeouts = new Map<Element, number>();
+
+	form?.addEventListener('input', (event) => {
+		const input = event.target;
+		if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) || !input.required) {
+			return;
+		}
+
+		window.clearTimeout(timeouts.get(input));
+		timeouts.set(input, window.setTimeout(() => validate(input), 300));
+	});
+
+	form?.addEventListener('focusout', (event) => {
+		const input = event.target;
+		if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) || !input.required) {
+			return;
+		}
+
+		window.clearTimeout(timeouts.get(input));
+		validate(input);
+	});
 
 	form?.addEventListener('submit', async (event) => {
 		event.preventDefault();
@@ -112,13 +165,15 @@ const messageLimit = 5000 - closingLimit - 2;
 		const values = Object.fromEntries(new FormData(form).entries());
 		const closing = `${form.dataset.note} ${form.dataset.reply} ${String(values.email ?? '').trim()}`;
 		const message = [String(values.message ?? '').trim(), closing].join('\n\n');
-		const invalid = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]')].find((input) => !input.value.trim() || !input.checkValidity());
+		const required = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]')];
+		error.textContent = '';
+		required.forEach(validate);
+		const invalid = form.querySelector<HTMLElement>('[aria-invalid]');
 		if (invalid) {
-			fail(errorKey(400, invalid.name), invalid.name);
+			invalid.focus();
 			return;
 		}
 
-		error.textContent = '';
 		form.classList.add('is-loading');
 		try {
 			const response = await fetch(form.action, {
@@ -133,9 +188,9 @@ const messageLimit = 5000 - closingLimit - 2;
 				return;
 			}
 
-			fail(errorKey(response.status, String(result.field ?? '')), result.field);
+			fail(response.status, String(result.field ?? ''));
 		} catch {
-			fail('errorFailed');
+			fail(0, '');
 		} finally {
 			form.classList.remove('is-loading');
 		}
