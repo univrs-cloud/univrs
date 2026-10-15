@@ -82,7 +82,7 @@ export const ui: Record<Locale, UiCopy> = {
 		contact: {
 			label: 'Contact',
 			title: 'Write to us.',
-			lede: 'A question about virgoOS, or something that does not work as the documentation says? Send a message and we will answer by email.',
+			lede: 'A question about virgoOS, or something that does not work as the documentation says?',
 			name: 'Name',
 			email: 'Email',
 			message: 'Message',
@@ -147,7 +147,7 @@ export const ui: Record<Locale, UiCopy> = {
 		contact: {
 			label: 'Contact',
 			title: 'Scrieți-ne.',
-			lede: 'Aveți o întrebare despre virgoOS sau ceva nu funcționează așa cum spune documentația? Trimiteți un mesaj și vă răspundem pe e-mail.',
+			lede: 'Aveți o întrebare despre virgoOS sau ceva nu funcționează așa cum spune documentația?',
 			name: 'Nume',
 			email: 'E-mail',
 			message: 'Mesaj',
