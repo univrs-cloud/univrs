@@ -38,14 +38,14 @@ draft: false
 
 ## Diagrams
 
-The isometric diagrams in `src/assets/blog/` are drawn by a script, as an SVG and a PNG for every language. Do not edit them by hand.
+The diagrams and cover images in `src/assets/blog/` are drawn by a script, as an SVG and a PNG. Do not edit them by hand.
 
 ```sh
 npm run diagrams                # every diagram
 npm run diagrams -- vpn-paths   # one diagram
 ```
 
-- `scripts/diagrams/scenes/` has one file per diagram, with its copy in every language. The diagram's name is the file name of its images, followed by the language.
+- `scripts/diagrams/scenes/` has one file per diagram. A diagram with text has its copy in every language, and its images are named after it, followed by the language. A diagram without text has no copy and gets one SVG and one PNG, named after it.
 - `scripts/diagrams/iso.mjs` holds the drawing toolkit: the devices from the home page, slabs, paths and labels.
 
 ## Search engines and language models
