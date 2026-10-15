@@ -1616,13 +1616,18 @@ a {
 .contact-field input:focus,
 .contact-field textarea:focus,
 .contact-field select:focus {
-	outline: 2px solid var(--accent);
-	outline-offset: 1px;
-	border-color: var(--accent);
+	outline: none;
+	border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+	box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .contact-field [aria-invalid='true'] {
 	border-color: var(--error);
+}
+
+.contact-field [aria-invalid='true']:focus {
+	border-color: color-mix(in srgb, var(--error) 50%, transparent);
+	box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--error) 25%, transparent);
 }
 
 .contact-field-error {
