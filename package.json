@@ -16,7 +16,7 @@
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.4",
 		"@plausible-analytics/tracker": "^0.4.6",
-		"astro": "^7.4.0",
+		"astro": "^7.4.1",
 		"sharp": "^0.35.5"
 	},
 	"allowScripts": {
@@ -24,7 +24,7 @@
 		"fsevents@2.3.3": true
 	},
 	"devDependencies": {
-		"@astrojs/check": "^0.9.10",
+		"@astrojs/check": "^0.9.11",
 		"typescript": "^6.0.3"
 	}
 }
