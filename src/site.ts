@@ -33,7 +33,7 @@ export const site = {
 	github: 'https://github.com/univrs-cloud',
 	download: 'https://github.com/univrs-cloud/virgo/releases/latest',
 	fleet: 'https://fleet.univrs.cloud',
-	license: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
+	license: 'https://github.com/univrs-cloud/virgo/blob/HEAD/LICENSE'
 };
 
 export const actionIcon = (href: string) => {
