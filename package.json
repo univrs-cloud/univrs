@@ -20,7 +20,7 @@
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.4",
 		"@plausible-analytics/tracker": "^0.4.6",
-		"astro": "^7.4.1",
+		"astro": "^7.4.2",
 		"sharp": "^0.35.5"
 	},
 	"allowScripts": {
@@ -28,7 +28,7 @@
 		"fsevents@2.3.3": true
 	},
 	"devDependencies": {
-		"@astrojs/check": "^0.9.11",
+		"@astrojs/check": "^0.9.12",
 		"typescript": "^6.0.3"
 	}
 }
