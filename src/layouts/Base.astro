@@ -106,17 +106,5 @@ const graph = { '@context': 'https://schema.org', '@graph': [organization, websi
 			<slot />
 		</main>
 		<Footer locale={locale} />
-		<script>
-			import { init } from '@plausible-analytics/tracker';
-
-			init({
-				domain: 'univrs.cloud',
-				endpoint: 'https://analytics.univrs.cloud/api/event',
-				autoCapturePageviews: true,
-				outboundLinks: true,
-				fileDownloads: true,
-				captureOnLocalhost: false
-			});
-		</script>
 	</body>
 </html>
