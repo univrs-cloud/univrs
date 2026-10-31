@@ -9,6 +9,7 @@
 	--muted: #75758E;
 	--line: rgba(19, 19, 30, 0.13);
 	--line-2: rgba(19, 19, 30, 0.26);
+	--image-edge: rgba(0, 0, 0, 0.1);
 	--accent: #3B4FD4;
 	--accent-text: #3B4FD4;
 	--accent-2: #7A4BA6;
@@ -45,6 +46,7 @@
 	--muted: #8C8CA8;
 	--line: rgba(231, 231, 242, 0.1);
 	--line-2: rgba(231, 231, 242, 0.26);
+	--image-edge: rgba(255, 255, 255, 0.1);
 	--accent: #6E7FF0;
 	--accent-text: #C5CCFB;
 	--accent-soft: rgba(110, 127, 240, 0.12);
@@ -64,6 +66,7 @@
 		--muted: #8C8CA8;
 		--line: rgba(231, 231, 242, 0.1);
 		--line-2: rgba(231, 231, 242, 0.26);
+		--image-edge: rgba(255, 255, 255, 0.1);
 		--accent: #6E7FF0;
 		--accent-text: #C5CCFB;
 		--accent-soft: rgba(110, 127, 240, 0.12);
@@ -1197,7 +1200,8 @@ a {
 .why-shot {
 	margin: 0.6rem 0 0;
 	max-width: 640px;
-	border: 1px solid var(--line);
+	outline: 1px solid var(--image-edge);
+	outline-offset: -1px;
 	border-radius: var(--radius);
 	box-shadow: var(--shadow);
 	overflow: hidden;
@@ -1815,7 +1819,8 @@ a {
 	display: block;
 	width: 100%;
 	height: auto;
-	border: 1px solid var(--line);
+	outline: 1px solid var(--image-edge);
+	outline-offset: -1px;
 	border-radius: var(--radius);
 	box-shadow: var(--shadow);
 }
@@ -1929,7 +1934,8 @@ a {
 	max-width: 100%;
 	height: auto;
 	display: block;
-	border: 1px solid var(--line);
+	outline: 1px solid var(--image-edge);
+	outline-offset: -1px;
 	border-radius: var(--radius);
 	box-shadow: var(--shadow);
 }
@@ -2087,6 +2093,12 @@ a {
 .post-image img,
 .post-content img {
 	cursor: zoom-in;
+}
+
+.post-image img:focus-visible,
+.post-content img:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
 }
 
 .zoom {
