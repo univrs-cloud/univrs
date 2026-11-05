@@ -1,6 +1,6 @@
 ---
-title: 'A dispărut un fișier: cum îl recuperați pe un nod virgoOS'
-description: Cum recuperați pas cu pas un fișier din Nextcloud pe un nod virgoOS, de la căutarea după nume în toate punctele de restaurare până la restaurarea unei versiuni sau a unui folder întreg.
+title: 'A dispărut un fișier: cum îl recuperați pe un nod univrs'
+description: Cum recuperați pas cu pas un fișier din Nextcloud pe un nod univrs, de la căutarea după nume în toate punctele de restaurare până la restaurarea unei versiuni sau a unui folder întreg.
 pubDate: 2026-10-07
 image: ../../../assets/blog/snapshots-search.png
 imageAlt: O căutare după „budget” în snapshoturile Nextcloud, cu fiecare fișier găsit și punctele de restaurare care păstrează o versiune a lui, unul dintre fișiere fiind marcat Deleted.
@@ -12,7 +12,7 @@ tags:
 
 Este sfârșit de septembrie și Olivia deschide bugetul firmei. Cifrele stabilite în vară nu mai sunt acolo: între timp cineva a lucrat peste fișier, de mai multe ori, și a salvat. Nu s-a șters nimic, deci coșul este gol, și nimeni nu mai știe în ce zi s-a întâmplat.
 
-Cu Nextcloud pe un nod virgoOS, asta se rezolvă în câteva minute. Articolul urmărește totul de la început până la sfârșit, apoi face același lucru pentru un folder întreg.
+Cu Nextcloud pe un nod univrs, asta se rezolvă în câteva minute. Articolul urmărește totul de la început până la sfârșit, apoi face același lucru pentru un folder întreg.
 
 ## De ce nu ajunge coșul
 
@@ -36,7 +36,7 @@ Căutarea este posibilă pentru că nodul cataloghează singur fișierele din sn
 
 ## Puneți la loc o versiune
 
-Fiecare versiune are lângă ea două butoane: unul o descarcă pe calculatorul dumneavoastră, celălalt o restaurează în Nextcloud.
+Fiecare versiune are lângă ea trei butoane: unul o deschide în **Browse files**, unul o descarcă pe calculatorul dumneavoastră și unul o restaurează în Nextcloud.
 
 Apăsați butonul de restaurare al versiunii din 1 august. Se deschide **Restore file**, cu folderul în care se afla fișierul deja selectat, așa că de obicei doar confirmați. Puteți alege și alt folder, al oricărui utilizator Nextcloud, sau puteți adăuga unul nou.
 

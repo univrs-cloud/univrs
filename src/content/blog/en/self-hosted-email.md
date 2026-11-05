@@ -1,16 +1,16 @@
 ---
 title: 'Email on your own server: from an empty node to a working mailbox'
-description: Setting up the mail server on a virgoOS node from start to finish, with the ports, the DNS records, DKIM, the commands that manage mailboxes, how mail clients configure themselves, and what to watch out for.
+description: Setting up the mail server on a univrs node from start to finish, with the ports, the DNS records, DKIM, the commands that manage mailboxes, how mail clients configure themselves, and what to watch out for.
 pubDate: 2026-10-08
 image: ../../../assets/blog/mail-paths-en.png
-imageAlt: "The path of an email to a virgoOS node in five steps. Another mail server looks up your domain in the DNS records (MX, SPF, DKIM, DMARC, PTR), finds your public address, and delivers the email on TCP 25, directly, never through a proxy. Your router forwards it to the node in your network, which filters it for spam and viruses and keeps it in a mailbox, and it is read in a mail client on any device over IMAP 993."
+imageAlt: "The path of an email to a univrs node in five steps. Another mail server looks up your domain in the DNS records (MX, SPF, DKIM, DMARC, PTR), finds your public address, and delivers the email on TCP 25, directly, never through a proxy. Your router forwards it to the node in your network, which filters it for spam and viruses and keeps it in a mailbox, and it is read in a mail client on any device over IMAP 993."
 tags:
   - virgoOS
   - email
   - DNS
 ---
 
-A virgoOS node can run your firm's email: addresses on your own domain, mailboxes on your own drives, no licence per mailbox. Of everything a node does, this is the part that asks the most of you. There are DNS records to create, a router to configure, and the mailboxes are managed by typing commands, not by clicking.
+A univrs node can run your firm's email: addresses on your own domain, mailboxes on your own drives, no licence per mailbox. Of everything a node does, this is the part that asks the most of you. There are DNS records to create, a router to configure, and the mailboxes are managed by typing commands, not by clicking.
 
 This post goes through all of it in order. The examples use `example.com` as the domain and `203.0.113.10` as the public IP address. Replace them with yours.
 

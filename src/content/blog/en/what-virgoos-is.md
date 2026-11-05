@@ -3,7 +3,7 @@ title: What virgoOS is, and what runs on it
 description: A short tour of virgoOS, the open-source operating system that turns a small server into a private cloud.
 pubDate: 2026-10-01
 image: ../../../assets/blog/dashboard.png
-imageAlt: The Dashboard of a virgoOS node, with its status on the left and its apps, folders and backup disks on the right.
+imageAlt: The Dashboard of a univrs node, with the nodes of its cluster and its status across the top, and its apps and folders below.
 tags:
   - virgoOS
   - overview
@@ -25,7 +25,7 @@ Everything lives on a redundant ZFS pool. Depending on how many drives the node 
 
 The pool also keeps its own history. The node takes a snapshot for each of the last 36 hours, 30 days, 60 months and 5 years, and removes older ones by itself. A snapshot is a read-only copy of the data as it was at one moment, and it only takes up space for what has changed since.
 
-![Nextcloud's snapshots on a timeline, with 76 restore points kept by the hourly, daily, monthly and yearly schedules.](../../../assets/blog/app-snapshots.png)
+![Nextcloud's snapshots, with its restore points listed from the newest, each with the schedule that keeps it, how long ago it was taken and how much space it takes up.](../../../assets/blog/app-snapshots.png)
 
 That history is what makes a deleted or encrypted file recoverable. The indexer catalogues the files in the snapshots every hour, so you can search for earlier and deleted versions of a file from an app's snapshots.
 

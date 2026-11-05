@@ -1,6 +1,6 @@
 ---
-title: 'A file went missing: getting it back on a virgoOS node'
-description: A walk through getting a Nextcloud file back on a virgoOS node, from searching every restore point by name to restoring one version or a whole folder.
+title: 'A file went missing: getting it back on a univrs node'
+description: A walk through getting a Nextcloud file back on a univrs node, from searching every restore point by name to restoring one version or a whole folder.
 pubDate: 2026-10-07
 image: ../../../assets/blog/snapshots-search.png
 imageAlt: A search for "budget" in Nextcloud's snapshots, listing each matching file with the restore points that hold a version of it, and one file marked Deleted.
@@ -12,7 +12,7 @@ tags:
 
 It is the end of September and Olivia opens the firm's budget. The figures she agreed on in the summer are gone: someone has worked over the file since, more than once, and saved. Nothing was deleted, so the trash bin is empty, and nobody remembers which day it happened.
 
-With Nextcloud on a virgoOS node this is a few minutes of work. This post follows it from start to finish, and then does the same for a whole folder.
+With Nextcloud on a univrs node this is a few minutes of work. This post follows it from start to finish, and then does the same for a whole folder.
 
 ## Why the trash bin is not enough
 
@@ -36,7 +36,7 @@ The search works because the node catalogues the files in Nextcloud's snapshots 
 
 ## Putting one version back
 
-Every version has two buttons next to it: one downloads it to your computer, the other restores it into Nextcloud.
+Every version has three buttons next to it: one opens it in **Browse files**, one downloads it to your computer and one restores it into Nextcloud.
 
 Select the restore button on the 1 August version. **Restore file** opens with the folder the file was in already selected, so in the usual case you only confirm. You can also choose another folder, of any Nextcloud user, or add a new one.
 

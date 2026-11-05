@@ -1,6 +1,6 @@
 ---
 title: 'Nextcloud pe propriul nod sau OneDrive: unde stau fișierele firmei'
-description: Nextcloud pe un nod virgoOS și OneDrive fac același lucru, în două locuri diferite. O comparație după unde stau fișierele, ale cui sunt, cât costă și cum recuperați un fișier.
+description: Nextcloud pe un nod univrs și OneDrive fac același lucru, în două locuri diferite. O comparație după unde stau fișierele, ale cui sunt, cât costă și cum recuperați un fișier.
 pubDate: 2026-10-03
 image: ../../../assets/blog/files-where-ro.png
 imageAlt: Același laptop și același telefon își țin fișierele într-unul din două locuri, în Nextcloud, pe un nod din biroul dumneavoastră, pe propriile discuri și fără taxă per utilizator, sau în OneDrive, în cloudul Microsoft, pe serverele Microsoft și cu licență per utilizator.
@@ -10,7 +10,7 @@ tags:
   - OneDrive
 ---
 
-Multe firme își țin fișierele în OneDrive pentru că a venit la pachet cu Microsoft 365, de multe ori fără ca cineva să îl fi ales. Un nod virgoOS face același lucru cu Nextcloud, pe un server aflat în propriul birou. Articolul acesta le compară acolo unde diferența contează: ale cui sunt fișierele, ce plătiți la nesfârșit și ce mai puteți recupera.
+Multe firme își țin fișierele în OneDrive pentru că a venit la pachet cu Microsoft 365, de multe ori fără ca cineva să îl fi ales. Un nod univrs face același lucru cu Nextcloud, pe un server aflat în propriul birou. Articolul acesta le compară acolo unde diferența contează: ale cui sunt fișierele, ce plătiți la nesfârșit și ce mai puteți recupera.
 
 ## Același lucru
 

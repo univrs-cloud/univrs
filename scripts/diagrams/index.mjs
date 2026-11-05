@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { W, H } from './iso.mjs';
+import backup from './scenes/backup.mjs';
 import data from './scenes/data.mjs';
 import files from './scenes/files.mjs';
 import gdpr from './scenes/gdpr.mjs';
@@ -12,7 +13,7 @@ import vpn from './scenes/vpn.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ASSETS_DIR = path.join(ROOT, 'src/assets/blog');
 const SCALE = 2;
-const SCENES = [data, files, gdpr, mail, vpn];
+const SCENES = [backup, data, files, gdpr, mail, vpn];
 
 const plan = (targets) => {
 	if (targets.length === 0) {

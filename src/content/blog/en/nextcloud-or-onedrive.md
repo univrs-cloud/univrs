@@ -1,6 +1,6 @@
 ---
 title: "Nextcloud on your own node, or OneDrive: where your firm's files live"
-description: Nextcloud on a virgoOS node and OneDrive do the same job in two different places. A comparison on where the files are, who owns them, what it costs, and how you get a file back.
+description: Nextcloud on a univrs node and OneDrive do the same job in two different places. A comparison on where the files are, who owns them, what it costs, and how you get a file back.
 pubDate: 2026-10-03
 image: ../../../assets/blog/files-where-en.png
 imageAlt: The same laptop and phone keep their files in one of two places, in Nextcloud on a node in your office, on your own drives and with no fee per user, or in OneDrive in Microsoft's cloud, on Microsoft's servers and with a licence per user.
@@ -10,7 +10,7 @@ tags:
   - OneDrive
 ---
 
-Many firms keep their files in OneDrive because it came with Microsoft 365, often without anyone having chosen it. A virgoOS node does the same job with Nextcloud, on a server in your own office. This post compares the two on the points where that difference matters: whose the files are, what you keep paying, and what you can get back.
+Many firms keep their files in OneDrive because it came with Microsoft 365, often without anyone having chosen it. A univrs node does the same job with Nextcloud, on a server in your own office. This post compares the two on the points where that difference matters: whose the files are, what you keep paying, and what you can get back.
 
 ## The same job
 

@@ -3,7 +3,7 @@ title: Ce este virgoOS și ce rulează pe el
 description: O scurtă prezentare a virgoOS, sistemul de operare open source care transformă un server mic într-un cloud privat.
 pubDate: 2026-10-01
 image: ../../../assets/blog/dashboard.png
-imageAlt: Pagina Dashboard a unui nod virgoOS, cu starea lui în stânga și aplicațiile, folderele și discurile de backup în dreapta.
+imageAlt: Pagina Dashboard a unui nod univrs, cu nodurile clusterului și starea nodului în partea de sus, iar dedesubt aplicațiile și folderele.
 tags:
   - virgoOS
   - prezentare
@@ -25,7 +25,7 @@ Totul stă pe un pool ZFS redundant. În funcție de câte discuri are nodul, co
 
 Pool-ul își păstrează și propriul istoric. Nodul face câte un snapshot pentru fiecare dintre ultimele 36 de ore, 30 de zile, 60 de luni și 5 ani și le șterge singur pe cele mai vechi. Un snapshot este o copie doar pentru citire a datelor, așa cum erau la un moment dat, și ocupă spațiu doar pentru ce s-a schimbat de atunci.
 
-![Snapshoturile aplicației Nextcloud pe o axă a timpului, cu 76 de puncte de restaurare păstrate orar, zilnic, lunar și anual.](../../../assets/blog/app-snapshots.png)
+![Snapshoturile aplicației Nextcloud, cu punctele de restaurare în ordine, de la cel mai nou, fiecare cu programul care îl păstrează, cât timp a trecut de când a fost făcut și cât spațiu ocupă.](../../../assets/blog/app-snapshots.png)
 
 Datorită acestui istoric, un fișier șters sau criptat poate fi recuperat. Indexerul cataloghează din oră în oră fișierele din snapshoturi, așa că puteți căuta versiuni mai vechi sau șterse ale unui fișier din snapshoturile unei aplicații.
 

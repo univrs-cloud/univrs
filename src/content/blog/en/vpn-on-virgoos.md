@@ -1,6 +1,6 @@
 ---
-title: 'Away from the office: the VPN on a virgoOS node'
-description: How the WireGuard VPN on a virgoOS node brings your folders and backup disks with you, what it needs from your internet connection, and why it is WireGuard.
+title: 'Away from the office: the VPN on a univrs node'
+description: How the WireGuard VPN on a univrs node brings your folders and backup disks with you, what it needs from your internet connection, and why it is WireGuard.
 pubDate: 2026-10-02
 image: ../../../assets/blog/vpn-paths-en.png
 imageAlt: A phone or laptop outside your network reaches the node in two ways, through the fleet to manage it, and through a WireGuard tunnel that enters your network at the router on UDP 51820 and reaches the node's folders, backup disks and apps. Both paths are encrypted.
@@ -10,7 +10,7 @@ tags:
   - WireGuard
 ---
 
-A virgoOS node sits on your own network, next to the computers that use it. This post is about the days when you are not next to it: at home, at a client, on a train. It covers what the VPN does, what it needs, and why the VPN on a node is WireGuard.
+A univrs node sits on your own network, next to the computers that use it. This post is about the days when you are not next to it: at home, at a client, on a train. It covers what the VPN does, what it needs, and why the VPN on a node is WireGuard.
 
 ## Three ways in from outside
 

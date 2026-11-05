@@ -1,6 +1,6 @@
 ---
-title: 'Departe de birou: VPN-ul de pe un nod virgoOS'
-description: Cum vă aduce VPN-ul WireGuard de pe un nod virgoOS folderele și discurile de backup oriunde ați fi, ce îi trebuie de la conexiunea la internet și de ce am ales WireGuard.
+title: 'Departe de birou: VPN-ul de pe un nod univrs'
+description: Cum vă aduce VPN-ul WireGuard de pe un nod univrs folderele și discurile de backup oriunde ați fi, ce îi trebuie de la conexiunea la internet și de ce am ales WireGuard.
 pubDate: 2026-10-02
 image: ../../../assets/blog/vpn-paths-ro.png
 imageAlt: Un telefon sau un laptop din afara rețelei ajunge la nod pe două căi, prin fleet pentru administrare și printr-un tunel WireGuard, care intră în rețea prin router, pe portul UDP 51820, și ajunge la folderele, discurile de backup și aplicațiile nodului. Ambele căi sunt criptate.
@@ -10,7 +10,7 @@ tags:
   - WireGuard
 ---
 
-Un nod virgoOS stă în rețeaua dumneavoastră, lângă calculatoarele care îl folosesc. Articolul acesta este despre zilele în care nu sunteți lângă el: acasă, la un client, în tren. Arată ce face VPN-ul, de ce are nevoie și de ce VPN-ul de pe nod este WireGuard.
+Un nod univrs stă în rețeaua dumneavoastră, lângă calculatoarele care îl folosesc. Articolul acesta este despre zilele în care nu sunteți lângă el: acasă, la un client, în tren. Arată ce face VPN-ul, de ce are nevoie și de ce VPN-ul de pe nod este WireGuard.
 
 ## Trei căi de acces din afară
 

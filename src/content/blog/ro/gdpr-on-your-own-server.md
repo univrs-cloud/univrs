@@ -1,16 +1,16 @@
 ---
 title: 'GDPR pe propriul server: unde stau datele și cine ajunge la ele'
-description: Unde stau datele personale pe un nod virgoOS, cine ajunge la ele din birou și din afara lui și ce face nodul ca să le păstreze disponibile și să le șteargă.
+description: Unde stau datele personale pe un nod univrs, cine ajunge la ele din birou și din afara lui și ce face nodul ca să le păstreze disponibile și să le șteargă.
 pubDate: 2026-10-15
 image: ../../../assets/blog/gdpr-cover.png
-imageAlt: Foldere și carduri de identitate cu datele unor persoane, păstrate pe un nod virgoOS, cu cele douăsprezece stele ale drapelului UE pe folderul deschis.
+imageAlt: Foldere și carduri de identitate cu datele unor persoane, păstrate pe un nod univrs, cu cele douăsprezece stele ale drapelului UE pe folderul deschis.
 tags:
   - virgoOS
   - GDPR
   - securitate
 ---
 
-GDPR pune fiecărei firme aceleași întrebări despre datele personale pe care le păstrează: unde sunt, cine ajunge la ele, cum le recuperați după un incident și cum le ștergeți. La un serviciu în cloud, o parte din fiecare răspuns stă în contractul furnizorului. La un nod virgoOS, toate răspunsurile sunt în biroul dumneavoastră.
+GDPR pune fiecărei firme aceleași întrebări despre datele personale pe care le păstrează: unde sunt, cine ajunge la ele, cum le recuperați după un incident și cum le ștergeți. La un serviciu în cloud, o parte din fiecare răspuns stă în contractul furnizorului. La un nod univrs, toate răspunsurile sunt în biroul dumneavoastră.
 
 Articolul acesta adună răspunsurile pe care vi le permite un nod. Ce anume cere regulamentul de la firma dumneavoastră rămâne să judece avocatul sau responsabilul cu protecția datelor. Acestea sunt faptele pe care vi le vor cere.
 

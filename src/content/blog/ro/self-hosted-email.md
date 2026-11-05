@@ -1,16 +1,16 @@
 ---
 title: 'E-mail pe propriul server: de la un nod gol la o căsuță care funcționează'
-description: Configurarea de la cap la coadă a serverului de e-mail pe un nod virgoOS, cu porturile, înregistrările DNS, DKIM, comenzile cu care administrați căsuțele, configurarea automată a clienților de e-mail și lucrurile la care să fiți atenți.
+description: Configurarea de la cap la coadă a serverului de e-mail pe un nod univrs, cu porturile, înregistrările DNS, DKIM, comenzile cu care administrați căsuțele, configurarea automată a clienților de e-mail și lucrurile la care să fiți atenți.
 pubDate: 2026-10-08
 image: ../../../assets/blog/mail-paths-ro.png
-imageAlt: "Drumul unui e-mail până la un nod virgoOS, în cinci pași. Un alt server de e-mail vă caută domeniul în înregistrările DNS (MX, SPF, DKIM, DMARC, PTR), vă află adresa publică și livrează e-mailul pe TCP 25, direct, niciodată printr-un proxy. Routerul îl redirecționează către nodul din rețeaua dumneavoastră, care îl filtrează de spam și de viruși și îl păstrează într-o căsuță, iar mesajul este citit într-un client de e-mail, de oriunde, prin IMAP 993."
+imageAlt: "Drumul unui e-mail până la un nod univrs, în cinci pași. Un alt server de e-mail vă caută domeniul în înregistrările DNS (MX, SPF, DKIM, DMARC, PTR), vă află adresa publică și livrează e-mailul pe TCP 25, direct, niciodată printr-un proxy. Routerul îl redirecționează către nodul din rețeaua dumneavoastră, care îl filtrează de spam și de viruși și îl păstrează într-o căsuță, iar mesajul este citit într-un client de e-mail, de oriunde, prin IMAP 993."
 tags:
   - virgoOS
   - e-mail
   - DNS
 ---
 
-Un nod virgoOS poate găzdui e-mailul firmei: adrese pe propriul domeniu, căsuțe pe propriile discuri, fără licență pentru fiecare căsuță. Dintre toate lucrurile pe care le face un nod, acesta vă cere cel mai mult. Aveți de creat înregistrări DNS, de configurat un router, iar căsuțele se administrează din linia de comandă, nu cu mouse-ul.
+Un nod univrs poate găzdui e-mailul firmei: adrese pe propriul domeniu, căsuțe pe propriile discuri, fără licență pentru fiecare căsuță. Dintre toate lucrurile pe care le face un nod, acesta vă cere cel mai mult. Aveți de creat înregistrări DNS, de configurat un router, iar căsuțele se administrează din linia de comandă, nu cu mouse-ul.
 
 Articolul le ia pe toate, în ordine. Exemplele folosesc `example.com` ca domeniu și `203.0.113.10` ca adresă IP publică. Înlocuiți-le cu ale dumneavoastră.
 

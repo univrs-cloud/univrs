@@ -1,16 +1,16 @@
 ---
 title: 'GDPR on your own server: where the data sits and who can reach it'
-description: Where personal data lives on a virgoOS node, who can reach it from inside and outside the office, and what the node does to keep it available and to delete it.
+description: Where personal data lives on a univrs node, who can reach it from inside and outside the office, and what the node does to keep it available and to delete it.
 pubDate: 2026-10-15
 image: ../../../assets/blog/gdpr-cover.png
-imageAlt: Folders and ID cards with people's details, kept on a virgoOS node, with the twelve stars of the EU flag on the open folder.
+imageAlt: Folders and ID cards with people's details, kept on a univrs node, with the twelve stars of the EU flag on the open folder.
 tags:
   - virgoOS
   - GDPR
   - security
 ---
 
-GDPR asks every firm the same questions about the personal data it keeps: where it is, who can reach it, how you would get it back after an incident, and how you delete it. With a cloud service, part of each answer is in the provider's contract. With a virgoOS node, all of it is in your office.
+GDPR asks every firm the same questions about the personal data it keeps: where it is, who can reach it, how you would get it back after an incident, and how you delete it. With a cloud service, part of each answer is in the provider's contract. With a univrs node, all of it is in your office.
 
 This post gives the answers a node lets you give. What the regulation asks of your firm in particular is for your lawyer or data protection officer to judge. These are the facts they will ask you for.
 
