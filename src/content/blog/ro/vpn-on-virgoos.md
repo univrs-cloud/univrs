@@ -1,9 +1,9 @@
 ---
 title: 'Departe de birou: VPN-ul de pe un nod virgoOS'
-description: Cum vă aduce VPN-ul WireGuard de pe un nod virgoOS folderele și time machines oriunde ați fi, ce îi trebuie de la conexiunea la internet și de ce am ales WireGuard.
+description: Cum vă aduce VPN-ul WireGuard de pe un nod virgoOS folderele și discurile de backup oriunde ați fi, ce îi trebuie de la conexiunea la internet și de ce am ales WireGuard.
 pubDate: 2026-10-02
 image: ../../../assets/blog/vpn-paths-ro.png
-imageAlt: Un telefon sau un laptop din afara rețelei ajunge la nod pe două căi, prin fleet pentru administrare și printr-un tunel WireGuard, care intră în rețea prin router, pe portul UDP 51820, și ajunge la folderele, time machines și aplicațiile nodului. Ambele căi sunt criptate.
+imageAlt: Un telefon sau un laptop din afara rețelei ajunge la nod pe două căi, prin fleet pentru administrare și printr-un tunel WireGuard, care intră în rețea prin router, pe portul UDP 51820, și ajunge la folderele, discurile de backup și aplicațiile nodului. Ambele căi sunt criptate.
 tags:
   - virgoOS
   - VPN
@@ -18,21 +18,21 @@ La un nod se poate ajunge din afara rețelei pe trei căi, fiecare cu rostul ei.
 
 - **Prin fleet.** La [fleet.univrs.cloud](https://fleet.univrs.cloud) administrați nodul de oriunde, și atât: fleetul nu face altceva. Nodul se conectează singur la fleet, deci merge și fără adresă IP publică, și fără porturi redirecționate.
 - **Prin adresa lor.** Cu portul 443 redirecționat, aplicațiile se deschid în browser, fiecare la adresa ei. Din afară, administrarea nodului și o parte dintre aplicații cer mai întâi un cont de pe nod.
-- **Prin VPN.** Telefonul sau laptopul intră în rețeaua dumneavoastră printr-un tunel criptat și este tratat ca și cum s-ar afla la birou. Este singura dintre cele trei căi care ajunge la folderele și la time machines de pe nod.
+- **Prin VPN.** Telefonul sau laptopul intră în rețeaua dumneavoastră printr-un tunel criptat și este tratat ca și cum s-ar afla la birou. Este singura dintre cele trei căi care ajunge la folderele și la discurile de backup de pe nod.
 
 Toate trei sunt criptate. Diferă doar la ce ajunge fiecare.
 
-## Folderele și time machines, de oriunde
+## Folderele și discurile de backup, de oriunde
 
-Folderele și time machines sunt partajări SMB. Sunt făcute pentru calculatoarele din rețeaua locală și nu sunt expuse niciodată în internet: pentru ele nu există niciun port de redirecționat. Când sunteți departe de birou, VPN-ul este calea sigură de a ajunge la ele.
+Folderele și discurile de backup sunt partajări SMB. Sunt făcute pentru calculatoarele din rețeaua locală și nu sunt expuse niciodată în internet: pentru ele nu există niciun port de redirecționat. Când sunteți departe de birou, VPN-ul este calea sigură de a ajunge la ele.
 
 ![Folderele de pe pagina Dashboard a unui nod: Documents, Olivia Nextcloud, Photos și Public, fiecare cu o bară care arată cât din capacitate este ocupat.](../../../assets/blog/dashboard-folders.png)
 
 Odată conectat la VPN, calculatorul deschide un folder la aceeași adresă pe care o folosește la birou, cu același nume de utilizator și aceeași parolă de pe nod. Nu trebuie să sincronizați sau să copiați nimic înainte: fișierele rămân pe nod și lucrați pe ele acolo unde sunt.
 
-La fel stau lucrurile cu backupurile. Un Mac care își face backupul într-un time machine de pe nod continuă să și-l facă și prin VPN, așa că un laptop plecat o săptămână nu rămâne o săptămână fără backup.
+La fel stau lucrurile cu backupurile. Un Mac care își face backupul pe time capsule-ul nodului continuă să și-l facă și prin VPN, așa că un laptop plecat o săptămână nu rămâne o săptămână fără backup.
 
-![Time machines de pe pagina Dashboard a unui nod, câte unul pentru fiecare Mac: James MacBook Air, Olivia MacBook Pro și Studio iMac.](../../../assets/blog/dashboard-time-machines.png)
+![Discurile de backup de pe pagina Dashboard a unui nod, câte unul pentru fiecare Mac: James MacBook Air, Olivia MacBook Pro și Studio iMac.](../../../assets/blog/dashboard-time-capsule.png)
 
 ## Aplicațiile, ca în rețeaua locală
 
@@ -79,6 +79,6 @@ Are și o limită, pe care e bine să o știți. WireGuard funcționează doar p
 ## Ce urmează
 
 - [Port forwarding](https://docs.univrs.cloud/setup/ports/), în limba engleză, enumeră toate porturile și explică CGNAT.
-- [Folders](https://docs.univrs.cloud/management/resources/folders/) și [Time machines](https://docs.univrs.cloud/management/resources/time-machines/), în limba engleză, arată cum le creați și cum le copiați adresele.
+- [Folders](https://docs.univrs.cloud/management/resources/folders/) și [Time capsule](https://docs.univrs.cloud/management/resources/time-capsule/), în limba engleză, arată cum le creați și cum le copiați adresele.
 - [Apps](https://docs.univrs.cloud/management/resources/apps/), în limba engleză, descrie instalarea din App center.
 - [Ce este virgoOS și ce rulează pe el](/ro/blog/what-virgoos-is/) prezintă pe scurt tot restul.

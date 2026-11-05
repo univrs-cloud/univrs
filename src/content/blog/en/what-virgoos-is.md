@@ -3,7 +3,7 @@ title: What virgoOS is, and what runs on it
 description: A short tour of virgoOS, the open-source operating system that turns a small server into a private cloud.
 pubDate: 2026-10-01
 image: ../../../assets/blog/dashboard.png
-imageAlt: The Dashboard of a virgoOS node, with its status on the left and its apps, folders and time machines on the right.
+imageAlt: The Dashboard of a virgoOS node, with its status on the left and its apps, folders and backup disks on the right.
 tags:
   - virgoOS
   - overview

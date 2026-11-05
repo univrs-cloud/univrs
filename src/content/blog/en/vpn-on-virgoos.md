@@ -1,9 +1,9 @@
 ---
 title: 'Away from the office: the VPN on a virgoOS node'
-description: How the WireGuard VPN on a virgoOS node brings your folders and time machines with you, what it needs from your internet connection, and why it is WireGuard.
+description: How the WireGuard VPN on a virgoOS node brings your folders and backup disks with you, what it needs from your internet connection, and why it is WireGuard.
 pubDate: 2026-10-02
 image: ../../../assets/blog/vpn-paths-en.png
-imageAlt: A phone or laptop outside your network reaches the node in two ways, through the fleet to manage it, and through a WireGuard tunnel that enters your network at the router on UDP 51820 and reaches the node's folders, time machines and apps. Both paths are encrypted.
+imageAlt: A phone or laptop outside your network reaches the node in two ways, through the fleet to manage it, and through a WireGuard tunnel that enters your network at the router on UDP 51820 and reaches the node's folders, backup disks and apps. Both paths are encrypted.
 tags:
   - virgoOS
   - VPN
@@ -18,21 +18,21 @@ A node can be reached from outside your network in three ways, and each one is f
 
 - **Through your fleet.** At [fleet.univrs.cloud](https://fleet.univrs.cloud) you manage the node from anywhere, and that is all the fleet does. The node connects out to the fleet itself, so this works with no public IP address and no forwarded ports.
 - **Through its name.** With port 443 forwarded, the apps open in a browser at their own names. From outside, managing the node and some of the apps ask for a node account first.
-- **Through the VPN.** Your phone or laptop joins your network over an encrypted tunnel and is treated as if it were at the office. This is the only one of the three that reaches the node's folders and time machines.
+- **Through the VPN.** Your phone or laptop joins your network over an encrypted tunnel and is treated as if it were at the office. This is the only one of the three that reaches the node's folders and backup disks.
 
 All three are encrypted. What differs is what each one reaches.
 
-## Folders and time machines, from anywhere
+## Folders and backup disks, from anywhere
 
-Folders and time machines are SMB shares. They are made for the computers on your local network, and they are never put on the internet: there is no port to forward for them. Away from the office, the VPN is the secure way to reach them.
+Folders and backup disks are SMB shares. They are made for the computers on your local network, and they are never put on the internet: there is no port to forward for them. Away from the office, the VPN is the secure way to reach them.
 
 ![The folders on a node's Dashboard: Documents, Olivia Nextcloud, Photos and Public, each with a bar showing how much of its capacity is used.](../../../assets/blog/dashboard-folders.png)
 
 Connected to the VPN, a computer opens a folder at the same address it uses at the office and with the same node username and password. Nothing has to be synced or copied first: the files stay on the node, and you work on them where they are.
 
-The same goes for backups. A Mac that backs up to a time machine on the node keeps doing so over the VPN, so a laptop that spends a week away does not spend a week without a backup.
+The same goes for backups. A Mac that backs up to the node's time capsule keeps doing so over the VPN, so a laptop that spends a week away does not spend a week without a backup.
 
-![The time machines on a node's Dashboard, one for each Mac: James MacBook Air, Olivia MacBook Pro and Studio iMac.](../../../assets/blog/dashboard-time-machines.png)
+![The backup disks on a node's Dashboard, one for each Mac: James MacBook Air, Olivia MacBook Pro and Studio iMac.](../../../assets/blog/dashboard-time-capsule.png)
 
 ## The apps, as on your local network
 
@@ -79,6 +79,6 @@ It has one limit worth knowing. WireGuard runs over UDP only, and it does not tr
 ## Where to go next
 
 - [Port forwarding](https://docs.univrs.cloud/setup/ports/) lists every port and explains CGNAT.
-- [Folders](https://docs.univrs.cloud/management/resources/folders/) and [Time machines](https://docs.univrs.cloud/management/resources/time-machines/) cover creating them and copying their addresses.
+- [Folders](https://docs.univrs.cloud/management/resources/folders/) and [Time capsule](https://docs.univrs.cloud/management/resources/time-capsule/) cover creating them and copying their addresses.
 - [Apps](https://docs.univrs.cloud/management/resources/apps/) covers installing from the App center.
 - [What virgoOS is, and what runs on it](/blog/what-virgoos-is/) is the short tour of everything else.

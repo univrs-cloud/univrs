@@ -16,7 +16,7 @@ This post gives the answers a node lets you give. What the regulation asks of yo
 
 ## Where the data sits
 
-Everything a node keeps is on its own drives: the files in Nextcloud, the mailboxes of the mail server, the folders on your network and the time machines of your Macs. Each app keeps its data on the node's storage pool, and the pool is made of the drives inside the node.
+Everything a node keeps is on its own drives: the files in Nextcloud, the mailboxes of the mail server, the folders on your network and the backup disks of your Macs. Each app keeps its data on the node's storage pool, and the pool is made of the drives inside the node.
 
 So the answer to "where" is one place: the room the node is in. There is no data centre, no region to choose and nothing transferred outside the EU, because nothing is transferred at all.
 
@@ -32,7 +32,7 @@ virgoOS collects nothing: no analytics, no telemetry, no usage reports. univrs k
 
 ### At the office
 
-On your local network, each app asks for its own account. Folders and time machines ask for a node username and password, and each user reaches only the ones they have been given access to.
+On your local network, each app asks for its own account. Folders and backup disks ask for a node username and password, and each user reaches only the ones they have been given access to.
 
 ### From outside
 
@@ -40,13 +40,13 @@ From the internet, nothing reaches the node unless you forward ports to it on yo
 
 After 3 failed sign-in attempts within 10 minutes, signing in from that address is blocked for 12 hours.
 
-Folders and time machines are never put on the internet: there is no port to forward for them. Away from the office, they are reached only over [the VPN](/blog/vpn-on-virgoos/).
+Folders and backup disks are never put on the internet: there is no port to forward for them. Away from the office, they are reached only over [the VPN](/blog/vpn-on-virgoos/).
 
 ### The people in your firm
 
-Every user of the node has a role. Users reach the folders and time machines they have access to. Administrators manage the node and its users. The owner, whose password was set during setup, is the only one who can make someone an administrator.
+Every user of the node has a role. Users reach the folders and backup disks they have access to. Administrators manage the node and its users. The owner, whose password was set during setup, is the only one who can make someone an administrator.
 
-When someone leaves, **Lock** stops them from signing in and from reaching folders and time machines, and **Delete** removes them. Either one signs them out everywhere. The sessions list shows every browser a user is signed in from, the address it is used from and when it was last active.
+When someone leaves, **Lock** stops them from signing in and from reaching folders and backup disks, and **Delete** removes them. Either one signs them out everywhere. The sessions list shows every browser a user is signed in from, the address it is used from and when it was last active.
 
 Apps keep their own accounts, separate from the node's. When someone leaves, disable them in Nextcloud and in the other apps they used too.
 

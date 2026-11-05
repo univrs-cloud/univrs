@@ -34,7 +34,7 @@ export const ro: HomeCopy = {
 			{ icon: 'shield', logos: ['wireguard'], title: 'VPN', text: 'Din afara rețelei, WireGuard vă oferă o conexiune criptată la nod și la aplicațiile lui.' },
 			{ icon: 'ban', logos: ['pi-hole'], title: 'Fără reclame', text: 'Pi-hole blochează reclamele și trackerele la nivel de DNS, pentru toate dispozitivele din rețea.' },
 			{ icon: 'share', title: 'Foldere partajate', text: 'Foldere pentru calculatoarele din rețeaua locală, accesibile utilizatorilor pe care îi alegeți sau oricui, ca invitat.' },
-			{ icon: 'clock', title: 'Backup pentru Mac', text: 'Time machines sunt destinații de backup pentru aplicația Time Machine de pe Mac, fiecare cu propria capacitate.' },
+			{ icon: 'clock', title: 'Backup pentru Mac', text: 'Pe Mac, nodul apare ca un time capsule, cu discuri de backup pentru aplicația Time Machine, fiecare cu propria capacitate.' },
 			{ icon: 'code', logos: ['terminal', 'gitea', 'plausible'], title: 'Unelte pentru dezvoltatori', text: 'Gitea cu runnerul său de CI, analiză web cu Plausible, un panou pentru containere și un terminal în browser.' }
 		],
 		note: 'Se instalează doar ce alegeți. Trei aplicații de bază sunt mereu prezente: Traefik direcționează cererile către aplicații și se ocupă de certificatele lor SSL, Authelia gestionează conturile nodului, iar Terminal deschide un shell din browser.'

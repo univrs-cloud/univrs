@@ -3,7 +3,7 @@ title: Ce este virgoOS și ce rulează pe el
 description: O scurtă prezentare a virgoOS, sistemul de operare open source care transformă un server mic într-un cloud privat.
 pubDate: 2026-10-01
 image: ../../../assets/blog/dashboard.png
-imageAlt: Pagina Dashboard a unui nod virgoOS, cu starea lui în stânga și aplicațiile, folderele și time machines în dreapta.
+imageAlt: Pagina Dashboard a unui nod virgoOS, cu starea lui în stânga și aplicațiile, folderele și discurile de backup în dreapta.
 tags:
   - virgoOS
   - prezentare

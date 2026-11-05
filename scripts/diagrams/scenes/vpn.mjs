@@ -8,7 +8,7 @@ const copy = {
 		anywhere: 'from anywhere',
 		out: 'the node connects out',
 		network: 'Your network',
-		node: ['Node', 'Folders', 'Time machines', 'Apps']
+		node: ['Node', 'Folders', 'Time capsule', 'Apps']
 	},
 	ro: {
 		device: ['Telefon sau laptop', 'în afara rețelei'],
@@ -17,7 +17,7 @@ const copy = {
 		anywhere: 'de oriunde',
 		out: 'nodul se conectează singur',
 		network: 'Rețeaua dumneavoastră',
-		node: ['Nod', 'Foldere', 'Time machines', 'Aplicații']
+		node: ['Nod', 'Foldere', 'Time capsule', 'Aplicații']
 	}
 };
 

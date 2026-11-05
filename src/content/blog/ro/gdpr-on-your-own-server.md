@@ -16,7 +16,7 @@ Articolul acesta adună răspunsurile pe care vi le permite un nod. Ce anume cer
 
 ## Unde stau datele
 
-Tot ce păstrează un nod stă pe propriile lui discuri: fișierele din Nextcloud, căsuțele serverului de e-mail, folderele din rețea și time machines pentru Mac. Fiecare aplicație își ține datele în pool-ul de stocare al nodului, iar pool-ul este format din discurile din nod.
+Tot ce păstrează un nod stă pe propriile lui discuri: fișierele din Nextcloud, căsuțele serverului de e-mail, folderele din rețea și discurile de backup pentru Mac. Fiecare aplicație își ține datele în pool-ul de stocare al nodului, iar pool-ul este format din discurile din nod.
 
 Așadar, la întrebarea „unde” răspunsul este un singur loc: încăperea în care stă nodul. Nu există un centru de date, nu aveți de ales o regiune și nimic nu este transferat în afara UE, pentru că nimic nu este transferat deloc.
 
@@ -32,7 +32,7 @@ virgoOS nu colectează nimic: nicio statistică de utilizare, nicio telemetrie, 
 
 ### În birou
 
-În rețeaua locală, fiecare aplicație cere propriul cont. Folderele și time machines cer un nume de utilizator și o parolă de pe nod, iar fiecare utilizator ajunge doar la cele la care i s-a dat acces.
+În rețeaua locală, fiecare aplicație cere propriul cont. Folderele și discurile de backup cer un nume de utilizator și o parolă de pe nod, iar fiecare utilizator ajunge doar la cele la care i s-a dat acces.
 
 ### Din afară
 
@@ -40,13 +40,13 @@ Din internet, nimic nu ajunge la nod dacă nu redirecționați porturi către el
 
 După 3 încercări de autentificare eșuate în 10 minute, autentificarea de la acea adresă este blocată 12 ore.
 
-Folderele și time machines nu sunt niciodată puse în internet: nu există niciun port de redirecționat pentru ele. În afara biroului, se ajunge la ele doar prin [VPN](/ro/blog/vpn-on-virgoos/).
+Folderele și discurile de backup nu sunt niciodată puse în internet: nu există niciun port de redirecționat pentru ele. În afara biroului, se ajunge la ele doar prin [VPN](/ro/blog/vpn-on-virgoos/).
 
 ### Oamenii din firmă
 
-Fiecare utilizator al nodului are un rol. Utilizatorii ajung la folderele și time machines la care au acces. Administratorii administrează nodul și utilizatorii lui. Proprietarul, a cărui parolă a fost setată la configurare, este singurul care poate face pe cineva administrator.
+Fiecare utilizator al nodului are un rol. Utilizatorii ajung la folderele și la discurile de backup la care au acces. Administratorii administrează nodul și utilizatorii lui. Proprietarul, a cărui parolă a fost setată la configurare, este singurul care poate face pe cineva administrator.
 
-Când cineva pleacă, **Lock** îl oprește să se mai autentifice și să mai ajungă la foldere și la time machines, iar **Delete** îl șterge. Oricare dintre ele îl deconectează peste tot. Lista sesiunilor arată fiecare browser în care un utilizator este autentificat, adresa de la care este folosit și când a fost activ ultima dată.
+Când cineva pleacă, **Lock** îl oprește să se mai autentifice și să mai ajungă la foldere și la discurile de backup, iar **Delete** îl șterge. Oricare dintre ele îl deconectează peste tot. Lista sesiunilor arată fiecare browser în care un utilizator este autentificat, adresa de la care este folosit și când a fost activ ultima dată.
 
 Aplicațiile au propriile conturi, separate de cele ale nodului. Când cineva pleacă, dezactivați-l și în Nextcloud și în celelalte aplicații pe care le folosea.
 
