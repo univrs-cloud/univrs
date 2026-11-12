@@ -119,7 +119,7 @@ export const en: HomeCopy = {
 				shotAlt: 'The Updates page, listing four available updates with their versions.',
 				title: 'Updates from one page',
 				text: 'The node checks for updates every day. The Updates page lists each one with its current and new version, and installs them all while showing every step.',
-				href: `${site.docs}/management/system/updates/`
+				href: `${site.docs}/management/node/updates/`
 			},
 			{
 				shot: 'terminal',

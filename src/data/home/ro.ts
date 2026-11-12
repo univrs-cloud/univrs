@@ -119,7 +119,7 @@ export const ro: HomeCopy = {
 				shotAlt: 'Pagina Updates, cu patru actualizări disponibile și versiunile lor.',
 				title: 'Actualizări dintr-o singură pagină',
 				text: 'Nodul caută actualizări în fiecare zi. Pagina Updates afișează fiecare actualizare, cu versiunea instalată și cea nouă, și le instalează pe toate, arătând fiecare pas.',
-				href: `${site.docs}/management/system/updates/`
+				href: `${site.docs}/management/node/updates/`
 			},
 			{
 				shot: 'terminal',
