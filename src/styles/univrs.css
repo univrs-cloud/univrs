@@ -1861,9 +1861,17 @@ a {
 	padding-block: clamp(3rem, 7vw, 5.5rem) 0;
 }
 
+.post-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.6rem 1.4rem;
+	margin-bottom: 1.2rem;
+}
+
 .post-head .label {
 	display: block;
-	margin-bottom: 1.2rem;
 }
 
 .post-head .label a {
@@ -2204,6 +2212,28 @@ a {
 	gap: 1rem;
 	padding-top: 1.6rem;
 	border-top: 1px solid var(--line);
+}
+
+.post-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1.4rem;
+}
+
+.post-share {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin-top: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+}
+
+.post-share[hidden] {
+	display: none;
 }
 
 .post-tags {

@@ -3,6 +3,7 @@ import { getImage, Image } from 'astro:assets';
 import { render } from 'astro:content';
 import { allPosts, formatDate, postAlternates, postImagePath, postLocale, postMarkdownPath, postPath, postSlug, type Post } from '../../../data/posts';
 import { ui } from '../../../data/ui';
+import Icon from '../../../components/Icon.astro';
 import Base from '../../../layouts/Base.astro';
 import { localePath, site } from '../../../site';
 
@@ -71,10 +72,13 @@ const schema = [
 	<article>
 		<header class="post-head">
 			<div class="wrap wrap--reading">
-				<span class="label">
-					<a href={localePath(locale, 'blog/')}>{copy.label}</a> · <time datetime={pubDate.toISOString()}>{formatDate(pubDate, locale)}</time>
-					{updatedDate && <> · {copy.updated} <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate, locale)}</time></>}
-				</span>
+				<div class="post-meta">
+					<span class="label">
+						<a href={localePath(locale, 'blog/')}>{copy.label}</a> · <time datetime={pubDate.toISOString()}>{formatDate(pubDate, locale)}</time>
+						{updatedDate && <> · {copy.updated} <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate, locale)}</time></>}
+					</span>
+					<button class="more post-share" type="button" hidden data-title={title} data-text={description} data-url={pageUrl}><Icon name="share" class="ico--sm" />{copy.share}</button>
+				</div>
 				<h1 style={`view-transition-name: post-title-${slug}`}>{title}</h1>
 				<p class="lede">{description}</p>
 				<hr class="spectrum">
@@ -93,7 +97,10 @@ const schema = [
 				<ul class="post-tags">
 					{tags.map((tag) => <li class="chip">{tag}</li>)}
 				</ul>
-				<a class="more" href={localePath(locale, 'blog/')}><span class="arw" aria-hidden="true">←</span> {copy.back}</a>
+				<div class="post-actions">
+					<button class="more post-share" type="button" hidden data-title={title} data-text={description} data-url={pageUrl}><Icon name="share" class="ico--sm" />{copy.share}</button>
+					<a class="more" href={localePath(locale, 'blog/')}><span class="arw" aria-hidden="true">←</span> {copy.back}</a>
+				</div>
 			</footer>
 		</div>
 	</article>
@@ -109,6 +116,16 @@ const schema = [
 </Base>
 
 <script>
+	if (typeof navigator.share === 'function') {
+		document.querySelectorAll<HTMLButtonElement>('.post-share').forEach((share) => {
+			const { title = '', text = '', url = location.href } = share.dataset;
+			share.hidden = false;
+			share.addEventListener('click', () => {
+				navigator.share({ title, text, url }).catch(() => {});
+			});
+		});
+	}
+
 	const DURATION = 300;
 	const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 	const dialog = document.querySelector<HTMLDialogElement>('.zoom');

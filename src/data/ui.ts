@@ -22,6 +22,7 @@ export interface UiCopy {
 		zoomClose: string;
 		copy: string;
 		copied: string;
+		share: string;
 		empty: string;
 		feed: string;
 	};
@@ -76,6 +77,7 @@ export const ui: Record<Locale, UiCopy> = {
 			zoomClose: 'Close the enlarged image',
 			copy: 'Copy to clipboard',
 			copied: 'Copied',
+			share: 'Share',
 			empty: 'No posts yet.',
 			feed: 'RSS feed'
 		},
@@ -145,6 +147,7 @@ export const ui: Record<Locale, UiCopy> = {
 			zoomClose: 'Închide imaginea mărită',
 			copy: 'Copiază în clipboard',
 			copied: 'Copiat',
+			share: 'Distribuie',
 			empty: 'Încă nu există articole.',
 			feed: 'Flux RSS'
 		},
