@@ -48,7 +48,7 @@ On a univrs node, Thursday was an ordinary working day.
 
 **Your data is kept twice over.** The node's storage pool is redundant, from a mirror up, so a drive can be replaced while everything keeps working. Under it, the pool keeps a history of the data: a snapshot for each of the last 36 hours, 30 days, 60 months and 5 years.
 
-**A second node takes over.** With two nodes, the data and its snapshots are replicated from one to the other. If the primary node goes down, everything fails over to the secondary, and the firm keeps working. Put the second node in another building, and not even a fire or a theft at the office stops you.
+**A second node takes over.** Install a second node, and the data and its snapshots are replicated to it. If the primary node goes down, everything fails over to the secondary, and the firm keeps working. Put the second node in another building, and not even a fire or a theft at the office stops you.
 
 **It is in your office.** You can see the server, and whoever looks after it is looking after your node, not infrastructure shared by millions.
 
@@ -57,7 +57,7 @@ On a univrs node, Thursday was an ordinary working day.
 - **A global outage is not your outage.** Your email and files are not on infrastructure shared with millions of others.
 - **The office keeps working without the internet.** Folders and Nextcloud are on your local network.
 - **Mail comes straight to you.** No provider's queue in between.
-- **A second node takes over.** The data is replicated, and everything fails over to the secondary node.
+- **A second node takes over.** With a secondary node installed, the data is replicated and everything fails over to it.
 - **The server is yours.** It is in your office, on your network, and it answers only to you.
 
 On Thursday, firms that had put everything in one cloud lost access to their email and their files at the same moment, and could do nothing but wait. With a node, your email and your files stay where your work is: in your office, and in your hands.

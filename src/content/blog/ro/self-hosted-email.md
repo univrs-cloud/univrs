@@ -445,7 +445,7 @@ Are efect pe loc, iar dacă rulați din nou `setup fail2ban`, adresa nu mai apar
 - **Unele mesaje ajung cu întârziere prima dată.** Filtrul de spam amână mesajele care i se par suspecte (greylisting): îi cere serverului expeditor să încerce din nou mai târziu. Serverele legitime o fac, așa că mesajul ajunge ceva mai târziu.
 - **Un mesaj poate avea cel mult 25 MB.** Atașamentele cresc cu aproximativ o treime la trimitere, deci în practică un fișier poate avea în jur de 18 MB.
 - **Parolele greșite duc la blocare.** Un telefon care tot încearcă o parolă veche ajunge blocat de fail2ban, iar e-mailul nu mai merge de pe acea conexiune până când [o deblocați](#deblocarea-unei-adrese).
-- **Când nodul este oprit, e-mailul așteaptă.** Serverele expeditoare mai încearcă o vreme, de obicei câteva zile, apoi renunță. Cu două noduri, e-mailul este replicat și trece pe nodul secundar.
+- **Când nodul este oprit, e-mailul așteaptă.** Serverele expeditoare mai încearcă o vreme, de obicei câteva zile, apoi renunță. Cu un nod secundar instalat, e-mailul este replicat și trece pe acesta.
 - **Un server nou nu are reputație.** În primele săptămâni, marii furnizori vă pot pune mesajele în spam chiar dacă toate verificările trec. Lucrurile se îndreaptă pe măsură ce oamenii vă primesc mesajele și vă răspund.
 - **Aplicația este făcută pentru un singur domeniu.** Puteți adăuga căsuțe pe un al doilea domeniu, dar semnarea DKIM pentru el se configurează manual, iar clienții de e-mail se configurează automat doar pentru primul.
 

@@ -48,7 +48,7 @@ Pe un nod univrs, joi a fost o zi de lucru obișnuită.
 
 **Datele sunt păstrate de două ori.** Pool-ul de stocare al nodului este redundant, de la o oglindă în sus, așa că un disc se poate înlocui în timp ce totul funcționează mai departe. Dedesubt, pool-ul păstrează un istoric al datelor: câte un snapshot pentru fiecare dintre ultimele 36 de ore, 30 de zile, 60 de luni și 5 ani.
 
-**Un al doilea nod preia.** Cu două noduri, datele și snapshoturile lor sunt replicate de pe unul pe celălalt. Dacă nodul principal se oprește, totul trece pe nodul secundar, iar firma lucrează mai departe. Puneți al doilea nod în altă clădire și nici măcar un incendiu sau un furt la birou nu vă mai oprește.
+**Un al doilea nod preia.** Instalați un al doilea nod, iar datele și snapshoturile lor sunt replicate pe el. Dacă nodul principal se oprește, totul trece pe nodul secundar, iar firma lucrează mai departe. Puneți al doilea nod în altă clădire și nici măcar un incendiu sau un furt la birou nu vă mai oprește.
 
 **Este în biroul dumneavoastră.** Vedeți serverul, iar cine are grijă de el are grijă de nodul dumneavoastră, nu de o infrastructură folosită de milioane de oameni.
 
@@ -57,7 +57,7 @@ Pe un nod univrs, joi a fost o zi de lucru obișnuită.
 - **O pană globală nu este pana dumneavoastră.** E-mailul și fișierele nu stau pe o infrastructură împărțită cu milioane de alți utilizatori.
 - **Biroul lucrează și fără internet.** Folderele și Nextcloud sunt în rețeaua locală.
 - **E-mailul vine direct la dumneavoastră.** Fără coada unui furnizor la mijloc.
-- **Un al doilea nod preia.** Datele sunt replicate, iar totul trece pe nodul secundar.
+- **Un al doilea nod preia.** Cu un nod secundar instalat, datele sunt replicate, iar totul trece pe el.
 - **Serverul este al dumneavoastră.** Stă în birou, în rețeaua dumneavoastră, și răspunde doar dumneavoastră.
 
 Joi, firmele care își puseseră totul într-un singur cloud au pierdut în același moment accesul la e-mail și la fișiere și nu au putut face nimic altceva decât să aștepte. Cu un nod, e-mailul și fișierele rămân acolo unde se face munca: în biroul dumneavoastră și în mâinile dumneavoastră.
