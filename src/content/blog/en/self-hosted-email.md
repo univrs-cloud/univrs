@@ -445,7 +445,7 @@ It takes effect at once, and running `setup fail2ban` again shows the address go
 - **Some first messages arrive late.** The spam filter greylists mail it finds suspicious: it asks the sending server to try again later. Legitimate servers do, so the message arrives a little later.
 - **One message can be 25 MB at most.** Attachments grow by about a third when they are sent, so the practical limit for a file is around 18 MB.
 - **Wrong passwords get you banned.** A phone that keeps trying an old password ends up banned by fail2ban, and mail stops working from that connection until you [unban it](#unbanning-an-address).
-- **When the node is off, mail waits.** Sending servers keep trying for a while, usually for days, before giving up. There is no second server to take over, so a long outage means bounced mail.
+- **When the node is off, mail waits.** Sending servers keep trying for a while, usually for days, before giving up. With two nodes, the mail is replicated and fails over to the secondary node.
 - **A new server has no reputation.** For the first weeks, large providers may put your messages in spam even when every check passes. It improves as people receive and answer your mail.
 - **The app is set up for one domain.** Mailboxes on a second domain can be added, but DKIM signing for it has to be configured by hand, and mail clients are configured automatically only for the first.
 
