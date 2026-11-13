@@ -36,6 +36,12 @@ export const site = {
 	license: 'https://github.com/univrs-cloud/virgo/blob/HEAD/LICENSE'
 };
 
+export const company = {
+	name: 'FORMALBYTE S.R.L.',
+	cui: '46669810',
+	regCom: 'J2022003862357'
+};
+
 export const actionIcon = (href: string) => {
 	const leadsTo = (target: string) => href.toLowerCase().startsWith(target.toLowerCase());
 	if (leadsTo(site.docs)) {

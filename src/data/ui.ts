@@ -41,7 +41,7 @@ export interface UiCopy {
 		errors: { name: string; email: string; message: string; limit: string; failed: string };
 	};
 	notFound: { label: string; title: string; text: string; home: string };
-	footer: { tagline: string };
+	footer: { tagline: string; resources: string; company: string; cui: string; register: string };
 }
 
 export const ui: Record<Locale, UiCopy> = {
@@ -107,7 +107,11 @@ export const ui: Record<Locale, UiCopy> = {
 			home: 'Back to the home page'
 		},
 		footer: {
-			tagline: 'Private cloud on hardware you own.'
+			tagline: 'Private cloud on hardware you own.',
+			resources: 'Resources',
+			company: 'Company',
+			cui: 'Unique Registration Code',
+			register: 'Trade Register No.'
 		}
 	},
 	ro: {
@@ -172,7 +176,11 @@ export const ui: Record<Locale, UiCopy> = {
 			home: 'Înapoi la prima pagină'
 		},
 		footer: {
-			tagline: 'Cloud privat pe echipamentul dumneavoastră.'
+			tagline: 'Cloud privat pe echipamentul dumneavoastră.',
+			resources: 'Resurse',
+			company: 'Firmă',
+			cui: 'CUI',
+			register: 'Nr. Reg. Com.'
 		}
 	}
 };

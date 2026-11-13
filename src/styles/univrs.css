@@ -2230,31 +2230,79 @@ a {
 	margin-top: var(--bay);
 }
 
-.foot-in {
-	padding-block: 2.5rem 3.5rem;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1.5rem;
-	align-items: center;
-	justify-content: space-between;
+.foot-grid {
+	padding-block: 3rem 2.5rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) repeat(2, auto);
+	gap: 2rem 4rem;
 }
 
-.foot small,
-.foot-right a {
+.foot-about p {
+	margin: 0.9rem 0 0;
+	max-width: 30ch;
+	font-size: 0.9rem;
+	line-height: 1.5;
+	color: var(--muted);
+}
+
+.foot-about .brand {
+	display: inline-flex;
+	margin-right: 0;
+}
+
+.foot-col .label {
+	margin: 0 0 0.9rem;
+}
+
+.foot-col ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0.45rem;
+}
+
+.foot-col li {
+	font-size: 0.9rem;
+	line-height: 1.5;
+	color: var(--ink-2);
+	overflow-wrap: break-word;
+}
+
+.foot-col a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.foot-col a:hover {
+	color: var(--ink);
+}
+
+.foot-base {
+	border-top: 1px solid var(--line);
+	padding-block: 1.5rem 3rem;
+}
+
+.foot small {
 	font-family: var(--f-mono);
 	font-size: 0.7rem;
 	letter-spacing: 0.13em;
 	text-transform: uppercase;
 	color: var(--muted);
-	text-decoration: none;
 }
 
-.foot-right {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1.4rem;
+@media (max-width: 780px) {
+	.foot-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.foot-about {
+		grid-column: 1 / -1;
+	}
 }
 
-.foot-right a:hover {
-	color: var(--ink);
+@media (max-width: 480px) {
+	.foot-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
 }

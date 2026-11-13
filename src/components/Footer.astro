@@ -1,6 +1,7 @@
 ---
 import { ui } from '../data/ui';
-import { localePath, site, type Locale } from '../site';
+import { company, localePath, site, type Locale } from '../site';
+import Logo from './Logo.astro';
 
 interface Props {
 	locale: Locale;
@@ -12,14 +13,36 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="foot">
-	<div class="wrap foot-in">
-		<small>{site.name} © {year} · {copy.footer.tagline}</small>
-		<div class="foot-right">
-			<a href={`${site.docs}/`}>{copy.nav.docs}</a>
-			<a href={localePath(locale, 'blog/')}>{copy.nav.blog}</a>
-			<a href={localePath(locale, 'support/')}>{copy.nav.support}</a>
-			<a href={localePath(locale, 'rss.xml')}>RSS</a>
-			<a href={site.github} rel="me noopener">GitHub</a>
+	<div class="wrap">
+		<div class="foot-grid">
+			<div class="foot-about">
+				<a class="brand" href={localePath(locale)}>
+					<Logo />
+					<b>{site.name}</b>
+				</a>
+				<p>{copy.footer.tagline}</p>
+			</div>
+			<div class="foot-col">
+				<p class="label">{copy.footer.resources}</p>
+				<ul>
+					<li><a href={`${site.docs}/`}>{copy.nav.docs}</a></li>
+					<li><a href={localePath(locale, 'blog/')}>{copy.nav.blog}</a></li>
+					<li><a href={localePath(locale, 'support/')}>{copy.nav.support}</a></li>
+					<li><a href={localePath(locale, 'rss.xml')}>RSS</a></li>
+					<li><a href={site.github} rel="me noopener">GitHub</a></li>
+				</ul>
+			</div>
+			<div class="foot-col">
+				<p class="label">{copy.footer.company}</p>
+				<ul>
+					<li>{company.name}</li>
+					<li>{copy.footer.cui} {company.cui}</li>
+					<li>{copy.footer.register} {company.regCom}</li>
+				</ul>
+			</div>
+		</div>
+		<div class="foot-base">
+			<small>{site.name} © {year}</small>
 		</div>
 	</div>
 </footer>
