@@ -181,7 +181,7 @@ export const ui: Record<Locale, UiCopy> = {
 		footer: {
 			tagline: 'Cloud privat pe echipamentul dumneavoastră.',
 			resources: 'Resurse',
-			company: 'Firmă',
+			company: 'Date firmă',
 			cui: 'CUI',
 			register: 'Nr. Reg. Com.'
 		}
