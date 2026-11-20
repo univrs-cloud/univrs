@@ -1,7 +1,8 @@
 ---
 title: 'E-mail pe propriul server: de la un nod gol la o căsuță care funcționează'
-description: Configurarea de la cap la coadă a serverului de e-mail pe un nod univrs, cu porturile, înregistrările DNS, DKIM, comenzile cu care administrați căsuțele, configurarea automată a clienților de e-mail și lucrurile la care să fiți atenți.
+description: Configurarea de la cap la coadă a serverului de e-mail pe un nod univrs, cu porturile, înregistrările DNS, DKIM, administrarea căsuțelor din interfața nodului, configurarea automată a clienților de e-mail și lucrurile la care să fiți atenți.
 pubDate: 2026-10-08
+updatedDate: 2026-11-20
 image: ../../../assets/blog/mail-paths-ro.png
 imageAlt: "Drumul unui e-mail până la un nod univrs, în cinci pași. Un alt server de e-mail vă caută domeniul în înregistrările DNS (MX, SPF, DKIM, DMARC, PTR), vă află adresa publică și livrează e-mailul pe TCP 25, direct, niciodată printr-un proxy. Routerul îl redirecționează către nodul din rețeaua dumneavoastră, care îl filtrează de spam și de viruși și îl păstrează într-o căsuță, iar mesajul este citit într-un client de e-mail, de oriunde, prin IMAP 993."
 tags:
@@ -10,7 +11,7 @@ tags:
   - DNS
 ---
 
-Un nod univrs poate găzdui e-mailul firmei: adrese pe propriul domeniu, căsuțe pe propriile discuri, fără licență pentru fiecare căsuță. Dintre toate lucrurile pe care le face un nod, acesta vă cere cel mai mult. Aveți de creat înregistrări DNS, de configurat un router, iar căsuțele se administrează din linia de comandă, nu cu mouse-ul.
+Un nod univrs poate găzdui e-mailul firmei: adrese pe propriul domeniu, căsuțe pe propriile discuri, fără licență pentru fiecare căsuță. Dintre toate lucrurile pe care le face un nod, acesta vă cere cel mai mult. Aveți de creat înregistrări DNS și de configurat un router. Căsuțele, după ce serverul pornește, înseamnă câteva clicuri în interfața nodului.
 
 Articolul le ia pe toate, în ordine. Exemplele folosesc `example.com` ca domeniu și `203.0.113.10` ca adresă IP publică. Înlocuiți-le cu ale dumneavoastră.
 
@@ -40,43 +41,11 @@ Aplicația MailServer din App center este [docker-mailserver](https://docker-mai
 
 Webmail nu există. Oamenii își citesc e-mailul într-un client: Thunderbird, Outlook, Apple Mail sau aplicația de e-mail de pe telefon.
 
-## Redirecționați porturile
+## Înainte de instalare
 
-În router, redirecționați către nod aceste porturi TCP:
+Nodul obține certificatele serverului de e-mail imediat după instalare, așa că două lucruri trebuie să existe dinainte. În router, redirecționați către nod porturile TCP 80 și 443. La furnizorul de DNS, îndreptați `mail`, `autoconfig` și `autodiscover` către adresa dumneavoastră IP publică, fiecare cu o înregistrare A. Nu adăugați pentru ele înregistrări AAAA (IPv6): serverul de e-mail este configurat doar pentru IPv4.
 
-| Port | Cine îl folosește |
-| --- | --- |
-| 25 | Celelalte servere de e-mail, când vă livrează mesaje |
-| 465 | Clienții de e-mail, la trimitere, criptat de la început |
-| 587 | Clienții de e-mail, la trimitere, cu STARTTLS |
-| 993 | Clienții de e-mail, la citire (IMAP) |
-| 4190 | Clienții de e-mail, pentru filtrele de pe server (Sieve) |
-| 80 și 443 | Certificatele și paginile care configurează clienții de e-mail |
-
-## Înregistrările DNS de creat mai întâi
-
-Creați-le la furnizorul de DNS înainte de instalare, ca nodul să își poată obține certificatele imediat.
-
-| Tip | Nume | Valoare |
-| --- | --- | --- |
-| A | `mail` | `203.0.113.10` |
-| MX | `@` | `mail.example.com`, prioritate 10 |
-| CNAME | `imap` | `mail.example.com` |
-| CNAME | `smtp` | `mail.example.com` |
-| A | `autoconfig` | `203.0.113.10` |
-| A | `autodiscover` | `203.0.113.10` |
-| TXT | `@` | `mailconf=https://autoconfig.example.com/mail/config-v1.1.xml` |
-| SRV | `_imaps._tcp` | `0 0 993 mail.example.com` |
-| SRV | `_submission._tcp` | `0 0 587 mail.example.com` |
-| SRV | `_autodiscover._tcp` | `0 0 443 autodiscover.example.com` |
-
-Se împart în trei grupe:
-
-- **Unde ajunge e-mailul.** Înregistrarea `mail` îi dă serverului de e-mail un nume, iar înregistrarea MX spune lumii că mesajele pentru `@example.com` i se livrează lui.
-- **Nume pe care clienții de e-mail le ghicesc.** Unii clienți încearcă singuri `imap.example.com` și `smtp.example.com`, așa că amândouă duc la serverul de e-mail. Certificatul este emis doar pentru `mail.example.com`, deci acesta rămâne numele pe care îl scrieți când configurați manual un client.
-- **Cum își găsesc clienții de e-mail setările.** Cele două nume cu `auto`, înregistrarea `mailconf` și cele trei înregistrări SRV sunt cele care [configurează clienții de e-mail](#configurarea-clienților-de-e-mail) fără ca cineva să scrie numele vreunui server. Într-o valoare SRV, cele patru părți sunt prioritatea, ponderea, portul și serverul, iar cei mai mulți furnizori de DNS au câte un câmp pentru fiecare.
-
-Nu adăugați o înregistrare AAAA (IPv6) pentru `mail`. Serverul de e-mail este configurat doar pentru IPv4.
+Porturile de e-mail și restul înregistrărilor DNS vin după instalare. Nodul vi le arată.
 
 ## Instalați aplicația
 
@@ -88,103 +57,37 @@ Nu adăugați o înregistrare AAAA (IPv6) pentru `mail`. Serverul de e-mail este
 
 Certificatul pentru `mail.example.com` vine întotdeauna de la Let's Encrypt, de aceea portul 80 și înregistrarea `mail` trebuie să existe deja.
 
-## Unde se scriu comenzile
+Tot ce urmează se face în detaliile aplicației: în **Apps**, deschideți MailServer. Printre filele lui sunt **Domains**, **Accounts** și **Blocked IPs**.
 
-De aici încolo, totul se face cu comanda `setup` a serverului de e-mail, care rulează în containerul lui. Nu aveți nevoie de SSH pentru asta.
+## Adăugați domeniul și prima căsuță, repede
 
-În **Apps**, deschideți MailServer. În **Services** apar trei containere. La cel numit `mailserver`, apăsați **Terminal**. Se deschide o linie de comandă în interiorul containerului, direct în browser, și acolo scrieți toate comenzile `setup` din acest articol.
+Un server de e-mail abia instalat nu are niciun cont și nu își termină pornirea fără unul. Așteaptă două minute, apoi se oprește și este pornit din nou. Primii doi pași au, așadar, un termen. Dacă MailServer spune că nu rulează, așteptați să pornească din nou și continuați.
 
-Promptul arată așa: `root@mail:/#`. Scrisă singură, `setup` afișează tot ce știe să facă. Prescurtată, lista arată astfel:
+În **Domains**, apăsați **New domain** și scrieți `example.com`. Adăugarea unui domeniu îi creează cheia DKIM, cea care semnează fiecare mesaj trimis, astfel încât serverul care îl primește să poată verifica că vine într-adevăr de pe domeniul dumneavoastră. O fereastră arată apoi tot ce îi mai trebuie domeniului: porturile de redirecționat și înregistrările DNS de adăugat.
 
-![Terminalul containerului mailserver, deschis din detaliile aplicației MailServer, după ce a fost scrisă comanda setup, cu lista completă a lucrurilor pe care le poate face comanda.](../../../assets/blog/mailserver-terminal.png)
+![Fereastra afișată după adăugarea unui domeniu, cu porturile de e-mail de redirecționat în router și înregistrările DNS de adăugat pentru el, printre care și cheia DKIM.](../../../assets/blog/mailserver-domain-setup.png)
 
-```console
-root@mail:/# setup
-SETUP(1)
+Închideți-o deocamdată, contul are întâietate, și treceți la **Accounts**. Apăsați **New account**, lăsați domeniul, scrieți numele din fața lui `@example.com` și puneți parola de două ori. Limita de stocare pornește de la valoarea implicită a aplicației, 30 GiB. Lăsați-o așa sau dați-i contului o limită proprie.
 
-NAME
-    setup - 'docker-mailserver' Administration & Configuration CLI
+![Fereastra New account, cu domeniul, numele din fața lui @example.com, parola scrisă de două ori și limita de stocare.](../../../assets/blog/mailserver-account-create.png)
 
-[SUB]COMMANDS
-    COMMAND email :=
-        setup email add <EMAIL ADDRESS> [<PASSWORD>]
-        setup email update <EMAIL ADDRESS> [<PASSWORD>]
-        setup email del [ OPTIONS... ] <EMAIL ADDRESS> [ <EMAIL ADDRESS>... ]
-        setup email restrict <add|del|list> <send|receive> [<EMAIL ADDRESS>]
-        setup email list
+## Redirecționați porturile de e-mail și adăugați înregistrările DNS
 
-    COMMAND alias :=
-        setup alias add <EMAIL ADDRESS> <RECIPIENT>
-        setup alias del <EMAIL ADDRESS> <RECIPIENT>
-        setup alias list
+În router, redirecționați către nod porturile TCP din fereastră: 25 pentru celelalte servere de e-mail, când vă livrează mesaje, 465 și 587 pentru clienții de e-mail, la trimitere, și 993 pentru clienții de e-mail, la citire.
 
-    COMMAND quota :=
-        setup quota set <EMAIL ADDRESS> [<QUOTA>]
-        setup quota del <EMAIL ADDRESS>
+Apoi, înapoi în **Domains**, apăsați **DNS records** sub `example.com`. Apar toate înregistrările de care are nevoie domeniul, cu tipul, numele și valoarea lor, inclusiv cele trei înregistrări A create înainte de instalare.
 
-    COMMAND config :=
-        setup config dkim [ ARGUMENTS... ]
+![Fila Domains a aplicației MailServer, cu înregistrările DNS ale domeniului example.com deschise: MX, SPF, DKIM, DMARC, înregistrările SRV și mailconf, înregistrările A și înregistrarea PTR, pe care o poate seta doar furnizorul de internet.](../../../assets/blog/mailserver-domains.png)
 
-    COMMAND relay :=
-        setup relay add-auth <DOMAIN> <USERNAME> [<PASSWORD>]
-        setup relay add-domain <DOMAIN> <HOST> [<PORT>]
-        setup relay exclude-domain <DOMAIN>
+Copiați la furnizorul de DNS pe cele pe care nu le aveți încă. Ajungeți astfel la unsprezece înregistrări la furnizorul de DNS, plus înregistrarea reverse DNS de la furnizorul de internet, pe care lista o arată ultima, ca PTR.
 
-    COMMAND fail2ban :=
-        setup fail2ban
-        setup fail2ban ban <IP>
-        setup fail2ban unban <IP>
-        setup fail2ban log
-        setup fail2ban status
-```
+- **MX** spune lumii că mesajele pentru `@example.com` se livrează la `mail.example.com`, adică la nodul dumneavoastră.
+- **SPF** spune ce servere au voie să trimită e-mail pentru domeniu. `mx` înseamnă cele din înregistrarea MX, adică nodul dumneavoastră, iar `-all` le cere destinatarilor să refuze e-mailul pentru domeniul dumneavoastră venit de oriunde altundeva.
+- **DKIM** publică jumătatea publică a cheii create de nod. Valoarea are peste 255 de caractere, cât încape cel mult într-o singură bucată a unei înregistrări TXT. Cei mai mulți furnizori de DNS o împart singuri. Dacă al dumneavoastră o refuză, împărțiți-o în mai multe bucăți puse între ghilimele.
+- **DMARC** le spune destinatarilor ce să facă cu mesajele care pică aceste verificări. `p=quarantine` le cere să le pună în spam.
+- **Înregistrările SRV și `mailconf`** sunt cele care [configurează clienții de e-mail](#configurarea-clienților-de-e-mail) fără ca cineva să scrie numele vreunui server. Într-o valoare SRV, cele patru părți sunt prioritatea, ponderea, portul și serverul, iar cei mai mulți furnizori de DNS au câte un câmp pentru fiecare.
 
-Ce modifică aceste comenzi se păstrează împreună cu datele aplicației, pe pool-ul de stocare, deci rămâne și după actualizări.
-
-## Adăugați prima căsuță, repede
-
-Un server de e-mail abia instalat nu are niciun cont și nu își termină pornirea fără unul. Așteaptă două minute, apoi se oprește și este pornit din nou. Prima comandă are, așadar, un termen:
-
-```sh
-setup email add olivia@example.com
-```
-
-Vă cere parola, de două ori. Dacă terminalul se închide înainte să terminați, containerul a repornit: apăsați din nou **Terminal** și reluați.
-
-## Generați cheia DKIM
-
-DKIM semnează fiecare mesaj trimis, astfel încât serverul care îl primește să poată verifica că vine într-adevăr de pe domeniul dumneavoastră. Cheia se generează pe nod, o singură dată, după ce există prima căsuță:
-
-```sh
-setup config dkim
-```
-
-Comanda afișează conținutul înregistrării DNS pe care trebuie să o creați, un rând lung care începe cu `v=DKIM1; k=rsa; p=`. Copiați-l. Este și salvat, în caz că vă trebuie mai târziu:
-
-```sh
-cat /tmp/docker-mailserver/rspamd/dkim/rsa-2048-mail-example.com.public.dns.txt
-```
-
-Filtrul de spam preia cheia singur. Nu trebuie repornit nimic.
-
-## Înregistrările DNS care fac e-mailul de încredere
-
-Încă trei înregistrări TXT și lista este completă: treisprezece înregistrări la furnizorul de DNS, plus înregistrarea reverse DNS de la furnizorul de internet.
-
-| Tip | Nume | Valoare |
-| --- | --- | --- |
-| TXT | `mail._domainkey` | rândul afișat de `setup config dkim` |
-| TXT | `@` | `v=spf1 mx ~all` |
-| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:postmaster@example.com` |
-
-- **DKIM** publică jumătatea publică a cheii abia generate. Valoarea are peste 255 de caractere, cât încape cel mult într-o singură bucată a unei înregistrări TXT. Cei mai mulți furnizori de DNS o împart singuri. Dacă al dumneavoastră o refuză, împărțiți-o în mai multe bucăți puse între ghilimele.
-- **SPF** spune ce servere au voie să trimită e-mail pentru domeniu. `mx` înseamnă cele din înregistrarea MX, adică nodul dumneavoastră.
-- **DMARC** le spune destinatarilor ce să facă cu mesajele care pică ambele verificări și unde să trimită rapoarte. `p=none` cere doar rapoarte. După ce vedeți că mesajele dumneavoastră trec, schimbați în `p=quarantine`.
-
-Rapoartele DMARC ajung la `postmaster@example.com`, la fel ca notificările serverului. Faceți ca această adresă să ducă într-o căsuță reală:
-
-```sh
-setup alias add postmaster@example.com olivia@example.com
-```
+Notificările nodului ajung la `postmaster@example.com`. Faceți ca această adresă să ducă într-o căsuță reală: în **Accounts**, apăsați **Alias** sub propriul cont și adăugați `postmaster@example.com`.
 
 ## Verificați ce ați făcut
 
@@ -193,7 +96,7 @@ De pe orice calculator, întrebați DNS-ul ce vede acum lumea:
 ```sh
 dig +short MX example.com
 dig +short TXT example.com
-dig +short TXT mail._domainkey.example.com
+dig +short TXT dms._domainkey.example.com
 dig +short TXT _dmarc.example.com
 dig +short SRV _imaps._tcp.example.com
 dig +short -x 203.0.113.10
@@ -220,190 +123,21 @@ Pentru orice client care nu găsește nimic singur, setările sunt acestea:
 | Primire (IMAP) | `mail.example.com` | 993 | SSL/TLS |
 | Trimitere (SMTP) | `mail.example.com` | 465 | SSL/TLS |
 
-Numele de utilizator este adresa de e-mail întreagă, iar parola este cea dată la `setup email add`. Pentru clienții care țin la STARTTLS la trimitere, folosiți portul 587.
+Numele de utilizator este adresa de e-mail întreagă, iar parola este cea setată pentru cont. Pentru clienții care țin la STARTTLS la trimitere, folosiți portul 587.
 
 ## Zi de zi
 
-Tot ce urmează se scrie în același loc, în **Terminal**, la containerul `mailserver`.
+**Accounts** arată căsuțele, fiecare cu spațiul ocupat de mesajele ei și cu limita de stocare, iar sub fiecare, aliasurile care îi livrează. Aliasurile care trimit mai departe către adrese din afara nodului sunt grupate la final, la **Forwarded elsewhere**.
 
-### Adăugarea unei căsuțe
+![Fila Accounts a aplicației MailServer, cu patru căsuțe, spațiul folosit de fiecare din limita ei și aliasurile care îi livrează fiecăreia.](../../../assets/blog/mailserver-accounts.png)
 
-```sh
-setup email add <address> [password]
-```
+- **O căsuță nouă:** **New account**, ca la prima.
+- **O parolă nouă, altă limită sau închiderea unui cont:** meniul contului. Ștergerea unui cont îi șterge definitiv mesajele și aliasurile.
+- **Un alias**, o adresă fără căsuță proprie, de exemplu `office@example.com`: apăsați **Alias** sub căsuța care trebuie să îi primească mesajele. Adăugați același alias sub mai multe conturi și toate îi primesc mesajele. Crucea de pe un alias îl elimină.
+- **Un al doilea domeniu:** **New domain** în **Domains**. Primește propria cheie DKIM și propria listă de înregistrări DNS, iar adresele lui pot fi apoi alese în **New account**.
+- **O cheie DKIM nouă:** **New DKIM key** în meniul domeniului. Înregistrarea veche nu mai funcționează, deci actualizați imediat DNS-ul.
 
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<address>` | Da | Adresa de e-mail întreagă a noii căsuțe |
-| `[password]` | Nu | Parola ei. Dacă lipsește, comanda o cere, iar parola nu rămâne în istoricul terminalului |
-
-### Schimbarea parolei unei căsuțe
-
-```sh
-setup email update <address> [password]
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<address>` | Da | Căsuța a cărei parolă se schimbă |
-| `[password]` | Nu | Parola nouă. Dacă lipsește, comanda o cere |
-
-### Ștergerea unei căsuțe
-
-Odată cu căsuța dispar și aliasurile și limita ei.
-
-```sh
-setup email del [options] <address>
-```
-
-| Opțiune | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<address>` | Da | Căsuța de șters. Pot fi date mai multe deodată |
-| `-y` | Nu | Șterge și mesajele omului, fără să întrebe |
-| `-n` | Nu | Păstrează mesajele omului, fără să întrebe |
-
-Fără niciuna dintre opțiuni, comanda întreabă dacă să șteargă și mesajele, deci un cont poate fi închis cu mesajele păstrate.
-
-### Lista căsuțelor
-
-```sh
-setup email list
-```
-
-### Adăugarea unui alias
-
-Un alias este o adresă fără căsuță proprie.
-
-```sh
-setup alias add <alias> <recipient>
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<alias>` | Da | Adresa la care scriu oamenii, de exemplu `office@example.com` |
-| `<recipient>` | Da | Căsuța care îi primește mesajele |
-
-Adăugați același alias câte o dată pentru fiecare om și toți îi primesc mesajele.
-
-### Scoaterea cuiva dintr-un alias
-
-```sh
-setup alias del <alias> <recipient>
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<alias>` | Da | Aliasul |
-| `<recipient>` | Da | Căsuța care nu îi mai primește mesajele |
-
-### Lista aliasurilor
-
-Lista arată unde livrează fiecare alias.
-
-```sh
-setup alias list
-```
-
-### Limitarea mărimii unei căsuțe
-
-```sh
-setup quota set <address> [quota]
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<address>` | Da | Căsuța de limitat |
-| `[quota]` | Nu | Limita, cu unitate, de exemplu `500M` sau `5G`. `0` înseamnă fără limită. Dacă lipsește, comanda o cere |
-
-Fără o limită proprie, o căsuță poate ajunge până la 30 GB.
-
-### Eliminarea limitei unei căsuțe
-
-```sh
-setup quota del <address>
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<address>` | Da | Căsuța care revine la limita implicită |
-
-### Generarea cheii DKIM
-
-Comanda afișează și înregistrarea DNS a cheii.
-
-```sh
-setup config dkim [options]
-```
-
-| Opțiune | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `domain <name>` | Nu | Domeniul pentru care se generează cheia. Implicit, cel dat la instalare |
-| `selector <name>` | Nu | Numele sub care se publică înregistrarea, în fața lui `._domainkey`. Implicit, `mail` |
-| `keytype <type>` | Nu | `rsa` sau `ed25519`. Implicit, `rsa` |
-| `keysize <bits>` | Nu | `1024`, `2048` sau `4096`, pentru chei `rsa`. Implicit, `2048` |
-| `-f` | Nu | Înlocuiește o cheie care există deja |
-
-### Lista adreselor blocate
-
-```sh
-setup fail2ban
-```
-
-### Ridicarea unei blocări
-
-```sh
-setup fail2ban unban <ip>
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<ip>` | Da | Adresa de deblocat |
-
-### Blocarea manuală a unei adrese
-
-```sh
-setup fail2ban ban <ip>
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<ip>` | Da | Adresa de blocat |
-
-### De ce a fost blocată o adresă
-
-Comanda afișează istoricul autentificărilor eșuate și al blocărilor.
-
-```sh
-setup fail2ban log
-```
-
-### Trimiterea printr-un serviciu de relay
-
-E-mailul trimis de pe un domeniu pleacă apoi prin acel serviciu.
-
-```sh
-setup relay add-domain <domain> <host> [port]
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<domain>` | Da | Domeniul dumneavoastră de e-mail, de exemplu `example.com` |
-| `<host>` | Da | Serverul serviciului de relay |
-| `[port]` | Nu | Portul pe care ascultă serviciul de relay |
-
-### Datele de autentificare la serviciul de relay
-
-```sh
-setup relay add-auth <domain> <username> [password]
-```
-
-| Argument | Obligatoriu | Descriere |
-| --- | --- | --- |
-| `<domain>` | Da | Domeniul dumneavoastră de e-mail |
-| `<username>` | Da | Utilizatorul primit de la serviciul de relay |
-| `[password]` | Nu | Parola lui. Dacă lipsește, comanda o cere |
-
-Orice comandă se explică singură dacă îi adăugați `help`, de exemplu `setup email add help`.
+Ce schimbați aici se păstrează împreună cu datele aplicației, pe pool-ul de stocare, deci rămâne și după actualizări.
 
 ## Deblocarea unei adrese
 
@@ -411,28 +145,19 @@ Serverul de e-mail blochează o adresă IP după șase autentificări greșite �
 
 Blocată este adresa, nu contul. Toți cei care folosesc aceeași conexiune rămân pe dinafară odată cu el, iar același om își poate citi în continuare e-mailul de pe altă conexiune, de exemplu de pe datele mobile.
 
-Mai întâi aflați adresa. În **Terminal**, la containerul `mailserver`, afișați ce este blocat:
+**Blocked IPs** arată adresele blocate, cu motivul, de când și până când.
 
-```console
-root@mail:/# setup fail2ban
-Banned in dovecot: 198.51.100.7
-```
+![Fila Blocked IPs a aplicației MailServer, cu o adresă blocată pentru autentificări eșuate la trimitere, pentru o săptămână, și una blocată manual, permanent, fiecare cu butonul Unblock.](../../../assets/blog/mailserver-blocked.png)
 
-Dacă nu este blocat nimic, comanda vă spune asta, iar problema este în altă parte. Când în listă sunt mai multe adrese, trebuie să știți care este a lui: rugați-l să deschidă un site precum [ipinfo.io](https://ipinfo.io/) de pe conexiunea care nu mai merge și să vă citească adresa afișată.
+Dacă lista este goală, problema este în altă parte. Când în listă sunt mai multe adrese, trebuie să știți care este a lui: rugați-l să deschidă un site precum [ipinfo.io](https://ipinfo.io/) de pe conexiunea care nu mai merge și să vă citească adresa afișată.
 
-Apoi rezolvați cauza, altfel blocarea revine imediat: puneți parola corectă în clientul de e-mail de pe toate dispozitivele omului.
+Apoi rezolvați cauza, altfel blocarea revine imediat: puneți parola corectă în clientul de e-mail de pe toate dispozitivele omului. Acum apăsați **Unblock** lângă adresă. Are efect pe loc.
 
-Acum deblocați adresa:
-
-```sh
-setup fail2ban unban 198.51.100.7
-```
-
-Are efect pe loc, iar dacă rulați din nou `setup fail2ban`, adresa nu mai apare în listă. Ca să vedeți ce a dus la o blocare, `setup fail2ban log` afișează istoricul încercărilor eșuate și al blocărilor.
+**New blocked IP** face invers, pentru o adresă pe care vreți să o țineți dumneavoastră afară.
 
 ## Sfaturi
 
-- **Dacă furnizorul blochează portul 25 la ieșire** și nu vrea să îl deschidă, serverul poate trimite printr-un serviciu de relay și primi în continuare direct. `setup relay add-domain example.com smtp.relay.example 587` stabilește relay-ul, iar `setup relay add-auth example.com <utilizator>` datele lui de autentificare.
+- **Dacă furnizorul blochează portul 25 la ieșire** și nu vrea să îl deschidă, serverul poate trimite printr-un serviciu de relay și primi în continuare direct. Este singurul lucru pe care interfața nu îl setează: se face cu comanda `setup relay` în **Terminal**, la containerul `mailserver` din **Services**, așa cum descrie [documentația docker-mailserver](https://docker-mailserver.github.io/docker-mailserver/latest/), în limba engleză.
 - **Învățați filtrul de spam.** Când mutați un mesaj în Junk, filtrul învață că astfel de mesaje sunt spam, iar când mutați unul din Junk în inbox, învață contrariul. Filtrul învață pentru toată lumea deodată, deci un om atent îi ajută pe toți ceilalți.
 - **Uitați-vă întâi în loguri.** Când un mesaj nu ajunge, **Logs** de la containerul `mailserver` spune de obicei de ce, cu vorbele serverului care l-a refuzat.
 - **Păstrați o copie a înregistrărilor DNS.** Dacă schimbați vreodată furnizorul de DNS, trebuie create din nou toate, inclusiv DKIM.
@@ -440,22 +165,21 @@ Are efect pe loc, iar dacă rulați din nou `setup fail2ban`, adresa nu mai apar
 
 ## La ce să fiți atenți
 
-- **Oamenii nu se pot ajuta singuri.** Nimeni nu își poate schimba singur parola. O schimbați dumneavoastră, cu `setup email update`.
+- **Oamenii nu se pot ajuta singuri.** Nimeni nu își poate schimba singur parola. O schimbați dumneavoastră, din meniul contului.
 - **Fiecare trimite în nume propriu.** Un om poate trimite doar de pe adresa lui sau de pe un alias care îi livrează lui. Un client setat să trimită în numele altcuiva este refuzat.
 - **Unele mesaje ajung cu întârziere prima dată.** Filtrul de spam amână mesajele care i se par suspecte (greylisting): îi cere serverului expeditor să încerce din nou mai târziu. Serverele legitime o fac, așa că mesajul ajunge ceva mai târziu.
 - **Un mesaj poate avea cel mult 25 MB.** Atașamentele cresc cu aproximativ o treime la trimitere, deci în practică un fișier poate avea în jur de 18 MB.
 - **Parolele greșite duc la blocare.** Un telefon care tot încearcă o parolă veche ajunge blocat de fail2ban, iar e-mailul nu mai merge de pe acea conexiune până când [o deblocați](#deblocarea-unei-adrese).
 - **Când nodul este oprit, e-mailul așteaptă.** Serverele expeditoare mai încearcă o vreme, de obicei câteva zile, apoi renunță. Cu un nod secundar instalat, e-mailul este replicat și trece pe acesta.
 - **Un server nou nu are reputație.** În primele săptămâni, marii furnizori vă pot pune mesajele în spam chiar dacă toate verificările trec. Lucrurile se îndreaptă pe măsură ce oamenii vă primesc mesajele și vă răspund.
-- **Aplicația este făcută pentru un singur domeniu.** Puteți adăuga căsuțe pe un al doilea domeniu, dar semnarea DKIM pentru el se configurează manual, iar clienții de e-mail se configurează automat doar pentru primul.
 
-## Merită?
+## De ce merită
 
-Pentru o firmă care păstrează corespondența confidențială a altora, e-mailul pe propriile discuri merită o după-amiază de înregistrări DNS. Pentru o conexiune care nu poate oferi adresă statică, portul 25 deschis și reverse DNS, nu merită, și nicio configurare nu schimbă asta.
+Pentru o firmă care păstrează corespondența confidențială a altora, o după-amiază de înregistrări DNS aduce e-mailul pe propriile discuri, pe propriul domeniu, fără licență pentru fiecare căsuță și fără ca altcineva să citească alături. Odată ce conexiunea îndeplinește condițiile, restul înseamnă câteva clicuri, iar e-mailul rămâne al dumneavoastră cât timp îl găzduiți.
 
 ## Ce urmează
 
 - [Port forwarding](https://docs.univrs.cloud/setup/ports/), în limba engleză, descrie porturile și cum verificați dacă sunteți în spatele CGNAT.
-- [Apps](https://docs.univrs.cloud/management/resources/apps/#terminal), în limba engleză, descrie terminalul și logurile unui container.
+- [MailServer](https://docs.univrs.cloud/management/resources/apps/mailserver/), în limba engleză, descrie domeniile, conturile, aliasurile și adresele blocate.
 - [Documentația docker-mailserver](https://docker-mailserver.github.io/docker-mailserver/latest/), în limba engleză, acoperă tot ce mai poate face serverul de e-mail dincolo de acest articol.
 - [Ce este virgoOS și ce rulează pe el](/ro/blog/what-virgoos-is/) prezintă pe scurt restul.

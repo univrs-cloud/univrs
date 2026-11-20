@@ -1,7 +1,8 @@
 ---
 title: 'Email on your own server: from an empty node to a working mailbox'
-description: Setting up the mail server on a univrs node from start to finish, with the ports, the DNS records, DKIM, the commands that manage mailboxes, how mail clients configure themselves, and what to watch out for.
+description: Setting up the mail server on a univrs node from start to finish, with the ports, the DNS records, DKIM, managing mailboxes from the node's interface, how mail clients configure themselves, and what to watch out for.
 pubDate: 2026-10-08
+updatedDate: 2026-11-20
 image: ../../../assets/blog/mail-paths-en.png
 imageAlt: "The path of an email to a univrs node in five steps. Another mail server looks up your domain in the DNS records (MX, SPF, DKIM, DMARC, PTR), finds your public address, and delivers the email on TCP 25, directly, never through a proxy. Your router forwards it to the node in your network, which filters it for spam and viruses and keeps it in a mailbox, and it is read in a mail client on any device over IMAP 993."
 tags:
@@ -10,7 +11,7 @@ tags:
   - DNS
 ---
 
-A univrs node can run your firm's email: addresses on your own domain, mailboxes on your own drives, no licence per mailbox. Of everything a node does, this is the part that asks the most of you. There are DNS records to create, a router to configure, and the mailboxes are managed by typing commands, not by clicking.
+A univrs node can run your firm's email: addresses on your own domain, mailboxes on your own drives, no licence per mailbox. Of everything a node does, this is the part that asks the most of you. There are DNS records to create and a router to configure. The mailboxes, once it runs, are a few clicks in the node's interface.
 
 This post goes through all of it in order. The examples use `example.com` as the domain and `203.0.113.10` as the public IP address. Replace them with yours.
 
@@ -40,43 +41,11 @@ The MailServer app in the App center is [docker-mailserver](https://docker-mails
 
 There is no webmail in it. People read their mail in a mail client: Thunderbird, Outlook, Apple Mail, or the mail app on their phone.
 
-## Forward the ports
+## Before installing
 
-On your router, forward these TCP ports to the node:
+The node gets the mail server's certificates as soon as it is installed, so two things have to be in place first. On your router, forward TCP ports 80 and 443 to the node. At your DNS provider, point `mail`, `autoconfig` and `autodiscover` at your public IP address, each with an A record. Do not add AAAA (IPv6) records for them: the mail server is set up for IPv4 only.
 
-| Port | What uses it |
-| --- | --- |
-| 25 | Other mail servers, delivering mail to you |
-| 465 | Mail clients sending mail, encrypted from the start |
-| 587 | Mail clients sending mail, with STARTTLS |
-| 993 | Mail clients reading mail (IMAP) |
-| 4190 | Mail clients managing server-side filters (Sieve) |
-| 80 and 443 | Certificates, and the pages that configure mail clients |
-
-## The DNS records to create first
-
-Create these at your DNS provider before installing, so the node can get its certificates right away.
-
-| Type | Name | Value |
-| --- | --- | --- |
-| A | `mail` | `203.0.113.10` |
-| MX | `@` | `mail.example.com`, priority 10 |
-| CNAME | `imap` | `mail.example.com` |
-| CNAME | `smtp` | `mail.example.com` |
-| A | `autoconfig` | `203.0.113.10` |
-| A | `autodiscover` | `203.0.113.10` |
-| TXT | `@` | `mailconf=https://autoconfig.example.com/mail/config-v1.1.xml` |
-| SRV | `_imaps._tcp` | `0 0 993 mail.example.com` |
-| SRV | `_submission._tcp` | `0 0 587 mail.example.com` |
-| SRV | `_autodiscover._tcp` | `0 0 443 autodiscover.example.com` |
-
-They fall into three groups:
-
-- **Where mail goes.** The `mail` record gives the mail server its name, and the MX record tells the world that mail for `@example.com` is delivered to it.
-- **Names mail clients guess.** Some clients try `imap.example.com` and `smtp.example.com` on their own, so both point at the mail server. The certificate is issued for `mail.example.com` only, so that is still the name to type when you configure a client by hand.
-- **How mail clients find their settings.** The two `auto` names, the `mailconf` record and the three SRV records are what [configures mail clients](#setting-up-mail-clients) without anyone typing a server name. In an SRV value the four parts are priority, weight, port and server, and most DNS providers have a separate field for each.
-
-Do not add an AAAA (IPv6) record for `mail`. The mail server is set up for IPv4 only.
+The mail ports and the rest of the DNS records come after the install. The node lists them for you.
 
 ## Install the app
 
@@ -88,103 +57,37 @@ In the App center, select **Install** on MailServer. The form asks for three thi
 
 The certificate for `mail.example.com` always comes from Let's Encrypt, which is why port 80 and the `mail` record have to be in place.
 
-## Where the commands are typed
+Everything after this is done in MailServer's details: in **Apps**, open MailServer. Among its tabs are **Domains**, **Accounts** and **Blocked IPs**.
 
-From here on, everything is done with the mail server's `setup` command, and it runs inside the mail server's container. You do not need SSH for that.
+## Add your domain and the first mailbox, quickly
 
-In **Apps**, open MailServer. Under **Services** it has three containers. On the one named `mailserver`, select **Terminal**. A command line opens inside the container, in your browser, and that is where every `setup` command in this post goes.
+A freshly installed mail server has no accounts, and it will not finish starting without one. It waits two minutes, then stops and is started again. So the first two steps have a deadline. If MailServer says it is not running, wait for it to start again and carry on.
 
-The prompt reads `root@mail:/#`. Typed alone, `setup` lists everything it can do. Shortened, the list looks like this:
+In **Domains**, select **New domain** and enter `example.com`. Adding a domain creates its DKIM key, the key that signs every message you send so the receiving server can check that it really comes from your domain. A window then shows everything the domain still needs: the ports to forward and the DNS records to add.
 
-![The terminal of the mailserver container, opened from MailServer's details, after typing setup, with the full list of what the command can do.](../../../assets/blog/mailserver-terminal.png)
+![The window shown after adding a domain, with the mail ports to forward on the router and the DNS records to add for it, the DKIM key among them.](../../../assets/blog/mailserver-domain-setup.png)
 
-```console
-root@mail:/# setup
-SETUP(1)
+Close it for now, the account comes first, and go to **Accounts**. Select **New account**, keep the domain, type the name in front of `@example.com`, and set the password twice. The storage limit starts at MailServer's default, 30 GiB. Keep it, or give the account a limit of its own.
 
-NAME
-    setup - 'docker-mailserver' Administration & Configuration CLI
+![The New account window, with the domain, the name in front of @example.com, the password typed twice and the storage limit.](../../../assets/blog/mailserver-account-create.png)
 
-[SUB]COMMANDS
-    COMMAND email :=
-        setup email add <EMAIL ADDRESS> [<PASSWORD>]
-        setup email update <EMAIL ADDRESS> [<PASSWORD>]
-        setup email del [ OPTIONS... ] <EMAIL ADDRESS> [ <EMAIL ADDRESS>... ]
-        setup email restrict <add|del|list> <send|receive> [<EMAIL ADDRESS>]
-        setup email list
+## Forward the mail ports and add the DNS records
 
-    COMMAND alias :=
-        setup alias add <EMAIL ADDRESS> <RECIPIENT>
-        setup alias del <EMAIL ADDRESS> <RECIPIENT>
-        setup alias list
+On your router, forward the TCP ports the window listed to the node: 25 for other mail servers delivering to you, 465 and 587 for mail clients sending, and 993 for mail clients reading.
 
-    COMMAND quota :=
-        setup quota set <EMAIL ADDRESS> [<QUOTA>]
-        setup quota del <EMAIL ADDRESS>
+Then, back in **Domains**, select **DNS records** under `example.com`. It lists every record the domain needs, with its type, name and value, the three A records you created before installing among them.
 
-    COMMAND config :=
-        setup config dkim [ ARGUMENTS... ]
+![MailServer's Domains tab, with the DNS records of example.com open: MX, SPF, DKIM, DMARC, the SRV records and the mailconf record, the A records, and the PTR record that only the internet provider can set.](../../../assets/blog/mailserver-domains.png)
 
-    COMMAND relay :=
-        setup relay add-auth <DOMAIN> <USERNAME> [<PASSWORD>]
-        setup relay add-domain <DOMAIN> <HOST> [<PORT>]
-        setup relay exclude-domain <DOMAIN>
+Copy the ones you do not have yet to your DNS provider. That makes eleven records at your DNS provider, plus the reverse DNS record at your internet provider, which the list shows last as PTR.
 
-    COMMAND fail2ban :=
-        setup fail2ban
-        setup fail2ban ban <IP>
-        setup fail2ban unban <IP>
-        setup fail2ban log
-        setup fail2ban status
-```
+- **MX** tells the world that mail for `@example.com` is delivered to `mail.example.com`, your node.
+- **SPF** says which servers may send mail for your domain. `mx` means the ones in your MX record, which is your node, and `-all` tells receivers to refuse mail for your domain from anywhere else.
+- **DKIM** publishes the public half of the key the node created. The value is longer than 255 characters, the most a single piece of a TXT record can hold. Most DNS providers split it for you. If yours refuses it, split it into several quoted pieces yourself.
+- **DMARC** tells receivers what to do with mail that fails those checks. `p=quarantine` asks them to put it in spam.
+- **The SRV records and `mailconf`** are what [configures mail clients](#setting-up-mail-clients) without anyone typing a server name. In an SRV value the four parts are priority, weight, port and server, and most DNS providers have a separate field for each.
 
-What these commands change is kept with the app's data, on the storage pool, so it survives updates.
-
-## Add the first mailbox, quickly
-
-A freshly installed mail server has no accounts, and it will not finish starting without one. It waits two minutes, then stops and is started again. So the first command has a deadline:
-
-```sh
-setup email add olivia@example.com
-```
-
-It asks for the password, twice. If the terminal closes on you before you finish, the container has restarted: open **Terminal** again and repeat.
-
-## Generate the DKIM key
-
-DKIM signs every message you send, so the receiving server can check that it really comes from your domain. The key is generated on the node, once, after the first mailbox exists:
-
-```sh
-setup config dkim
-```
-
-The command prints the content of the DNS record you have to create, a long line that starts with `v=DKIM1; k=rsa; p=`. Copy it. It is also saved, in case you need it later:
-
-```sh
-cat /tmp/docker-mailserver/rspamd/dkim/rsa-2048-mail-example.com.public.dns.txt
-```
-
-The spam filter picks the key up by itself. Nothing has to be restarted.
-
-## The DNS records that make your mail trusted
-
-Three more TXT records, and then the list is complete: thirteen records at your DNS provider, plus the reverse DNS record at your internet provider.
-
-| Type | Name | Value |
-| --- | --- | --- |
-| TXT | `mail._domainkey` | the line printed by `setup config dkim` |
-| TXT | `@` | `v=spf1 mx ~all` |
-| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:postmaster@example.com` |
-
-- **DKIM** publishes the public half of the key you just generated. The value is longer than 255 characters, the most a single piece of a TXT record can hold. Most DNS providers split it for you. If yours refuses it, split it into several quoted pieces yourself.
-- **SPF** says which servers may send mail for your domain. `mx` means the ones in your MX record, which is your node.
-- **DMARC** tells receivers what to do with mail that fails both checks, and where to send reports. `p=none` only asks for reports. Once you see that your own mail passes, change it to `p=quarantine`.
-
-The DMARC reports go to `postmaster@example.com`, and so do the server's own notices. Make that address land in a real mailbox:
-
-```sh
-setup alias add postmaster@example.com olivia@example.com
-```
+The node's notices go to `postmaster@example.com`. Make that address land in a real mailbox: in **Accounts**, select **Alias** under your own account and add `postmaster@example.com`.
 
 ## Check your work
 
@@ -193,7 +96,7 @@ From any computer, ask DNS what the world now sees:
 ```sh
 dig +short MX example.com
 dig +short TXT example.com
-dig +short TXT mail._domainkey.example.com
+dig +short TXT dms._domainkey.example.com
 dig +short TXT _dmarc.example.com
 dig +short SRV _imaps._tcp.example.com
 dig +short -x 203.0.113.10
@@ -220,219 +123,41 @@ For any client that finds nothing by itself, these are the settings:
 | Incoming (IMAP) | `mail.example.com` | 993 | SSL/TLS |
 | Outgoing (SMTP) | `mail.example.com` | 465 | SSL/TLS |
 
-The username is the full email address, and the password is the one given to `setup email add`. For clients that insist on STARTTLS for sending, use port 587.
+The username is the full email address, and the password is the one set for the account. For clients that insist on STARTTLS for sending, use port 587.
 
 ## Day to day
 
-Everything below is typed in the same place, the **Terminal** of the `mailserver` container.
+**Accounts** lists the mailboxes, each with the space its mail takes up and its storage limit, and under each one the aliases that deliver to it. Aliases that forward to addresses outside the node are grouped at the end, under **Forwarded elsewhere**.
 
-### Adding a mailbox
+![MailServer's Accounts tab, with four mailboxes, the space each one uses of its limit, and the aliases that deliver to each.](../../../assets/blog/mailserver-accounts.png)
 
-```sh
-setup email add <address> [password]
-```
+- **A new mailbox:** **New account**, as for the first one.
+- **A new password, a different limit, or closing an account:** the account's menu. Deleting an account permanently deletes its mail and its aliases.
+- **An alias**, an address without a mailbox of its own, such as `office@example.com`: select **Alias** under the mailbox that should receive its mail. Add the same alias under several accounts and they all receive it. The cross on an alias removes it.
+- **A second domain:** **New domain** in **Domains**. It gets its own DKIM key and its own list of DNS records, and its addresses can then be picked in **New account**.
+- **A new DKIM key:** **New DKIM key** in the domain's menu. The old record stops working, so update the DNS right away.
 
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<address>` | Yes | The full email address of the new mailbox |
-| `[password]` | No | Its password. Left out, the command asks for it, which keeps it out of the terminal's history |
+What you change here is kept with the app's data, on the storage pool, so it survives updates.
 
-### Changing a mailbox's password
+## Unblocking an address
 
-```sh
-setup email update <address> [password]
-```
+The mail server blocks an IP address after six failed sign-ins within a week, and the block lasts a week. It covers every mail port, so for the person behind that address mail simply stops: the client cannot connect at all, even with the right password. The usual cause is a phone or laptop that kept trying an old password after it was changed.
 
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<address>` | Yes | The mailbox whose password changes |
-| `[password]` | No | The new password. Left out, the command asks for it |
+A block is on the address, not on the account. Everyone who shares that connection is locked out with them, and the same person can still read mail from another connection, such as mobile data.
 
-### Deleting a mailbox
+**Blocked IPs** lists the blocked addresses, with why each one was blocked, since when and until when.
 
-The aliases and the quota of the mailbox go with it.
+![MailServer's Blocked IPs tab, with one address blocked for failed sending logins until a week later, and one blocked by hand permanently, each with an Unblock button.](../../../assets/blog/mailserver-blocked.png)
 
-```sh
-setup email del [options] <address>
-```
+If the list is empty, the problem is elsewhere. With several addresses in it, you need to know which one is theirs: ask the person to open a site such as [ipinfo.io](https://ipinfo.io/) on the connection that stopped working, and to read you the address it shows.
 
-| Option | Required | Description |
-| --- | --- | --- |
-| `<address>` | Yes | The mailbox to delete. Several can be given at once |
-| `-y` | No | Delete the person's mail too, without asking |
-| `-n` | No | Keep the person's mail, without asking |
+Then fix the cause, or the block comes straight back: put the right password in the mail client on every device that person uses. Now select **Unblock** next to the address. It takes effect at once.
 
-With neither option, the command asks whether to delete the mail, so an account can be closed while its mail is kept.
-
-### Listing the mailboxes
-
-```sh
-setup email list
-```
-
-### Adding an alias
-
-An alias is an address without a mailbox of its own.
-
-```sh
-setup alias add <alias> <recipient>
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<alias>` | Yes | The address people write to, such as `office@example.com` |
-| `<recipient>` | Yes | The mailbox that receives its mail |
-
-Add the same alias once for each person, and they all receive its mail.
-
-### Removing someone from an alias
-
-```sh
-setup alias del <alias> <recipient>
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<alias>` | Yes | The alias |
-| `<recipient>` | Yes | The mailbox that stops receiving its mail |
-
-### Listing the aliases
-
-The list shows where each alias delivers.
-
-```sh
-setup alias list
-```
-
-### Limiting a mailbox's size
-
-```sh
-setup quota set <address> [quota]
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<address>` | Yes | The mailbox to limit |
-| `[quota]` | No | The limit, with a unit, such as `500M` or `5G`. `0` means no limit. Left out, the command asks for it |
-
-Without a quota of its own, a mailbox can grow to 30 GB.
-
-### Removing a mailbox's limit
-
-```sh
-setup quota del <address>
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<address>` | Yes | The mailbox that goes back to the default limit |
-
-### Generating the DKIM key
-
-The command also prints the DNS record for the key.
-
-```sh
-setup config dkim [options]
-```
-
-| Option | Required | Description |
-| --- | --- | --- |
-| `domain <name>` | No | The domain to generate the key for. The default is the domain given at install |
-| `selector <name>` | No | The name the record is published under, in front of `._domainkey`. The default is `mail` |
-| `keytype <type>` | No | `rsa` or `ed25519`. The default is `rsa` |
-| `keysize <bits>` | No | `1024`, `2048` or `4096`, for `rsa` keys. The default is `2048` |
-| `-f` | No | Replace a key that already exists |
-
-### Listing the banned addresses
-
-```sh
-setup fail2ban
-```
-
-### Letting a banned address back in
-
-```sh
-setup fail2ban unban <ip>
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<ip>` | Yes | The address to unban |
-
-### Banning an address by hand
-
-```sh
-setup fail2ban ban <ip>
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<ip>` | Yes | The address to ban |
-
-### Seeing why an address was banned
-
-The command prints the record of failed sign-ins and bans.
-
-```sh
-setup fail2ban log
-```
-
-### Sending through a relay service
-
-A domain's outgoing mail then leaves through that service.
-
-```sh
-setup relay add-domain <domain> <host> [port]
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<domain>` | Yes | Your mail domain, such as `example.com` |
-| `<host>` | Yes | The relay service's server |
-| `[port]` | No | The port the relay service listens on |
-
-### Setting the relay service's login
-
-```sh
-setup relay add-auth <domain> <username> [password]
-```
-
-| Argument | Required | Description |
-| --- | --- | --- |
-| `<domain>` | Yes | Your mail domain |
-| `<username>` | Yes | The username the relay service gave you |
-| `[password]` | No | Its password. Left out, the command asks for it |
-
-Any command explains itself when you add `help`, as in `setup email add help`.
-
-## Unbanning an address
-
-The mail server bans an IP address after six failed sign-ins within a week, and the ban lasts a week. It covers every mail port, so for the person behind that address mail simply stops: the client cannot connect at all, even with the right password. The usual cause is a phone or laptop that kept trying an old password after it was changed.
-
-A ban is on the address, not on the account. Everyone who shares that connection is locked out with them, and the same person can still read mail from another connection, such as mobile data.
-
-First find the address. In the **Terminal** of the `mailserver` container, list what is banned:
-
-```console
-root@mail:/# setup fail2ban
-Banned in dovecot: 198.51.100.7
-```
-
-If nothing is banned, the command says so, and the problem is elsewhere. With several addresses in the list, you need to know which one is theirs: ask the person to open a site such as [ipinfo.io](https://ipinfo.io/) on the connection that stopped working, and to read you the address it shows.
-
-Then fix the cause, or the ban comes straight back: put the right password in the mail client on every device that person uses.
-
-Now let the address back in:
-
-```sh
-setup fail2ban unban 198.51.100.7
-```
-
-It takes effect at once, and running `setup fail2ban` again shows the address gone from the list. To see what led to a ban, `setup fail2ban log` prints the record of failed attempts and bans.
+**New blocked IP** does the opposite, for an address you want kept out yourself.
 
 ## Tips
 
-- **If your provider blocks outgoing port 25** and will not open it, the server can send through a relay service, while receiving directly. `setup relay add-domain example.com smtp.relay.example 587` sets the relay, and `setup relay add-auth example.com <username>` its login.
+- **If your provider blocks outgoing port 25** and will not open it, the server can send through a relay service, while receiving directly. This is the one thing the interface does not set: it is done with the `setup relay` command in the **Terminal** of the `mailserver` container, under **Services**, as the [docker-mailserver documentation](https://docker-mailserver.github.io/docker-mailserver/latest/) describes.
 - **Teach the spam filter.** Moving a message into Junk teaches it that such mail is spam, and moving one from Junk to the inbox teaches the opposite. The filter learns for everyone at once, so one careful person helps all the others.
 - **Look at the logs first.** When mail does not arrive, **Logs** on the `mailserver` container usually says why, in the words of the server that refused it.
 - **Keep a copy of the DNS records.** If you ever change DNS providers, every one of them has to be created again, DKIM included.
@@ -440,22 +165,21 @@ It takes effect at once, and running `setup fail2ban` again shows the address go
 
 ## Caveats
 
-- **There is no self-service.** People cannot change their own password. You do it for them with `setup email update`.
+- **There is no self-service.** People cannot change their own password. You do it for them, from their account's menu.
 - **Senders have to be themselves.** A person can only send from their own address or from an alias that delivers to them. A client set to send as someone else is refused.
 - **Some first messages arrive late.** The spam filter greylists mail it finds suspicious: it asks the sending server to try again later. Legitimate servers do, so the message arrives a little later.
 - **One message can be 25 MB at most.** Attachments grow by about a third when they are sent, so the practical limit for a file is around 18 MB.
-- **Wrong passwords get you banned.** A phone that keeps trying an old password ends up banned by fail2ban, and mail stops working from that connection until you [unban it](#unbanning-an-address).
+- **Wrong passwords get you blocked.** A phone that keeps trying an old password ends up blocked by fail2ban, and mail stops working from that connection until you [unblock it](#unblocking-an-address).
 - **When the node is off, mail waits.** Sending servers keep trying for a while, usually for days, before giving up. With a secondary node installed, the mail is replicated and fails over to it.
 - **A new server has no reputation.** For the first weeks, large providers may put your messages in spam even when every check passes. It improves as people receive and answer your mail.
-- **The app is set up for one domain.** Mailboxes on a second domain can be added, but DKIM signing for it has to be configured by hand, and mail clients are configured automatically only for the first.
 
-## Is it worth it
+## Why it is worth it
 
-For a firm that keeps other people's confidential correspondence, mail on its own drives is worth an afternoon of DNS records. For a connection that cannot offer a static address, open port 25 and reverse DNS, it is not, and no amount of configuration changes that.
+For a firm that keeps other people's confidential correspondence, an afternoon of DNS records buys mail on its own drives, on its own domain, with no licence per mailbox and nobody else reading along. Once the connection checks out, the rest is a few clicks, and the mail is yours for as long as you run it.
 
 ## Where to go next
 
 - [Port forwarding](https://docs.univrs.cloud/setup/ports/) covers the ports and how to check for CGNAT.
-- [Apps](https://docs.univrs.cloud/management/resources/apps/#terminal) covers the container terminal and logs.
+- [MailServer](https://docs.univrs.cloud/management/resources/apps/mailserver/) covers its domains, accounts, aliases and blocked IPs.
 - [The docker-mailserver documentation](https://docker-mailserver.github.io/docker-mailserver/latest/) covers everything the mail server can do beyond this post.
 - [What virgoOS is, and what runs on it](/blog/what-virgoos-is/) is the short tour of the rest.
