@@ -2221,6 +2221,11 @@ a {
 	gap: 1.4rem;
 }
 
+.post-actions .more {
+	margin-top: 0;
+	padding-top: 0;
+}
+
 .post-share {
 	display: inline-flex;
 	align-items: center;
