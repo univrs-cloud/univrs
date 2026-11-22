@@ -1,22 +1,23 @@
 :root {
 	color-scheme: light;
 
-	--ground: #F6F6FA;
+	--ground: #F6F6F6;
 	--ground-2: #FFFFFF;
-	--ground-3: #EFEFF5;
-	--ink: #13131E;
-	--ink-2: #43435A;
-	--muted: #75758E;
-	--line: rgba(19, 19, 30, 0.13);
-	--line-2: rgba(19, 19, 30, 0.26);
+	--ground-3: #EAEAEA;
+	--nav-bg: var(--ground);
+	--ink: #171A1D;
+	--ink-2: #444B51;
+	--muted: #77828C;
+	--line: rgba(0, 0, 0, 0.1);
+	--line-2: rgba(0, 0, 0, 0.153);
 	--image-edge: rgba(0, 0, 0, 0.1);
-	--accent: #3B4FD4;
-	--accent-text: #3B4FD4;
+	--accent: #4E70C8;
+	--accent-text: #4E70C8;
 	--accent-2: #7A4BA6;
 	--accent-3: #C05C9E;
-	--accent-soft: rgba(59, 79, 212, 0.09);
+	--accent-soft: rgba(101, 143, 252, 0.1);
 	--error: #B42318;
-	--shadow: 0 1px 2px rgba(19, 19, 30, 0.05), 0 12px 32px -12px rgba(19, 19, 30, 0.16);
+	--shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 12px 32px -12px rgba(0, 0, 0, 0.16);
 
 	--f-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	--f-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, 'Cascadia Mono', 'Roboto Mono', Consolas, monospace;
@@ -38,18 +39,19 @@
 :root[data-theme='dark'] {
 	color-scheme: dark;
 
-	--ground: #0D0E24;
-	--ground-2: #14153A;
-	--ground-3: #17183A;
-	--ink: #FFFFFF;
-	--ink-2: #C3C3D8;
-	--muted: #8C8CA8;
-	--line: rgba(231, 231, 242, 0.1);
-	--line-2: rgba(231, 231, 242, 0.26);
+	--ground: #111111;
+	--ground-2: #171717;
+	--ground-3: #1E1E1E;
+	--nav-bg: var(--ground-3);
+	--ink: #F1F2F3;
+	--ink-2: #B1B8BF;
+	--muted: #909AA2;
+	--line: rgba(255, 255, 255, 0.071);
+	--line-2: rgba(255, 255, 255, 0.172);
 	--image-edge: rgba(255, 255, 255, 0.1);
-	--accent: #6E7FF0;
-	--accent-text: #C5CCFB;
-	--accent-soft: rgba(110, 127, 240, 0.12);
+	--accent: #82A7FF;
+	--accent-text: #C5D7FF;
+	--accent-soft: rgba(101, 143, 252, 0.14);
 	--error: #FF8A7A;
 	--shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -12px rgba(0, 0, 0, 0.6);
 }
@@ -58,18 +60,20 @@
 	:root:not([data-theme]) {
 		color-scheme: dark;
 
-		--ground: #0D0E24;
-		--ground-2: #14153A;
-		--ground-3: #17183A;
-		--ink: #FFFFFF;
-		--ink-2: #C3C3D8;
-		--muted: #8C8CA8;
-		--line: rgba(231, 231, 242, 0.1);
-		--line-2: rgba(231, 231, 242, 0.26);
+		--ground: #111111;
+		--ground-2: #171717;
+		--ground-3: #1E1E1E;
+		--nav-bg: var(--ground-3);
+	--nav-bg: var(--ground-3);
+		--ink: #F1F2F3;
+		--ink-2: #B1B8BF;
+		--muted: #909AA2;
+		--line: rgba(255, 255, 255, 0.071);
+		--line-2: rgba(255, 255, 255, 0.172);
 		--image-edge: rgba(255, 255, 255, 0.1);
-		--accent: #6E7FF0;
-		--accent-text: #C5CCFB;
-		--accent-soft: rgba(110, 127, 240, 0.12);
+		--accent: #82A7FF;
+		--accent-text: #C5D7FF;
+		--accent-soft: rgba(101, 143, 252, 0.14);
 	--error: #FF8A7A;
 		--shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -12px rgba(0, 0, 0, 0.6);
 	}
@@ -223,7 +227,7 @@ a {
 	position: sticky;
 	top: 0;
 	z-index: 50;
-	background: color-mix(in srgb, var(--ground) 88%, transparent);
+	background: color-mix(in srgb, var(--nav-bg) 88%, transparent);
 	backdrop-filter: saturate(1.4) blur(14px);
 	-webkit-backdrop-filter: saturate(1.4) blur(14px);
 }
@@ -1237,8 +1241,8 @@ a {
 	margin: 0;
 	padding: clamp(0.9rem, 2.4vw, 1.5rem);
 	overflow: hidden;
-	background: #0D0E24;
-	color: #C3C3D8;
+	background: #111111;
+	color: #B1B8BF;
 	font-family: var(--f-mono);
 	font-size: clamp(0.62rem, 1.5vw, 0.82rem);
 	line-height: 1.6;
@@ -1266,7 +1270,7 @@ a {
 	vertical-align: bottom;
 	width: 1ch;
 	height: 1lh;
-	background: #C3C3D8;
+	background: #B1B8BF;
 	animation: term-blink 1s steps(1) infinite;
 }
 

@@ -52,12 +52,12 @@ const card = ({ label, title }: Props) => {
 				<stop offset="100%" stop-color="#3B4FD4"/>
 			</linearGradient>
 		</defs>
-		<rect width="${WIDTH}" height="${HEIGHT}" fill="#0D0E24"/>
-		<svg x="80" y="72" width="64" height="64" viewBox="0 0 512 512">${logoMarkup}</svg>
-		<text x="160" y="117" font-family="Helvetica, Arial, sans-serif" font-size="36" font-weight="600" fill="#FFFFFF">${escape(site.name)}</text>
-		<text x="80" y="${start - 84}" font-family="Menlo, 'DejaVu Sans Mono', monospace" font-size="22" letter-spacing="4" fill="#8C8CA8">${escape(label.toUpperCase())}</text>
-		${lines.map((line, index) => `<text x="80" y="${start + (index * 76)}" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#FFFFFF">${escape(line)}</text>`).join('')}
-		<text x="80" y="560" font-family="Menlo, 'DejaVu Sans Mono', monospace" font-size="22" letter-spacing="4" fill="#8C8CA8">UNIVRS.CLOUD</text>
+		<rect width="${WIDTH}" height="${HEIGHT}" fill="#111111"/>
+		<svg x="80" y="72" width="64" height="64" viewBox="0 -11.5 512 512">${logoMarkup}</svg>
+		<text x="160" y="117" font-family="Helvetica, Arial, sans-serif" font-size="36" font-weight="600" fill="#F1F2F3">${escape(site.name)}</text>
+		<text x="80" y="${start - 84}" font-family="Menlo, 'DejaVu Sans Mono', monospace" font-size="22" letter-spacing="4" fill="#909AA2">${escape(label.toUpperCase())}</text>
+		${lines.map((line, index) => `<text x="80" y="${start + (index * 76)}" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#F1F2F3">${escape(line)}</text>`).join('')}
+		<text x="80" y="560" font-family="Menlo, 'DejaVu Sans Mono', monospace" font-size="22" letter-spacing="4" fill="#909AA2">UNIVRS.CLOUD</text>
 		<rect x="0" y="${HEIGHT - 8}" width="${WIDTH}" height="8" fill="url(#spectrum)"/>
 	</svg>`;
 };
