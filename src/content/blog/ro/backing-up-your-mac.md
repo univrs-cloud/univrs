@@ -36,15 +36,7 @@ Capacitatea contează mai mult decât pare. Time Machine umple tot spațiul pe c
 
 ## Conectați Mac-ul
 
-În detaliile discului de backup, selectați iconița Apple de lângă utilizatorul autorizat. Astfel copiați adresa discului, de exemplu `smb://james@192.168.1.10/backup_disk_james_macbook_air`.
-
-![Detaliile discului de backup James MacBook Air, cu capacitatea și spațiul ocupat, și indicația de pe iconița Apple care îi copiază adresa.](../../../assets/blog/time-capsule-address.png)
-
-Pe Mac:
-
-1. În Finder, apăsați **⌘K**, lipiți adresa și conectați-vă cu numele de utilizator și parola de pe nod ale utilizatorului autorizat.
-2. Deschideți setările sistemului, apoi General și Time Machine.
-3. Adăugați un disc de backup, alegeți-l pe cel de pe nod și urmați pașii.
+Pe Mac, deschideți setările sistemului, apoi General și Time Machine. Adăugați un disc de backup, alegeți-l pe cel de pe nod și introduceți numele de utilizator și parola de pe nod ale utilizatorului autorizat.
 
 Când adăugați discul, Time Machine vă oferă și criptarea backupurilor. Dacă o activați, backupurile pot fi citite doar cu parola pe care o alegeți atunci, așa că păstrați-o într-un loc sigur.
 
@@ -66,7 +58,21 @@ Un Mac al cărui ultim backup are câteva zile merită o întrebare. De cele mai
 
 La discurile de backup se ajunge doar din rețeaua locală. Nu sunt expuse niciodată în internet și pentru ele nu există niciun port de redirecționat.
 
-Un laptop plecat din birou își poate face totuși backupul. Conectat la [VPN-ul nodului](/ro/blog/vpn-on-virgoos/), pentru nod este în rețea, iar Time Machine continuă ca și cum laptopul ar fi la birou.
+Un laptop plecat din birou își poate face totuși backupul prin [VPN-ul nodului](/ro/blog/vpn-on-virgoos/), cu o singură condiție, care ține de macOS. Un disc de backup adăugat din setările sistemului rămâne salvat pe Mac sub numele lui din rețeaua locală, iar numele acesta nu funcționează prin VPN. Nodul nu poate schimba asta, așa că pe un laptop adăugați discul după adresă, din Terminal:
+
+1. Pe nod, deschideți detaliile discului de backup și selectați iconița Apple de lângă utilizatorul autorizat. Astfel copiați adresa discului.
+
+   ![Detaliile discului de backup James MacBook Air, cu capacitatea și spațiul ocupat, și indicația de pe iconița Apple care îi copiază adresa.](../../../assets/blog/time-capsule-address.png)
+
+2. Deschideți setările sistemului, apoi Confidențialitate și securitate și Acces complet la disc, și activați Terminal.
+3. Dacă discul apare deja în setările Time Machine, eliminați-l de acolo. Backupurile rămân pe nod.
+4. De la birou sau conectați la VPN, rulați comanda de mai jos cu adresa copiată, apoi introduceți parola Mac-ului și parola de pe nod a utilizatorului autorizat:
+
+   ```sh
+   sudo tmutil setdestination -ap smb://james@192.168.1.10/backup_disk_james_macbook_air
+   ```
+
+Adresa aceasta funcționează și la birou, și prin VPN, așa că Time Machine își vede de treabă oriunde ar fi laptopul.
 
 ## Recuperarea
 

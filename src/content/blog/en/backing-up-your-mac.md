@@ -36,15 +36,7 @@ The capacity matters more than it looks. Time Machine fills whatever space it is
 
 ## Connecting the Mac
 
-In the backup disk's details, select the Apple icon next to its authorized user. This copies the backup disk's address, for example `smb://james@192.168.1.10/backup_disk_james_macbook_air`.
-
-![The details of James MacBook Air's backup disk, with its capacity and usage, and the tooltip on the Apple icon that copies its address.](../../../assets/blog/time-capsule-address.png)
-
-On the Mac:
-
-1. In Finder, press **⌘K**, paste the address and select **Connect**. Enter the authorized user's node username and password.
-2. Open **System Settings**, select **General**, then **Time Machine**.
-3. Select **Add Backup Disk**, choose the backup disk and follow the steps.
+On the Mac, open **System Settings**, select **General**, then **Time Machine**. Select **Add Backup Disk**, choose the backup disk and enter the authorized user's node username and password.
 
 Time Machine offers to encrypt the backups while you add the disk. With that on, the backups can only be read with the password you choose there, so keep it somewhere safe.
 
@@ -66,7 +58,21 @@ A Mac whose latest backup is days old is one to ask about. Usually it has just b
 
 Backup disks are reached over your local network only. They are never put on the internet, and there is no port to forward for them.
 
-A laptop that leaves the office can still back up. Connected to [the node's VPN](/blog/vpn-on-virgoos/), it is on your network as far as the node is concerned, and Time Machine carries on as if it were at its desk.
+A laptop that leaves the office can still back up over [the node's VPN](/blog/vpn-on-virgoos/), with one catch that comes from macOS. A backup disk added in System Settings is saved under its local network name, which does not work over the VPN, and the node cannot change that. So for a laptop, add the backup disk by its address, in Terminal:
+
+1. On the node, open the backup disk's details and select the Apple icon next to its authorized user. This copies its address.
+
+   ![The details of James MacBook Air's backup disk, with its capacity and usage, and the tooltip on the Apple icon that copies its address.](../../../assets/blog/time-capsule-address.png)
+
+2. Open **System Settings**, select **Privacy & Security**, then **Full Disk Access**, and turn on **Terminal**.
+3. If the backup disk is already in the Time Machine settings, remove it there. Its backups stay on the node.
+4. At the office or connected to the VPN, run this command with the address you copied, then enter the Mac's password and the authorized user's node password:
+
+   ```sh
+   sudo tmutil setdestination -ap smb://james@192.168.1.10/backup_disk_james_macbook_air
+   ```
+
+That address works both at the office and over the VPN, so Time Machine carries on wherever the laptop is.
 
 ## Getting things back
 
