@@ -9,12 +9,13 @@ import files from './scenes/files.mjs';
 import gdpr from './scenes/gdpr.mjs';
 import mail from './scenes/mail.mjs';
 import outage from './scenes/outage.mjs';
+import ransomware from './scenes/ransomware.mjs';
 import vpn from './scenes/vpn.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ASSETS_DIR = path.join(ROOT, 'src/assets/blog');
 const SCALE = 2;
-const SCENES = [backup, data, files, gdpr, mail, outage, vpn];
+const SCENES = [backup, data, files, gdpr, mail, outage, ransomware, vpn];
 
 const plan = (targets) => {
 	if (targets.length === 0) {
