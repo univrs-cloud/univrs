@@ -42,7 +42,7 @@ export interface UiCopy {
 		errors: { name: string; email: string; message: string; limit: string; failed: string };
 	};
 	notFound: { label: string; title: string; text: string; home: string };
-	footer: { tagline: string; resources: string; company: string; cui: string; register: string };
+	footer: { tagline: string; resources: string; company: string; cui: string; register: string; privacy: string };
 }
 
 export const ui: Record<Locale, UiCopy> = {
@@ -113,7 +113,8 @@ export const ui: Record<Locale, UiCopy> = {
 			resources: 'Resources',
 			company: 'Company',
 			cui: 'Unique Registration Code',
-			register: 'Trade Register No.'
+			register: 'Trade Register No.',
+			privacy: 'Privacy policy'
 		}
 	},
 	ro: {
@@ -183,7 +184,8 @@ export const ui: Record<Locale, UiCopy> = {
 			resources: 'Resurse',
 			company: 'Date firmă',
 			cui: 'CUI',
-			register: 'Nr. Reg. Com.'
+			register: 'Nr. Reg. Com.',
+			privacy: 'Politica de confidențialitate'
 		}
 	}
 };

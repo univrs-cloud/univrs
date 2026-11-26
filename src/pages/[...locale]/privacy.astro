@@ -1,0 +1,55 @@
+---
+import { privacy } from '../../data/privacy';
+import Base from '../../layouts/Base.astro';
+import { localeParams, localePath, locales, site, type Locale } from '../../site';
+
+interface Props {
+	locale: Locale;
+}
+
+export const getStaticPaths = localeParams;
+
+const { locale } = Astro.props;
+const copy = privacy[locale];
+const alternates = Object.fromEntries(locales.map((other) => [other, localePath(other, 'privacy/')]));
+const pageUrl = new URL(localePath(locale, 'privacy/'), Astro.site).href;
+const schema = [
+	{
+		'@type': 'WebPage',
+		'@id': `${pageUrl}#webpage`,
+		url: pageUrl,
+		name: copy.meta.title,
+		description: copy.meta.description,
+		inLanguage: locale,
+		isPartOf: { '@id': `${site.url}/#website` },
+		publisher: { '@id': `${site.url}/#organization` }
+	}
+];
+---
+
+<Base locale={locale} title={copy.meta.title} description={copy.meta.description} alternates={alternates} schema={schema}>
+	<header class="page-intro">
+		<div class="wrap">
+			<span class="label">{copy.label}</span>
+			<h1>{copy.title}</h1>
+			<hr class="spectrum">
+			<p class="lede">{copy.lede}</p>
+		</div>
+	</header>
+	<section class="wrap wrap--reading">
+		<div class="post-content">
+			<p><small>{copy.updated}</small></p>
+			{copy.sections.map((section) => (
+				<>
+					<h2>{section.title}</h2>
+					{section.paragraphs?.map((paragraph) => <p set:html={paragraph} />)}
+					{section.items && (
+						<ul>
+							{section.items.map((item) => <li>{item}</li>)}
+						</ul>
+					)}
+				</>
+			))}
+		</div>
+	</section>
+</Base>
